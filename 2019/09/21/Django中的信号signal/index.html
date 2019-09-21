@@ -18,7 +18,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://whw.pythonav.cn/signal1.png">
 <meta property="og:image" content="http://whw.pythonav.cn/signal3.png">
-<meta property="og:updated_time" content="2019-09-21T05:49:10.715Z">
+<meta property="og:updated_time" content="2019-09-21T06:00:13.618Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django中的信号signal">
 <meta name="twitter:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。Django的“信号分发器”允许解">
@@ -204,7 +204,7 @@
 <h4 id="最后在需要触发信号的地方使用自定义信号"><a href="#最后在需要触发信号的地方使用自定义信号" class="headerlink" title="最后在需要触发信号的地方使用自定义信号"></a><code>最后在需要触发信号的地方使用自定义信号</code></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> 路径 <span class="keyword">import</span> signal_done</span><br><span class="line"> </span><br><span class="line">signal_done.send(sender=<span class="string">'Naruto'</span>,height=<span class="number">123</span>, width=<span class="number">456</span>)</span><br></pre></td></tr></table></figure>
 
 <p><code>最后需要注意：由于内置信号的触发者已经集成到Django中，所以其会自动调用；而对于自定义信号则需要开发者在对应位置指定触发。</code></p>
-<h3 id="在路由分发前注册信号的方法"><a href="#在路由分发前注册信号的方法" class="headerlink" title="在路由分发前注册信号的方法"></a><code>在路由分发前注册信号的方法</code></h3><p>　上面介绍的一种方式是<strong>在项目同名的包的<code>__init__.py</code>文件中去注册信号</strong>。<br>　我们也可以利用Django在路由分发之前做一下信号的注册操作。<br>　　这里用到了Django启动的机制：<strong>django.dispatch.Signal在django.setup()的过程中，它会遍历settings.INSTALLED_APPS列表中的每一项，并调用该AppConfig的ready方法，因此，将recevier订阅signal的过程放置于ready方法中就能保证该代码的执行。</strong><br> 　　我们来拿一个具体的项目为例。</p>
+<h3 id="在路由分发前注册信号的方法"><a href="#在路由分发前注册信号的方法" class="headerlink" title="在路由分发前注册信号的方法"></a><code>在路由分发前注册信号的方法</code></h3><p>上面介绍的一种方式是<strong>在项目同名的包的<code>__init__.py</code>文件中去注册信号</strong>。<br>我们也可以利用Django在路由分发之前做一下信号的注册操作。<br>这里用到了Django启动的机制：<strong>django.dispatch.Signal在django.setup()的过程中，它会遍历settings.INSTALLED_APPS列表中的每一项，并调用该AppConfig的ready方法，因此，将recevier订阅signal的过程放置于ready方法中就能保证该代码的执行。</strong><br>我们来拿一个具体的项目为例。</p>
 <h4 id="项目的目录结构如下"><a href="#项目的目录结构如下" class="headerlink" title="项目的目录结构如下"></a><code>项目的目录结构如下</code></h4><p><img src="http://whw.pythonav.cn/signal3.png" alt="22331"><br><code>（1）把所有的信号都写在了signals包中，并且signals包中的__init__.py文件中实例化Signal类的对象（注意Python在import一个包的时候会执行里面的__init__文件），执行的操作我写在了handlers.py文件中；</code><br><code>（2）然后，利用Django的启动的原理，我把信号的注册写在了apps.py的SignalappConfig类的ready方法中，保证在路由分发之前就注册自定义的信号。</code></p>
 <h4 id="注册信号的具体写法"><a href="#注册信号的具体写法" class="headerlink" title="注册信号的具体写法"></a><code>注册信号的具体写法</code></h4><h5 id="signals-init-py"><a href="#signals-init-py" class="headerlink" title="signals/__init__.py"></a><code>signals/__init__.py</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"></span><br><span class="line">my_signal = Signal(providing_args=[])</span><br></pre></td></tr></table></figure>
 
@@ -220,7 +220,7 @@
 <p>启动Django程序后我们在浏览器中输入127.0.0.1:8000/index，可以看到在后台打印出了自定义信号处理函数中所打印的数据： </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my_callback...</span><br></pre></td></tr></table></figure>
 
-<h3 id="定制信号的发送者"><a href="#定制信号的发送者" class="headerlink" title="定制信号的发送者"></a><code>定制信号的发送者</code></h3><p>默认情况下，某些信号会被多次发送，但是，通常，我们只希望接收某个或者某些特定的发送者发出的信号，比如说django.db.models.signals.pre_saves，该信号，它在每个model的save()方法被执行的时候被发送，不过，很多情况下，我们只想记录某个特定的model的save()方法被执行时的日志。<br>　　在上述情况下，我们可以指定只接受我们指定的信号发送者发出的信号。<br>　　还是用django.db.models.signals.pre_saves举例，下面我们来演示如何指定发送者</p>
+<h3 id="定制信号的发送者"><a href="#定制信号的发送者" class="headerlink" title="定制信号的发送者"></a><code>定制信号的发送者</code></h3><p>默认情况下，某些信号会被多次发送，但是，通常，我们只希望接收某个或者某些特定的发送者发出的信号，比如说django.db.models.signals.pre_saves，该信号，它在每个model的save()方法被执行的时候被发送，不过，很多情况下，我们只想记录某个特定的model的save()方法被执行时的日志。<br>在上述情况下，我们可以指定只接受我们指定的信号发送者发出的信号。<br>还是用django.db.models.signals.pre_saves举例，下面我们来演示如何指定发送者</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models.signals <span class="keyword">import</span> pre_save</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> receiver</span><br><span class="line"><span class="keyword">from</span> myapp.models <span class="keyword">import</span> MyModel</span><br><span class="line"></span><br><span class="line"><span class="meta">@receiver(pre_save, sender=MyModel)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_handler</span><span class="params">(sender, **kwargs)</span>:</span></span><br><span class="line">    xxx</span><br></pre></td></tr></table></figure>
 
 <h3 id="断开信号"><a href="#断开信号" class="headerlink" title="断开信号"></a><code>断开信号</code></h3><p>如果不希望再接收某个信号，我们可以调用<code>Signal.disconnect()</code>方法。</p>
@@ -420,18 +420,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Django基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ORM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
@@ -441,6 +429,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Django基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ORM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -480,11 +480,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模块与包</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">模块与包</a>
               </li>
              
               <li class="article-tag-list-item">
