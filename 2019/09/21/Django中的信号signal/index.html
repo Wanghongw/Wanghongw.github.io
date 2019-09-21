@@ -17,8 +17,8 @@
 <meta property="og:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://whw.pythonav.cn/signal1.png">
-<meta property="og:image" content="http://whw.pythonav.cn/signal2.png">
-<meta property="og:updated_time" content="2019-09-21T04:28:21.220Z">
+<meta property="og:image" content="http://whw.pythonav.cn/signal3.png">
+<meta property="og:updated_time" content="2019-09-21T05:40:18.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django中的信号signal">
 <meta name="twitter:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
@@ -205,7 +205,7 @@
 
 <p><code>最后需要注意：由于内置信号的触发者已经集成到Django中，所以其会自动调用；而对于自定义信号则需要开发者在对应位置指定触发。</code></p>
 <h3 id="在路由分发前注册信号的方法"><a href="#在路由分发前注册信号的方法" class="headerlink" title="在路由分发前注册信号的方法"></a><code>在路由分发前注册信号的方法</code></h3><p>　上面介绍的一种方式是<strong>在项目同名的包的<code>__init__.py</code>文件中去注册信号</strong>。<br>　我们也可以利用Django在路由分发之前做一下信号的注册操作。<br>　　这里用到了Django启动的机制：<strong>django.dispatch.Signal在django.setup()的过程中，它会遍历settings.INSTALLED_APPS列表中的每一项，并调用该AppConfig的ready方法，因此，将recevier订阅signal的过程放置于ready方法中就能保证该代码的执行。</strong><br> 　　我们来拿一个具体的项目为例。</p>
-<h4 id="项目的目录结构如下"><a href="#项目的目录结构如下" class="headerlink" title="项目的目录结构如下"></a><code>项目的目录结构如下</code></h4><p><img src="http://whw.pythonav.cn/signal2.png" alt="22331"><br><code>（1）把所有的信号都写在了signals包中，并且signals包中的__init__.py文件中实例化Signal类的对象（注意Python在import一个包的时候会执行里面的__init__文件），执行的操作我写在了handlers.py文件中；</code><br><code>（2）然后，利用Django的启动的原理，我把信号的注册写在了apps.py的SignalappConfig类的ready方法中，保证在路由分发之前就注册自定义的信号。</code></p>
+<h4 id="项目的目录结构如下"><a href="#项目的目录结构如下" class="headerlink" title="项目的目录结构如下"></a><code>项目的目录结构如下</code></h4><p><img src="http://whw.pythonav.cn/signal3.png" alt="22331"><br><code>（1）把所有的信号都写在了signals包中，并且signals包中的__init__.py文件中实例化Signal类的对象（注意Python在import一个包的时候会执行里面的__init__文件），执行的操作我写在了handlers.py文件中；</code><br><code>（2）然后，利用Django的启动的原理，我把信号的注册写在了apps.py的SignalappConfig类的ready方法中，保证在路由分发之前就注册自定义的信号。</code></p>
 <h4 id="注册信号的具体写法"><a href="#注册信号的具体写法" class="headerlink" title="注册信号的具体写法"></a><code>注册信号的具体写法</code></h4><h5 id="signals-init-py"><a href="#signals-init-py" class="headerlink" title="signals/__init__.py"></a><code>signals/__init__.py</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"></span><br><span class="line">my_signal = Signal(providing_args=[])</span><br></pre></td></tr></table></figure>
 
 <h5 id="signals-handlers-py："><a href="#signals-handlers-py：" class="headerlink" title="signals/handlers.py："></a><code>signals/handlers.py：</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_callback</span><span class="params">(sender,**kwargs)</span>:</span></span><br><span class="line">    print(<span class="string">'my_callback...'</span>)</span><br></pre></td></tr></table></figure>
