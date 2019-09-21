@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>在CentOS7系统中部署Django项目 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
+  <meta name="description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了CentOS7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
 <meta name="keywords" content="Django,Linux,项目部署">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在CentOS7系统中部署Django项目">
 <meta property="og:url" content="http://yoursite.com/2019/09/21/在CentOS7系统中部署Django项目/index.html">
 <meta property="og:site_name" content="火之影">
-<meta property="og:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
+<meta property="og:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了CentOS7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B21.png">
 <meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B22.png">
 <meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B23.png">
-<meta property="og:updated_time" content="2019-09-21T08:36:26.130Z">
+<meta property="og:updated_time" content="2019-09-21T08:54:41.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在CentOS7系统中部署Django项目">
-<meta name="twitter:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
+<meta name="twitter:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了CentOS7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
 <meta name="twitter:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B21.png">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
@@ -179,7 +179,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。<br>本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。<a id="more"></a></p>
+        <p>作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。<br>本文详细讲解了用一台安装了CentOS7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。<a id="more"></a></p>
 <h2 id="安装必要的工具"><a href="#安装必要的工具" class="headerlink" title="安装必要的工具"></a>安装必要的工具</h2><h3 id="配置yum源"><a href="#配置yum源" class="headerlink" title="配置yum源"></a>配置yum源</h3><p>至于什么是yum源大家请自行百度，本人用的是<a href="https://yq.aliyun.com/zt/59505" target="_blank" rel="noopener">阿里云的yum源</a>，因此需要在裸机上配置一下：</p>
 <h4 id="进入yum源的目录"><a href="#进入yum源的目录" class="headerlink" title="进入yum源的目录"></a>进入yum源的目录</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/yum.repos.d/</span><br></pre></td></tr></table></figure>
 
@@ -528,18 +528,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Django基础</a>
               </li>
              
@@ -549,6 +537,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
               <li class="article-tag-list-item">
