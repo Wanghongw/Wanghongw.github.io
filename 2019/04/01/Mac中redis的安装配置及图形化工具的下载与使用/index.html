@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Mac中redis的安装配置及图形化工具的下载与使用 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文介绍一下redis在mac中的安装与配置以及redis的一个图形化工具的下载与使用。">
+<meta name="keywords" content="redis,Mac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac中redis的安装配置及图形化工具的下载与使用">
+<meta property="og:url" content="http://yoursite.com/2019/04/01/Mac中redis的安装配置及图形化工具的下载与使用/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文介绍一下redis在mac中的安装与配置以及redis的一个图形化工具的下载与使用。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://whw.pythonav.cn/1-%E4%B8%8B%E8%BD%BD%E7%A8%B3%E5%AE%9A%E7%89%88%E6%9C%AC.png">
+<meta property="og:image" content="http://whw.pythonav.cn/2-redis%E5%90%AF%E5%8A%A8%E6%9F%A5%E7%9C%8B.png">
+<meta property="og:image" content="http://whw.pythonav.cn/3-%E5%85%B3%E9%97%ADredis.png">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac中redis的安装配置及图形化工具的下载与使用">
+<meta name="twitter:description" content="本文介绍一下redis在mac中的安装与配置以及redis的一个图形化工具的下载与使用。">
+<meta name="twitter:image" content="http://whw.pythonav.cn/1-%E4%B8%8B%E8%BD%BD%E7%A8%B3%E5%AE%9A%E7%89%88%E6%9C%AC.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Mac中redis的安装配置及图形化工具的下载与使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/01/Mac中redis的安装配置及图形化工具的下载与使用/" class="article-date">
+  <time datetime="2019-04-01T11:11:21.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/redis/">redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mac中redis的安装配置及图形化工具的下载与使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文介绍一下redis在mac中的安装与配置以及redis的一个图形化工具的下载与使用。<a id="more"></a></p>
+<h3 id="redis的下载、安装、配置与起停"><a href="#redis的下载、安装、配置与起停" class="headerlink" title="redis的下载、安装、配置与起停"></a>redis的下载、安装、配置与起停</h3><h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>到redis官网下载：<a href="https://redis.io/download" target="_blank" rel="noopener"><a href="https://redis.io/download" target="_blank" rel="noopener">https://redis.io/download</a></a><br>建议大家下载稳定版本：<br><img src="http://whw.pythonav.cn/1-%E4%B8%8B%E8%BD%BD%E7%A8%B3%E5%AE%9A%E7%89%88%E6%9C%AC.png" alt="123123"></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li><p>解压安装包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis<span class="number">-5.0</span><span class="number">.5</span>.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将解压出来的<code>redis-5.0.5</code>目录移动到<code>/usr/local/</code>目录中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mv redis<span class="number">-5.0</span><span class="number">.5</span> /usr/local/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入<code>/usr/local/redis-5.0.5</code>目录</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/redis<span class="number">-5.0</span><span class="number">.5</span>/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译测试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make test</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><h5 id="拷贝配置文件到-etc-目录"><a href="#拷贝配置文件到-etc-目录" class="headerlink" title="拷贝配置文件到/etc/目录"></a>拷贝配置文件到/etc/目录</h5><p>redis的配置文件<code>redis.conf</code>默认在<code>/usr/local/redis-5.0.5</code>目录中。<br>为了方便管理，我们将这个配置文件<code>cp</code>到<code>/etc/</code>目录下，<code>以后启动redis的时候我们用/etc目录下的这个配置文件</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /usr/local/redis<span class="number">-5.0</span><span class="number">.5</span>/redis.conf /etc/</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改-etc-目录下的配置文件"><a href="#修改-etc-目录下的配置文件" class="headerlink" title="修改/etc/目录下的配置文件"></a>修改/etc/目录下的配置文件</h5><p>这里我只修改2个参数：一个是<code>后台启动redis</code>，另外一个是<code>为redis的server端设置密码</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">daemonize yes    <span class="comment"># 设置后台启动，在第136行；</span></span><br><span class="line">requirepass <span class="number">123</span>  <span class="comment"># 添加密码123，在第500行；</span></span><br></pre></td></tr></table></figure>
+
+<p>用vim编辑这个redis.conf文件有个小技巧：</p>
+<p>可以先用命令<code>:set nu</code>让vim显示行数；接着，如果光标在第一行，我们可以在vim中输入<code>jj135j</code>直接让光标往下移动135行，直接到对应的行修改配置。</p>
+<h4 id="起停"><a href="#起停" class="headerlink" title="起停"></a>起停</h4><h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><p>redis服务端的启动有2种方式：</p>
+<ul>
+<li>一种是直接输入<code>redis-server</code>后面不跟参数，默认的端口是<code>6379</code>且默认情况下没有密码。</li>
+<li>第二种是使用配置文件启动：<code>redis-server /etc/redis.conf</code><br>实际中建议大家使用第二种方式启动redis的服务端。<br>由于上面我们设置了后台启动的方式，所以启动redis后用命令<code>ps -ef|grep redis</code>查看redis是否启动：<br><img src="http://whw.pythonav.cn/2-redis%E5%90%AF%E5%8A%A8%E6%9F%A5%E7%9C%8B.png" alt="22341"><br>第二个进程是查看redis服务的进程。</li>
+</ul>
+<h5 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h5><p>使用命令<code>pkill -9 redis</code>关闭redis服务：<br><img src="http://whw.pythonav.cn/3-%E5%85%B3%E9%97%ADredis.png" alt="231"><br>可以看到，只有查看redis服务的这个进程存在了。</p>
+<h5 id="redis客户端常用的命令"><a href="#redis客户端常用的命令" class="headerlink" title="redis客户端常用的命令"></a>redis客户端常用的命令</h5><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">set key value</td>
+<td align="center">设置 key 的值</td>
+</tr>
+<tr>
+<td align="center">get key</td>
+<td align="center">获取 key 的值</td>
+</tr>
+<tr>
+<td align="center">exists key</td>
+<td align="center">查看此 key 是否存在</td>
+</tr>
+<tr>
+<td align="center">keys *</td>
+<td align="center">查看所有的 key</td>
+</tr>
+<tr>
+<td align="center">flushall</td>
+<td align="center">消除所有的 key</td>
+</tr>
+</tbody></table>
+<h3 id="redis图形化工具的下载与使用"><a href="#redis图形化工具的下载与使用" class="headerlink" title="redis图形化工具的下载与使用"></a>redis图形化工具的下载与使用</h3><p>网上有一个很好用的redis的图形化工具：<a href="http://www.pc6.com/mac/486661.html" target="_blank" rel="noopener"><a href="http://www.pc6.com/mac/486661.html" target="_blank" rel="noopener">http://www.pc6.com/mac/486661.html</a></a><br>具体使用方法上面也有很详细的介绍。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/jason_m_ho/article/details/80007330" target="_blank" rel="noopener">https://blog.csdn.net/jason_m_ho/article/details/80007330</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/01/Mac中redis的安装配置及图形化工具的下载与使用/" data-id="ck0t3jpyf000kpdcckeb00rvg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mac/">Mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/02/Django中的缓存详述/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Django中的缓存详述
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/21/自定义类实现原生SQL的GROUP-CONCAT的功能/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">自定义类实现原生SQL的GROUP_CONCAT的功能</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

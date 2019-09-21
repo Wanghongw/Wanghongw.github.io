@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Flask的文件上传操作 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="利用flask上传文件的主代码及注释如下：">
+<meta name="keywords" content="文件上传,Flask基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask的文件上传操作">
+<meta property="og:url" content="http://yoursite.com/2019/02/03/Flask的文件上传操作/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="利用flask上传文件的主代码及注释如下：">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flask的文件上传操作">
+<meta name="twitter:description" content="利用flask上传文件的主代码及注释如下：">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Flask的文件上传操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/03/Flask的文件上传操作/" class="article-date">
+  <time datetime="2019-02-03T14:16:59.000Z" itemprop="datePublished">2019-02-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Flask/">Flask</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Flask的文件上传操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>利用flask上传文件的主代码及注释如下：<a id="more"></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> (Flask,jsonify,render_template,</span><br><span class="line">                   request)</span><br><span class="line"><span class="comment"># 实例化一个Flask对象</span></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># debug模式——代码热加载，修改完后台代码后不用重启项目了</span></span><br><span class="line"><span class="comment"># 注意线上不要用debug模式！</span></span><br><span class="line">app.config[<span class="string">'DEBUG'</span>] = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果有表单提交数据的话，必须指定methods列表里面有GET与POST方法！</span></span><br><span class="line"><span class="meta">@app.route('/file',methods=['GET','POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">put_file</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">'put_file.html'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">        <span class="comment"># 获取上传的文件</span></span><br><span class="line">        file_put = request.files.get(<span class="string">'my_file'</span>)</span><br><span class="line">        <span class="comment"># 上传的目录是项目的media目录里</span></span><br><span class="line">        <span class="comment"># file_put的filename属性可以取出文件的名称</span></span><br><span class="line">        file_path = os.path.join(BASE_DIR,<span class="string">'media'</span>,file_put.filename)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 将文件保存在对应的位置，save方法</span></span><br><span class="line">            file_put.save(file_path)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'上传成功'</span></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(e)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'上传失败'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 项目的根目录</span></span><br><span class="line">    BASE_DIR = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">    <span class="comment"># 运行flask项目</span></span><br><span class="line">    app.run(<span class="string">'127.0.0.1'</span>,<span class="number">5678</span>)</span><br></pre></td></tr></table></figure>
+
+<p>项目的模板文件如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;文件上传&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># 上传文件的话～～这里必须指定enctype！ #&#125;</span></span><br><span class="line">&lt;form action=<span class="string">""</span> method=<span class="string">"post"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;</span><br><span class="line">    &lt;input type=<span class="string">"file"</span> name=<span class="string">"my_file"</span>&gt;</span><br><span class="line">    &lt;button&gt;上传&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>启动项目后访问 <a href="http://127.0.0.1:5678/file" target="_blank" rel="noopener">http://127.0.0.1:5678/file</a> 就可以了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/03/Flask的文件上传操作/" data-id="ck0t3jpyd000gpdccc40ki5wq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件上传/">文件上传</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Flask给视图增加多个装饰器的问题及解决方案
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/03/Django文件上传之多文件的上传/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Django文件上传之多文件的上传</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

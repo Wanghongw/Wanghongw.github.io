@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>浅析Django的settings配置原理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Django的settings.py文件是每个django项目必用的配置文件。其实项目的二级目录下的这个settings.py文件仅是用户级别的一个配置文件，在django的内部还有一个global_settings.py文件。这是一个全局的默认配置的文件，django所有的默认配置其实在这个文件中。在实际的开发中，程序员可以在二级目录下的settings.py文件中配置自己需要的信息，比如SES">
+<meta name="keywords" content="Django原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析Django的settings配置原理">
+<meta property="og:url" content="http://yoursite.com/2019/08/08/浅析Django的settings配置原理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Django的settings.py文件是每个django项目必用的配置文件。其实项目的二级目录下的这个settings.py文件仅是用户级别的一个配置文件，在django的内部还有一个global_settings.py文件。这是一个全局的默认配置的文件，django所有的默认配置其实在这个文件中。在实际的开发中，程序员可以在二级目录下的settings.py文件中配置自己需要的信息，比如SES">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析Django的settings配置原理">
+<meta name="twitter:description" content="Django的settings.py文件是每个django项目必用的配置文件。其实项目的二级目录下的这个settings.py文件仅是用户级别的一个配置文件，在django的内部还有一个global_settings.py文件。这是一个全局的默认配置的文件，django所有的默认配置其实在这个文件中。在实际的开发中，程序员可以在二级目录下的settings.py文件中配置自己需要的信息，比如SES">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-浅析Django的settings配置原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/08/浅析Django的settings配置原理/" class="article-date">
+  <time datetime="2019-08-08T13:02:01.000Z" itemprop="datePublished">2019-08-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django/">Django</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅析Django的settings配置原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Django的settings.py文件是每个django项目必用的配置文件。其实项目的二级目录下的这个settings.py文件仅是用户级别的一个配置文件，在django的内部还有一个<code>global_settings.py</code>文件。这是一个全局的默认配置的文件，django所有的默认配置其实在这个文件中。<br>在实际的开发中，程序员可以在二级目录下的settings.py文件中配置自己需要的信息，比如SESSION_KEY等等；当然你的配置也可以与默认配置文件中的内容相同，比如session的生存周期<code>SESSION_COOKIE_AGE</code>等等，这种情况下django会优先用户的配置。<br>需要注意的是，配置文件中的变量必须全部是大写，否则django不会识别这个配置项的。<br>那么，django内部是如何实现上述这样的效果的呢？本文用一个简单的例子为大家详细解析一下django内部实现的过程。<a id="more"></a></p>
+<h3 id="项目目录"><a href="#项目目录" class="headerlink" title="项目目录"></a>项目目录</h3><p>​新创建一个项目，项目的目录结构如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SettingsTest</span><br><span class="line">├── bin <span class="comment"># 项目启动目录                          </span></span><br><span class="line">│   └── start.py</span><br><span class="line">├── conf <span class="comment"># 存放用户配置的目录</span></span><br><span class="line">│   └── settings.py</span><br><span class="line">├── lib</span><br><span class="line">│   └── conf </span><br><span class="line">│       ├── __init__.py <span class="comment"># 实现用户与默认配置的逻辑</span></span><br><span class="line">│       └── global_settings.py <span class="comment"># 项目的默认配置</span></span><br><span class="line">└── src </span><br><span class="line">    └── script.py <span class="comment"># 处理业务逻辑的入口</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="具体代码及说明如下"><a href="#具体代码及说明如下" class="headerlink" title="具体代码及说明如下"></a>具体代码及说明如下</h3><h5 id="start文件的内容如下"><a href="#start文件的内容如下" class="headerlink" title="start文件的内容如下"></a>start文件的内容如下</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># start.py</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到当前项目的根目录的绝对路径并加入解释器的path中</span></span><br><span class="line">BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>,BASE_DIR)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="comment"># 将用户配置文件的相对路径传入os.environ中。</span></span><br><span class="line">	<span class="comment"># 注意要在run导入之前设置</span></span><br><span class="line">	os.environ[<span class="string">'USER_SETTINGS'</span>] = <span class="string">'conf.settings'</span></span><br><span class="line">	<span class="comment"># 导入自定义模块</span></span><br><span class="line">	<span class="keyword">from</span> src.script <span class="keyword">import</span> run</span><br><span class="line"></span><br><span class="line">	run()</span><br></pre></td></tr></table></figure>
+
+<p>start文件是程序的入口，需要将项目的根目录加入到编译环境的path中。在<code>os.envision</code>中加入用户配置文件的相对路径为后面的操作做铺垫。</p>
+<h5 id="用户配置文件settings中的内容如下"><a href="#用户配置文件settings中的内容如下" class="headerlink" title="用户配置文件settings中的内容如下"></a>用户配置文件settings中的内容如下</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># settings.py</span></span><br><span class="line"></span><br><span class="line">NAME = <span class="string">'wanghw'</span></span><br><span class="line">AGE = <span class="number">18</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="全局配置文件global-settings中的内容如下"><a href="#全局配置文件global-settings中的内容如下" class="headerlink" title="全局配置文件global_settings中的内容如下"></a>全局配置文件global_settings中的内容如下</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># global_settings.py</span></span><br><span class="line"></span><br><span class="line">NAME = <span class="string">''</span></span><br><span class="line">AGE = <span class="literal">None</span></span><br><span class="line">EMAIL = <span class="string">'xxx@xxx.com'</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，用户的配置跟默认配置里的<code>NAME</code> 与<code>AGE</code>重复了。我们最终实现的效果是：<code>重复的变量展示用户配置的，用户配置里没有的展示默认配置的变量的值。</code></p>
+<h5 id="lib目录下的conf文件夹中的init文件里的代码如下"><a href="#lib目录下的conf文件夹中的init文件里的代码如下" class="headerlink" title="lib目录下的conf文件夹中的init文件里的代码如下"></a>lib目录下的conf文件夹中的<strong>init</strong>文件里的代码如下</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># 实现用户与默认配置的逻辑</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> importlib</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> global_settings</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Settings</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 默认配置</span></span><br><span class="line">        <span class="comment"># dir获取对象的属性</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> dir(global_settings):  </span><br><span class="line">        	<span class="comment"># 只获取大写的变量</span></span><br><span class="line">            <span class="keyword">if</span> i.isupper():  </span><br><span class="line">            	<span class="comment"># 通过反射获取值：getattr</span></span><br><span class="line">                v = getattr(global_settings, i)  </span><br><span class="line">                <span class="comment"># 给settings对象本身设置值：setattr</span></span><br><span class="line">                setattr(self, i, v)  </span><br><span class="line"></span><br><span class="line">        <span class="comment">#  用户自定义的配置：'conf.settings'</span></span><br><span class="line">        path = os.environ.get(<span class="string">'USER_SETTINGS'</span>)</span><br><span class="line">        <span class="comment"># 导入用户的自定义的配置 </span></span><br><span class="line">        module = importlib.import_module(path)  </span><br><span class="line">        <span class="comment"># dir获取对象的属性</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> dir(module):  </span><br><span class="line">        	<span class="comment"># 只获取大写的变量</span></span><br><span class="line">            <span class="keyword">if</span> i.isupper():</span><br><span class="line">            	<span class="comment"># 通过反射获取值：getattr</span></span><br><span class="line">                v = getattr(module, i) </span><br><span class="line">                 <span class="comment"># 给settings对象本身设置值：setattr</span></span><br><span class="line">                setattr(self, i, v) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例化对象，我们后续导入的其实是这个对象</span></span><br><span class="line">settings = Settings()</span><br></pre></td></tr></table></figure>
+
+<p><strong>需要重点说一下这里：</strong></p>
+<ul>
+<li><p>根据Python包导入的原理：导入一个包其实执行了这个包里的<strong>init</strong>.py文件，因此在外部引入lib.conf的话会执行conf包里面的<strong>init</strong>.py文件中的内容。</p>
+</li>
+<li><p>先不看类的初始化方法实现的逻辑，在代码块的最后一行我们实例化了一个Settings类的对象——我们其实是把所有的配置信息<code>封装</code>到了settings对象中了！</p>
+</li>
+<li><p>最后看一下具体的实现逻辑：实例化Settings类的时候执行里面的<strong>init</strong>方法，首先通过getattr方法获取默认配置文件中的配置信息，并通过setattr将默认配置的数据封装到类的对象中；然后根据<code>os.envision</code>中的键值对找到用户配置文件的位置，利用<code>importlib方法</code>找到这个模块，首先通过getattr方法获取用户配置文件中的配置信息，并通过setattr将默认配置的数据封装到类的对象中。</p>
+</li>
+<li><p>可以看到：给对象封装数据的顺序是先封装默认配置数据再封装用户配置的数据，这样实现了<code>用户配置优先</code>的效果。</p>
+<h5 id="负责业务处理的script文件中的内容如下"><a href="#负责业务处理的script文件中的内容如下" class="headerlink" title="负责业务处理的script文件中的内容如下"></a>负责业务处理的script文件中的内容如下</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># script.py</span></span><br><span class="line"><span class="comment"># 需要注意，这里引用的是settings对象</span></span><br><span class="line"><span class="keyword">from</span> lib.conf <span class="keyword">import</span> settings</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">	print(settings.NAME)</span><br><span class="line">	print(settings.AGE)</span><br><span class="line">	print(settings.EMAIL)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>需要特别注意，我们引入的配置文件其实是一个<code>settings对象</code></p>
+</li>
+</ul>
+<h5 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h5><p>scripts文件中打印了三个变量，NAME、AGE与EMAIL，其中NAME与AGE是两个配置文件中都有的，EMAIL只在默认配置文件中有，我们看一下最后的打印效果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wanghw</span><br><span class="line"><span class="number">18</span></span><br><span class="line">xxx@xxx.com</span><br></pre></td></tr></table></figure>
+
+<p>这个结果与我们之前预想的一样：优先用户配置文件中的变量，用户配置文件中没有的变量去默认配置中找。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/08/08/浅析Django的settings配置原理/" data-id="ck0t3jpz1001ppdccyodf2i83" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django原理/">Django原理</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/09/浅谈Python中字典的打散传参/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          浅谈Python中字典的打散传参
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/04/Markdown中折叠代码的方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Markdown中折叠代码的方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

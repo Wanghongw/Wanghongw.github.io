@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Django中的缓存详述 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="缓存(Cache)对于创建一个高性能的网站和提升用户体验来说是非常重要的，然而对我们这种只用得起拼多多的码农而言最重要的是学会如何使用缓存。今天我们就来看看缓存Cache应用场景及工作原理吧，并详细介绍如何在Django中设置Cache并使用它们。">
+<meta name="keywords" content="Django,缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django中的缓存详述">
+<meta property="og:url" content="http://yoursite.com/2019/04/02/Django中的缓存详述/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="缓存(Cache)对于创建一个高性能的网站和提升用户体验来说是非常重要的，然而对我们这种只用得起拼多多的码农而言最重要的是学会如何使用缓存。今天我们就来看看缓存Cache应用场景及工作原理吧，并详细介绍如何在Django中设置Cache并使用它们。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.221Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django中的缓存详述">
+<meta name="twitter:description" content="缓存(Cache)对于创建一个高性能的网站和提升用户体验来说是非常重要的，然而对我们这种只用得起拼多多的码农而言最重要的是学会如何使用缓存。今天我们就来看看缓存Cache应用场景及工作原理吧，并详细介绍如何在Django中设置Cache并使用它们。">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Django中的缓存详述" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/02/Django中的缓存详述/" class="article-date">
+  <time datetime="2019-04-02T07:22:46.000Z" itemprop="datePublished">2019-04-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/缓存/">缓存</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Django中的缓存详述
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>缓存(Cache)对于创建一个高性能的网站和提升用户体验来说是非常重要的，然而对我们这种只用得起拼多多的码农而言最重要的是学会如何使用缓存。今天我们就来看看缓存Cache应用场景及工作原理吧，并详细介绍如何在Django中设置Cache并使用它们。<a id="more"></a></p>
+<h3 id="什么是缓存Cache"><a href="#什么是缓存Cache" class="headerlink" title="什么是缓存Cache"></a>什么是缓存Cache</h3><p>缓存是一类可以更快的读取数据的介质统称，也指其它可以加快数据读取的存储方式。一般用来存储临时数据，常用介质的是读取速度很快的内存。一般来说从数据库多次把所需要的数据提取出来，要比从内存或者硬盘等一次读出来付出的成本大很多。对于中大型网站而言，使用缓存减少对数据库的访问次数是提升网站性能的关键之一。</p>
+<h3 id="为什么要使用缓存Cache"><a href="#为什么要使用缓存Cache" class="headerlink" title="为什么要使用缓存Cache"></a>为什么要使用缓存Cache</h3><p>在Django中，当用户请求到达视图后，视图会先从数据库提取数据放到模板中进行动态渲染，渲染后的结果就是用户看到的网页。如果用户每次请求都从数据库提取数据并渲染，将极大降低性能，不仅服务器压力大，而且客户端也无法即时获得响应。如果能将渲染后的结果放到速度更快的缓存中，每次有请求过来，先检查缓存中是否有对应的资源，如果有，直接从缓存中取出来返回响应，节省取数据和渲染的时间，不仅能大大提高系统性能，还能提高用户体验。<br>我们来看一个实际的博客例子。每次当我们访问首页时，下面视图都会从数据库中提取文章列表，并渲染的模板里去。大多数情况下，我们的博客不会更新得那么频繁，所以文章列表是不变的。这样用户在一定时间内多次访问首页时都从数据库重新读取同样的数据是一种很大的浪费。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># 读取数据库等并渲染到网页</span></span><br><span class="line">    article_list = Article.objects.all()</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'index.html'</span>, &#123;<span class="string">'article_list'</span>: article_list&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>使用缓存Cache就可以帮我们解决这个问题。当用户首次访问博客首页时，我们从数据库中提取文章列表，并将其存储到缓存里(常用的是内存，这取决于你的设置)。当用户在单位时间内再次访问首页时, Django先检查缓存是否过期(本例是15分钟), 再检查缓存里文章列表资源是否存在，如果存在，直接从缓存中读取数据, 并渲染模板。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> cache_page</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@cache_page(60 * 15)  # 秒数，这里指缓存 15 分钟</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span><br><span class="line">    article_list = Article.objects.all()</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'index.html'</span>, &#123;<span class="string">'article_list'</span>: article_list&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>说白了，我们使用缓存主要是解决以下3方面的问题：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、缓解关系型数据库（通常是MySQL）并发访问的压力：热点数据</span><br><span class="line"><span class="number">2</span>、减少响应时间：内存IO速度要比磁盘快很多</span><br><span class="line"><span class="number">3</span>、提升吞吐量：redis等内存数据库单机就可以支撑很大的并发</span><br></pre></td></tr></table></figure>
+
+<p><strong>但是特别注意: 在Django中使用缓存前，我们必需在settings中先做必要的设置。</strong></p>
+<h3 id="缓存Cache的应用场景"><a href="#缓存Cache的应用场景" class="headerlink" title="缓存Cache的应用场景"></a>缓存Cache的应用场景</h3><p>缓存主要适用于对页面实时性要求不高的页面。存放在缓存的数据，通常是频繁访问的，而不会经常修改的数据。我们来举几个应用例子:</p>
+<ul>
+<li>博客文章。假设用户一天更新一篇文章，那么可以为博客设置1天的缓存，一天后会刷新。</li>
+<li>购物网站。商品的描述信息几乎不会变化，而商品的购买数量需要根据用户情况实时更新。我们可以只选择缓存商品描述信息。</li>
+<li>缓存网页片段。比如缓存网页导航菜单和脚部(Footer)。<h3 id="Django的settings中缓存的设置"><a href="#Django的settings中缓存的设置" class="headerlink" title="Django的settings中缓存的设置"></a>Django的settings中缓存的设置</h3>Django中提供了多种缓存方式，如果要使用缓存，需要先在settings.py中进行配置，然后应用。根据缓存介质的不同，你需要设置不同的缓存后台Backend。<br>缓存的设置分为以下几类：</li>
+<li>Memcached缓存/redis缓存等等</li>
+<li>数据库缓存</li>
+<li>文件系统缓存</li>
+<li>本地内存缓存<h4 id="Memcached缓存的配置"><a href="#Memcached缓存的配置" class="headerlink" title="Memcached缓存的配置"></a>Memcached缓存的配置</h4>Memcached是基于内存的缓存，Django原生支持的最快最有效的缓存系统。对于大多数场景，我们推荐使用Memcached，数据缓存在服务器端。使用前需要通过pip安装memcached的插件python-memcached和pylibmc，可以同时支持多个服务器上面的memcached。下面是使用pyhon-memcached的设置：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># localhost</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.core.cache.backends.memcached.MemcachedCache'</span>,</span><br><span class="line">        <span class="string">'LOCATION'</span>: <span class="string">'127.0.0.1:11211'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># unix soket</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.core.cache.backends.memcached.MemcachedCache'</span>,</span><br><span class="line">        <span class="string">'LOCATION'</span>: <span class="string">'unix:/tmp/memcached.sock'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.core.cache.backends.memcached.MemcachedCache'</span>,</span><br><span class="line">        <span class="string">'LOCATION'</span>: [</span><br><span class="line">            <span class="string">'172.19.26.240:11211'</span>,</span><br><span class="line">            <span class="string">'172.19.26.242:11211'</span>,</span><br><span class="line">        ]</span><br><span class="line">        <span class="comment"># 我们也可以给缓存机器加权重，权重高的承担更多的请求，如下</span></span><br><span class="line">        <span class="string">'LOCATION'</span>: [</span><br><span class="line">            (<span class="string">'172.19.26.240:11211'</span>,<span class="number">5</span>),</span><br><span class="line">            (<span class="string">'172.19.26.242:11211'</span>,<span class="number">1</span>),</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="redis的设置"><a href="#redis的设置" class="headerlink" title="redis的设置"></a>redis的设置</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># redis缓存设置</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django_redis.cache.RedisCache'</span>,</span><br><span class="line">        <span class="string">'LOCATION'</span>: <span class="string">'redis://127.0.0.1:6379'</span>,</span><br><span class="line">        <span class="string">"OPTIONS"</span>: &#123;</span><br><span class="line">            <span class="string">"CLIENT_CLASS"</span>: <span class="string">"django_redis.client.DefaultClient"</span>,</span><br><span class="line">             <span class="comment"># 如果没设置密码将这行注释掉</span></span><br><span class="line">             <span class="string">"PASSWORD"</span>: <span class="string">"123"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 全局的设置优先于cache_page装饰器中的配置</span></span><br><span class="line">REDIS_TIMEOUT=<span class="number">7</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span></span><br><span class="line">CUBES_REDIS_TIMEOUT=<span class="number">60</span>*<span class="number">60</span></span><br><span class="line">NEVER_REDIS_TIMEOUT=<span class="number">365</span>*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="数据库缓存"><a href="#数据库缓存" class="headerlink" title="数据库缓存"></a>数据库缓存</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.core.cache.backends.db.DatabaseCache'</span>,</span><br><span class="line">        <span class="string">'LOCATION'</span>: <span class="string">'my_cache_table'</span>,</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件系统缓存"><a href="#文件系统缓存" class="headerlink" title="文件系统缓存"></a>文件系统缓存</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.core.cache.backends.filebased.FileBasedCache'</span>,</span><br><span class="line">        <span class="string">'LOCATION'</span>: <span class="string">'/var/tmp/django_cache'</span>,<span class="comment">#这个是文件夹的路径</span></span><br><span class="line">        <span class="comment">#'LOCATION': 'c:\foo\bar',#windows下的示例</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="本地内存缓存"><a href="#本地内存缓存" class="headerlink" title="本地内存缓存"></a>本地内存缓存</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.core.cache.backends.locmem.LocMemCache'</span>,</span><br><span class="line">        <span class="string">'LOCATION'</span>: <span class="string">'unique-snowflake'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Django代码中使用缓存的方法"><a href="#Django代码中使用缓存的方法" class="headerlink" title="Django代码中使用缓存的方法"></a>Django代码中使用缓存的方法</h3><p>当你做好Cache的设置后，在代码中你可以有三种方式使用Cache：</p>
+<ul>
+<li>在视图View中使用</li>
+<li>在路由URLConf中使用</li>
+<li>在模板中使用<h4 id="在视图View中使用cache"><a href="#在视图View中使用cache" class="headerlink" title="在视图View中使用cache"></a>在视图View中使用cache</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> cache_page</span><br><span class="line"></span><br><span class="line"><span class="meta">@cache_page(60 * 15)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_view</span><span class="params">(request)</span>:</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="在路由URLConf中使用cache"><a href="#在路由URLConf中使用cache" class="headerlink" title="在路由URLConf中使用cache"></a>在路由URLConf中使用cache</h4><p><strong>这是小编我更喜欢的方式，这样你就不用修改负责逻辑部分的view了。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> cache_page</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'foo/&lt;int:code&gt;/'</span>, cache_page(<span class="number">60</span> * <span class="number">15</span>)(my_view)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="在模板中使用cache"><a href="#在模板中使用cache" class="headerlink" title="在模板中使用cache"></a>在模板中使用cache</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;% load cache %&#125;</span><br><span class="line">&#123;% cache <span class="number">500</span> sidebar request.user.username %&#125;</span><br><span class="line">    .. sidebar <span class="keyword">for</span> logged <span class="keyword">in</span> user ..</span><br><span class="line">&#123;% endcache %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于大部分码农而言，我们只需要懂得如何在django中使用cache即可，而不需要详细了解django后台工作原理，比如Django是如何将数据存储到选定介质的以及django是如何判断缓存是否已经过期的。</p>
+<h3 id="Django中使用Cache的高级技巧"><a href="#Django中使用Cache的高级技巧" class="headerlink" title="Django中使用Cache的高级技巧"></a>Django中使用Cache的高级技巧</h3><h4 id="使用cache-control"><a href="#使用cache-control" class="headerlink" title="使用cache_control"></a>使用<code>cache_control</code></h4><p>通常用户将会面对两种缓存： 他或她自己的浏览器缓存（私有缓存）以及他或她的提供者缓存（公共缓存）。 公共缓存由多个用户使用，而受其它人的控制。 这就产生了你不想遇到的敏感数据的问题，比如说你的银行账号被存储在公众缓存中。 因此，Web 应用程序需要以某种方式告诉缓存那些数据是私有的，哪些是公共的。解决方案是标示出某个页面缓存应当是私有的。 要在 Django 中完成此项工作，可使用 cache_control 视图修饰器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> cache_control</span><br><span class="line"></span><br><span class="line"><span class="meta">@cache_control(private=True)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_view</span><span class="params">(request)</span>:</span></span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+<p>该修饰器负责在后台发送相应的 HTTP 头部。<br>还有一些其他方法可以控制缓存参数。 例如, HTTP 允许应用程序执行如下操作:</p>
+<ul>
+<li>定义页面可以被缓存的最大时间。</li>
+<li>指定某个缓存是否总是检查较新版本，仅当无更新时才传递所缓存内容。<br>在 Django 中，可使用 cache_control 视图修饰器指定这些缓存参数。 在下例中， <code>cache_control 告诉缓存对每次访问都重新验证缓存并在最长 3600 秒内保存所缓存版本。</code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> cache_control</span><br><span class="line"></span><br><span class="line"><span class="meta">@cache_control(must_revalidate=True, max_age=3600)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_view</span><span class="params">(request)</span>:</span></span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>在 cache_control() 中，任何合法的Cache-Control HTTP 指令都是有效的。下面是完整列表：</p>
+<ul>
+<li>public=True</li>
+<li>private=True</li>
+<li>no_cache=True</li>
+<li>no_transform=True</li>
+<li>must_revalidate=True</li>
+<li>proxy_revalidate=True</li>
+<li>max_age=num_seconds</li>
+<li>s_maxage=num_seconds</li>
+</ul>
+<h4 id="使用vary-on-headers"><a href="#使用vary-on-headers" class="headerlink" title="使用vary_on_headers"></a>使用<code>vary_on_headers</code></h4><p>缺省情况下，Django 的缓存系统使用所请求的路径(如blog/article/1)来创建其缓存键。这意味着不同用户请求同样路径都会得到同样的缓存版本，不考虑客户端user-agent, cookie和语言配置的不同, 除非你使用Vary头部通知缓存机制需要考虑请求头里的cookie和语言的不同。要在 Django 完成这项工作，可使用便利的 vary_on_headers 视图装饰器。<code>例如下面代码告诉Django读取缓存数据时需要同时考虑User-Agent和Cookie的不同。</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.vary <span class="keyword">import</span> vary_on_headers</span><br><span class="line"><span class="meta">@vary_on_headers('User-Agent', 'Cookie')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_view</span><span class="params">(request)</span>:</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用never-cache禁用缓存"><a href="#使用never-cache禁用缓存" class="headerlink" title="使用never_cache禁用缓存"></a>使用<code>never_cache</code>禁用缓存</h4><p>如果你想用头部完全禁掉缓存, 你可以使用django.views.decorators.cache.never_cache装饰器。如果你不在视图中使用缓存，服务器端是肯定不会缓存的，然而用户的客户端如浏览器还是会缓存一些数据，这时你可以使用never_cache禁用掉客户端的缓存。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> never_cache</span><br><span class="line"></span><br><span class="line"><span class="meta">@never_cache</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">myview</span><span class="params">(request)</span>:</span></span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="本文转载自下面的文章"><a href="#本文转载自下面的文章" class="headerlink" title="本文转载自下面的文章"></a>本文转载自下面的文章</h3><p><a href="https://mp.weixin.qq.com/s?__biz=MjM5OTMyODA4Nw==&mid=2247483914&idx=1&sn=368657c4efc342d7d8e26a23f8209eb0&chksm=a73c6232904beb249bd3705fdd09176b97fac5f49f152f846d5d10a3dac34e9ae88614f4e43d&scene=21#wechat_redirect" target="_blank" rel="noopener">缓存Cache应用场景及工作原理，Cache设置及如何使用</a></p>
+<h3 id="Django2-1缓存的官方文档及其翻译版本"><a href="#Django2-1缓存的官方文档及其翻译版本" class="headerlink" title="Django2.1缓存的官方文档及其翻译版本"></a>Django2.1缓存的官方文档及其翻译版本</h3><p><a href="https://docs.djangoproject.com/zh-hans/2.1/topics/cache/#django-s-cache-framework" target="_blank" rel="noopener">Django2.1缓存的官方文档</a><br><a href="https://blog.csdn.net/qq_34493908/article/details/80825935" target="_blank" rel="noopener">Django缓存框架详解（官方文档翻译来）</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/02/Django中的缓存详述/" data-id="ck0t3jq000049pdcc5veawqso" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/03/数据库严格模式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL数据库的模式说明及严格模式的设置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/01/Mac中redis的安装配置及图形化工具的下载与使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Mac中redis的安装配置及图形化工具的下载与使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>数据库迁移时遇到的问题以及迁移的执行过程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="首先说一下我在实际测试时遇到的一个问题：如果把别人的sqlite数据库覆盖掉自己的数据库的话，会出现项目migrations文件夹中的脚本与数据库的django_migrations表中的记录不一致。再在下一次数据库同步的时候报错：脚本文件与数据库中的记录不一致我的解决方法是将脚本与django_migrations表中的数据都删了。但是新的问题又来了：再同步数据库（执行migrate命令）的时候">
+<meta name="keywords" content="Django基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库迁移时遇到的问题以及迁移的执行过程">
+<meta property="og:url" content="http://yoursite.com/2019/01/03/数据库迁移时遇到的问题以及迁移的执行过程/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="首先说一下我在实际测试时遇到的一个问题：如果把别人的sqlite数据库覆盖掉自己的数据库的话，会出现项目migrations文件夹中的脚本与数据库的django_migrations表中的记录不一致。再在下一次数据库同步的时候报错：脚本文件与数据库中的记录不一致我的解决方法是将脚本与django_migrations表中的数据都删了。但是新的问题又来了：再同步数据库（执行migrate命令）的时候">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB1.jpg">
+<meta property="og:image" content="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB2.jpg">
+<meta property="og:image" content="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB3.jpg">
+<meta property="og:image" content="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB4.gif">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库迁移时遇到的问题以及迁移的执行过程">
+<meta name="twitter:description" content="首先说一下我在实际测试时遇到的一个问题：如果把别人的sqlite数据库覆盖掉自己的数据库的话，会出现项目migrations文件夹中的脚本与数据库的django_migrations表中的记录不一致。再在下一次数据库同步的时候报错：脚本文件与数据库中的记录不一致我的解决方法是将脚本与django_migrations表中的数据都删了。但是新的问题又来了：再同步数据库（执行migrate命令）的时候">
+<meta name="twitter:image" content="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数据库迁移时遇到的问题以及迁移的执行过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/03/数据库迁移时遇到的问题以及迁移的执行过程/" class="article-date">
+  <time datetime="2019-01-03T11:21:32.000Z" itemprop="datePublished">2019-01-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django/">Django</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库迁移时遇到的问题以及迁移的执行过程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先说一下我在实际测试时遇到的一个问题：<br>如果把别人的sqlite数据库覆盖掉自己的数据库的话，会出现项目migrations文件夹中的脚本与数据库的django_migrations表中的记录不一致。<br>再在下一次数据库同步的时候报错：脚本文件与数据库中的记录不一致<br>我的解决方法是将脚本与django_migrations表中的数据都删了。<br>但是新的问题又来了：再同步数据库（执行migrate命令）的时候报错：xxx已经存在~<br>不要慌，执行migrate命令的时候加上–fake后缀就好了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 manage.py migrate --fake</span><br></pre></td></tr></table></figure>
+
+<p>然后再同步就没问题了！<a id="more"></a></p>
+<h1 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h1><p>执行 migrate命令时报错：<br><img src="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB1.jpg" alt="img"><br>上面报错的意思是：缺少依赖的应用 customer </p>
+<p>解决的方法是：执行migrations命令的时候加上customer这个应用就好了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 manage.py makemigrations customer</span><br></pre></td></tr></table></figure>
+
+<p>接下来再执行 migrate 命令就没问题了：<br><img src="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB2.jpg" alt="img"></p>
+<h1 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h1><p>然后再一次执行migrate的时候又上报了错误：<br><img src="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB3.jpg" alt="img"><br>解决的方法是先执行一次下面这段命令（在migrate后面加上 –fake 参数）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py migrate --fake</span><br></pre></td></tr></table></figure>
+
+<p>然后再执行 migrate 就没问题了~</p>
+<p>#数据库迁移的执行过程说明<br>1、在执行 python manage.py makemigrations的时候django会在相应的app的migrations目录下生成一个py脚本文件<br>2、在执行 python manage.py migrate 的时候django才会在数据库中生成对应的表，那django是如何知道应该执行哪个文件呢？<br>首先，每个migrations目录可能有多个脚本，django是通过一张django-migrations表来进行判断的，这章django-migrations表记录了已经执行过的脚本——也就是说，没有执行的脚本就没有在这张表中记录，于是在执行migrate的时候只会执行表中没有记录的脚本。<br>3、如果有的时候执行 migrate 的时候发现没有生成对应的表，可以看看在django-session表中有没有脚本的记录——也就是这个脚本有没有执行。<br>4、有时我们可以删除django-session表中的记录和数据库相应的表，重新执行命令生成对应的表。<br>5、makemigrations 生成脚本演示：<br><img src="http://whw.pythonav.cn/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB4.gif" alt="img"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/03/数据库迁移时遇到的问题以及迁移的执行过程/" data-id="ck0t3jpyz001lpdcc1347nvqf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django基础/">Django基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/03/Django文件上传之单个文件的上传/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Django文件上传之单个文件的上传
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/23/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

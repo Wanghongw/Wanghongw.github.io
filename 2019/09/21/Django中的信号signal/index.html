@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Django中的信号signal | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
+<meta name="keywords" content="Django,信号signal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django中的信号signal">
+<meta property="og:url" content="http://yoursite.com/2019/09/21/Django中的信号signal/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://whw.pythonav.cn/signal1.png">
+<meta property="og:image" content="http://whw.pythonav.cn/signal2.png">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.220Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django中的信号signal">
+<meta name="twitter:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
+<meta name="twitter:image" content="http://whw.pythonav.cn/signal1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Django中的信号signal" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/21/Django中的信号signal/" class="article-date">
+  <time datetime="2019-09-21T03:11:29.000Z" itemprop="datePublished">2019-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Django中的信号signal
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。<br>　　Django的“信号分发器”允许解耦的应用在框架的其它地方发生操作时会被通知到。 简单来说，信号允许特定的sender通知一组receiver某些操作已经发生。 这在多处代码和同一事件有关联的情况下很有用。<a id="more"></a></p>
+<h3 id="信号的概念"><a href="#信号的概念" class="headerlink" title="信号的概念"></a><code>信号的概念</code></h3><p>Django2.1官文对signal的解释如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Django includes a <span class="string">"signal dispatcher"</span> which helps allow decoupled applications get notified when actions occur elsewhere <span class="keyword">in</span> the framework.</span><br><span class="line">In a nutshell, signals allow certain senders to notify a set of receivers that some action has taken place. </span><br><span class="line">They are especially useful when many pieces of code may be interested <span class="keyword">in</span> the same events.</span><br></pre></td></tr></table></figure>
+
+<p>翻译过来就是：Django框架内部包含了一个信号调度器，它的作用是可以将框架内部发生的任何操作都通知到功能独立的应用程序，当然，我们也可以缩小发送者和接收者的范围，即指定具体的发送者和接受者，假设我们的程序中有多个业务逻辑都在等待某一个事件发生之后再继续执行后面的代码，那么此时，信号是非常有用的。</p>
+<h3 id="Django内置的信号"><a href="#Django内置的信号" class="headerlink" title="Django内置的信号"></a><code>Django内置的信号</code></h3><p><strong>Django内置的信号如下:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Model signals</span><br><span class="line">    pre_init                    <span class="comment"># django的model执行其构造方法前，自动触发</span></span><br><span class="line">    post_init                   <span class="comment"># django的model执行其构造方法后，自动触发</span></span><br><span class="line">    pre_save                    <span class="comment"># django的model对象保存前，自动触发</span></span><br><span class="line">    post_save                   <span class="comment"># django的model对象保存后，自动触发</span></span><br><span class="line">    pre_delete                  <span class="comment"># django的model对象删除前，自动触发</span></span><br><span class="line">    post_delete                 <span class="comment"># django的model对象删除后，自动触发</span></span><br><span class="line">    m2m_changed                 <span class="comment"># django的model中使用m2m字段操作第三张表（add,remove,clear）前后，自动触发</span></span><br><span class="line">    class_prepared              <span class="comment"># 程序启动时，检测已注册的app中modal类，对于每一个类，自动触发</span></span><br><span class="line">Management signals</span><br><span class="line">    pre_migrate                 <span class="comment"># 执行migrate命令前，自动触发</span></span><br><span class="line">    post_migrate                <span class="comment"># 执行migrate命令后，自动触发</span></span><br><span class="line">Request/response signals</span><br><span class="line">    request_started             <span class="comment"># 请求到来前，自动触发</span></span><br><span class="line">    request_finished            <span class="comment"># 请求结束后，自动触发</span></span><br><span class="line">    got_request_exception       <span class="comment"># 请求异常后，自动触发</span></span><br><span class="line">Test signals</span><br><span class="line">    setting_changed             <span class="comment"># 使用test测试修改配置文件时，自动触发</span></span><br><span class="line">    template_rendered           <span class="comment"># 使用test测试渲染模板时，自动触发</span></span><br><span class="line">Database Wrappers</span><br><span class="line">    connection_created          <span class="comment"># 创建数据库连接时，自动触发</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Django内置信号的使用"><a href="#Django内置信号的使用" class="headerlink" title="Django内置信号的使用"></a><code>Django内置信号的使用</code></h3><h4 id="注册内置信号"><a href="#注册内置信号" class="headerlink" title="注册内置信号"></a><code>注册内置信号</code></h4><p>对于Django内置的信号，仅需注册指定信号，当程序执行相应操作时，自动触发注册函数。注册信号，写入与project同名的文件夹下的<em>init</em>.py文件中，也是换数据库引擎的地方。<br><img src="http://whw.pythonav.cn/signal1.png" alt="2223"><br>如上图，项目名为signalTest，我们在与项目同名的包的<strong>init</strong>.py文件中注册Django内置的信号，然后使用就可以了。</p>
+<h4 id="监听信号的2种方式"><a href="#监听信号的2种方式" class="headerlink" title="监听信号的2种方式"></a><code>监听信号的2种方式</code></h4><h5 id="直接监听"><a href="#直接监听" class="headerlink" title="直接监听"></a><code>直接监听</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_callback</span><span class="params">(sender, **kwargs)</span>:</span></span><br><span class="line">    print(<span class="string">"Request finished!"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.core.signals <span class="keyword">import</span> request_finished</span><br><span class="line"></span><br><span class="line">request_finished.connect(my_callback)</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用装饰器监听"><a href="#使用装饰器监听" class="headerlink" title="使用装饰器监听"></a><code>使用装饰器监听</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_callback</span><span class="params">(sender, **kwargs)</span>:</span></span><br><span class="line">    print(<span class="string">"Request finished!"</span>)</span><br><span class="line"><span class="keyword">from</span> django.core.signals <span class="keyword">import</span> request_finished</span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> receiver</span><br><span class="line"></span><br><span class="line"><span class="meta">@receiver(request_finished)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_callback</span><span class="params">(sender, **kwargs)</span>:</span></span><br><span class="line">    print(<span class="string">"Request finished!"</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="注册时指定发送者"><a href="#注册时指定发送者" class="headerlink" title="注册时指定发送者"></a><code>注册时指定发送者</code></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models.signals <span class="keyword">import</span> pre_save</span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> receiver</span><br><span class="line"><span class="keyword">from</span> myapp.models <span class="keyword">import</span> MyModel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在MyModel对应的数据保存前执行my_handler函数</span></span><br><span class="line"><span class="meta">@receiver(pre_save, sender=MyModel)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_handler</span><span class="params">(sender, **kwargs)</span>:</span></span><br><span class="line">    xxx</span><br></pre></td></tr></table></figure>
+
+<p><code>注册完内置信号后，只要满足触发条件，对应的函数会在相应的条件下去执行，不用人手动去调用。</code></p>
+<h3 id="内置信号详细介绍"><a href="#内置信号详细介绍" class="headerlink" title="内置信号详细介绍"></a><code>内置信号详细介绍</code></h3><p>更多内置信号的说明请参考这篇博客：<a href="https://www.cnblogs.com/liwenzhou/p/9745331.html" target="_blank" rel="noopener">https://www.cnblogs.com/liwenzhou/p/9745331.html</a></p>
+<h3 id="自定义信号的使用"><a href="#自定义信号的使用" class="headerlink" title="自定义信号的使用"></a><code>自定义信号的使用</code></h3><p>首先要知道的是，我们用的信号都是<strong>django.dispatch.Signal</strong>这个类的实例。</p>
+<h4 id="首先定义信号"><a href="#首先定义信号" class="headerlink" title="首先定义信号"></a><code>首先定义信号</code></h4><p>在任意的py文件中定义信号：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> django.dispatch</span><br><span class="line">signal_done = django.dispatch.Signal(providing_args=[<span class="string">"height"</span>, <span class="string">"width"</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="然后在与项目同名的包的-init-文件中注册信号"><a href="#然后在与项目同名的包的-init-文件中注册信号" class="headerlink" title="然后在与项目同名的包的__init__文件中注册信号"></a><code>然后在与项目同名的包的__init__文件中注册信号</code></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">callback</span><span class="params">(sender, **kwargs)</span>:</span></span><br><span class="line">    print(<span class="string">"callback"</span>)</span><br><span class="line">    print(sender,kwargs)</span><br><span class="line"> </span><br><span class="line">signal_done.connect(callback)</span><br></pre></td></tr></table></figure>
+
+<h4 id="最后在需要触发信号的地方使用自定义信号"><a href="#最后在需要触发信号的地方使用自定义信号" class="headerlink" title="最后在需要触发信号的地方使用自定义信号"></a><code>最后在需要触发信号的地方使用自定义信号</code></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> 路径 <span class="keyword">import</span> signal_done</span><br><span class="line"> </span><br><span class="line">signal_done.send(sender=<span class="string">'Naruto'</span>,height=<span class="number">123</span>, width=<span class="number">456</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>最后需要注意：由于内置信号的触发者已经集成到Django中，所以其会自动调用；而对于自定义信号则需要开发者在对应位置指定触发。</code></p>
+<h3 id="在路由分发前注册信号的方法"><a href="#在路由分发前注册信号的方法" class="headerlink" title="在路由分发前注册信号的方法"></a><code>在路由分发前注册信号的方法</code></h3><p>　上面介绍的一种方式是<strong>在项目同名的包的<code>__init__.py</code>文件中去注册信号</strong>。<br>　我们也可以利用Django在路由分发之前做一下信号的注册操作。<br>　　这里用到了Django启动的机制：<strong>django.dispatch.Signal在django.setup()的过程中，它会遍历settings.INSTALLED_APPS列表中的每一项，并调用该AppConfig的ready方法，因此，将recevier订阅signal的过程放置于ready方法中就能保证该代码的执行。</strong><br> 　　我们来拿一个具体的项目为例。</p>
+<h4 id="项目的目录结构如下"><a href="#项目的目录结构如下" class="headerlink" title="项目的目录结构如下"></a><code>项目的目录结构如下</code></h4><p><img src="http://whw.pythonav.cn/signal2.png" alt="22331"><br><code>（1）把所有的信号都写在了signals包中，并且signals包中的__init__.py文件中实例化Signal类的对象（注意Python在import一个包的时候会执行里面的__init__文件），执行的操作我写在了handlers.py文件中；</code><br><code>（2）然后，利用Django的启动的原理，我把信号的注册写在了apps.py的SignalappConfig类的ready方法中，保证在路由分发之前就注册自定义的信号。</code></p>
+<h4 id="注册信号的具体写法"><a href="#注册信号的具体写法" class="headerlink" title="注册信号的具体写法"></a><code>注册信号的具体写法</code></h4><h5 id="signals-init-py"><a href="#signals-init-py" class="headerlink" title="signals/__init__.py"></a><code>signals/__init__.py</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"></span><br><span class="line">my_signal = Signal(providing_args=[])</span><br></pre></td></tr></table></figure>
+
+<h5 id="signals-handlers-py："><a href="#signals-handlers-py：" class="headerlink" title="signals/handlers.py："></a><code>signals/handlers.py：</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_callback</span><span class="params">(sender,**kwargs)</span>:</span></span><br><span class="line">    print(<span class="string">'my_callback...'</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="signalapp-apps-py"><a href="#signalapp-apps-py" class="headerlink" title="signalapp/apps.py"></a><code>signalapp/apps.py</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> AppConfig</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从外部导入自定义信号及处理的函数</span></span><br><span class="line"><span class="keyword">from</span> signals <span class="keyword">import</span> my_signal</span><br><span class="line"><span class="keyword">from</span> signals.handlers <span class="keyword">import</span> my_callback</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SignalappConfig</span><span class="params">(AppConfig)</span>:</span></span><br><span class="line">    name = <span class="string">'signalapp'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ready</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 注册信号</span></span><br><span class="line">        my_signal.connect(my_callback)</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用自定义的信号"><a href="#使用自定义的信号" class="headerlink" title="使用自定义的信号"></a><code>使用自定义的信号</code></h4><p>做一个简单的路由与视图测试一下这个自定义的信号是否成功：</p>
+<h5 id="signalTest-urls-py"><a href="#signalTest-urls-py" class="headerlink" title="signalTest/urls.py"></a><code>signalTest/urls.py</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> signalapp <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span><br><span class="line">    path(<span class="string">'index/'</span>,views.index,name=<span class="string">'index'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h5 id="sjgnalapp-views-py"><a href="#sjgnalapp-views-py" class="headerlink" title="sjgnalapp/views.py"></a><code>sjgnalapp/views.py</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render,HttpResponse</span><br><span class="line"><span class="comment"># 导入自定义信号的处理函数</span></span><br><span class="line"><span class="keyword">from</span> signals.handlers <span class="keyword">import</span> my_callback</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># 使用自定义信号</span></span><br><span class="line">    my_callback(sender=<span class="string">'index'</span>)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'OK'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>启动Django程序后我们在浏览器中输入127.0.0.1:8000/index，可以看到在后台打印出了自定义信号处理函数中所打印的数据： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my_callback...</span><br></pre></td></tr></table></figure>
+
+<h3 id="定制信号的发送者"><a href="#定制信号的发送者" class="headerlink" title="定制信号的发送者"></a><code>定制信号的发送者</code></h3><p>默认情况下，某些信号会被多次发送，但是，通常，我们只希望接收某个或者某些特定的发送者发出的信号，比如说django.db.models.signals.pre_saves，该信号，它在每个model的save()方法被执行的时候被发送，不过，很多情况下，我们只想记录某个特定的model的save()方法被执行时的日志。<br>　　在上述情况下，我们可以指定只接受我们指定的信号发送者发出的信号。<br>　　还是用django.db.models.signals.pre_saves举例，下面我们来演示如何指定发送者</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models.signals <span class="keyword">import</span> pre_save</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> receiver</span><br><span class="line"><span class="keyword">from</span> myapp.models <span class="keyword">import</span> MyModel</span><br><span class="line"></span><br><span class="line"><span class="meta">@receiver(pre_save, sender=MyModel)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_handler</span><span class="params">(sender, **kwargs)</span>:</span></span><br><span class="line">    xxx</span><br></pre></td></tr></table></figure>
+
+<h3 id="断开信号"><a href="#断开信号" class="headerlink" title="断开信号"></a><code>断开信号</code></h3><p>如果不希望再接收某个信号，我们可以调用<code>Signal.disconnect()</code>方法。</p>
+<h3 id="更多内容详见官网文档"><a href="#更多内容详见官网文档" class="headerlink" title="更多内容详见官网文档"></a><code>更多内容详见官网文档</code></h3><p><a href="https://docs.djangoproject.com/zh-hans/2.1/topics/signals/" target="_blank" rel="noopener">Django2.1信号signal文档</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/21/Django中的信号signal/" data-id="ck0t3jpzy0048pdcc04bjuweg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/信号signal/">信号signal</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/30/Pycharm与Python3中的TypeHint/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Pycharm与Python3中的TypeHint</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

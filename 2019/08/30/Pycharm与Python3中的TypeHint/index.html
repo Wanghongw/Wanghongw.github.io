@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Pycharm与Python3中的TypeHint | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="也许有很多同学跟我一样一直使用Pycharm这个IDE作为主要的开发工具。但是在大型项目中Python这门动态语言本身并没有像C++/Java那样的类型声明的限制，这会导致我们在review代码或者接手别人的代码时产生很多困难。还好自python3.5开始，PEP484为python引入了类型提示(TypeHint)。类型提示是一种可以将你的函数变量声明为一种特定类型的声明。当然，类型提示并不是绑">
+<meta name="keywords" content="Pycharm,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pycharm与Python3中的TypeHint">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/Pycharm与Python3中的TypeHint/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="也许有很多同学跟我一样一直使用Pycharm这个IDE作为主要的开发工具。但是在大型项目中Python这门动态语言本身并没有像C++/Java那样的类型声明的限制，这会导致我们在review代码或者接手别人的代码时产生很多困难。还好自python3.5开始，PEP484为python引入了类型提示(TypeHint)。类型提示是一种可以将你的函数变量声明为一种特定类型的声明。当然，类型提示并不是绑">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://whw.pythonav.cn/1.png">
+<meta property="og:image" content="http://whw.pythonav.cn/2.png">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.223Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pycharm与Python3中的TypeHint">
+<meta name="twitter:description" content="也许有很多同学跟我一样一直使用Pycharm这个IDE作为主要的开发工具。但是在大型项目中Python这门动态语言本身并没有像C++/Java那样的类型声明的限制，这会导致我们在review代码或者接手别人的代码时产生很多困难。还好自python3.5开始，PEP484为python引入了类型提示(TypeHint)。类型提示是一种可以将你的函数变量声明为一种特定类型的声明。当然，类型提示并不是绑">
+<meta name="twitter:image" content="http://whw.pythonav.cn/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Pycharm与Python3中的TypeHint" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/30/Pycharm与Python3中的TypeHint/" class="article-date">
+  <time datetime="2019-08-30T14:23:34.000Z" itemprop="datePublished">2019-08-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Pycharm与Python3中的TypeHint
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>也许有很多同学跟我一样一直使用Pycharm这个IDE作为主要的开发工具。但是在大型项目中Python这门动态语言本身并没有像C++/Java那样的类型声明的限制，这会导致我们在review代码或者接手别人的代码时产生很多困难。<br>还好自python3.5开始，PEP484为python引入了类型提示(TypeHint)。<br>类型提示是一种可以将你的函数变量声明为一种特定类型的声明。当然，类型提示并不是绑定，它仅仅是暗示，所以这种机制并不能阻止工程师传入他们不应该传入的参数。但是个人认为TypeHint是Python非常贴心的一个改进，因为添加了类型提示后，我们仅仅通过观察函数的定义就可以知道变量应该是什么类型。<br>另外需要注意Pycharm一定要用2017或更高的版本，否则你可能看不到Pycharm关于“类型错误”的提示。<a id="more"></a></p>
+<h3 id="类型提示的使用"><a href="#类型提示的使用" class="headerlink" title="类型提示的使用"></a>类型提示的使用</h3><p>不管是函数中传入的参数还是其返回值，基本上都会包括以下4类：</p>
+<ul>
+<li><strong>基本内置类型，如 str，int，list</strong></li>
+<li><strong>基本类型组合产生的复杂类型，如 list[int], dict[str, int]</strong></li>
+<li><strong>用户自定的class作为类型提示</strong></li>
+<li><strong>函数参数，即 callable，比如回调参数：(value: str, index: int) -&gt; str</strong><h4 id="基本内置类型"><a href="#基本内置类型" class="headerlink" title="基本内置类型"></a>基本内置类型</h4>基本内置类型的提示很简单，只需要在函数定义阶段规定参数的类型及返回值类型即可<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">int_hint</span><span class="params">(a:int,b:int)</span>-&gt;int:</span></span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line">print(int_hint(<span class="number">11</span>,<span class="number">22</span>))</span><br><span class="line"><span class="comment"># 程序本身不会报错，但是Pycharm会有提示</span></span><br><span class="line">print(int_hint(<span class="string">'aa'</span>,<span class="string">'bb'</span>))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>我们来看一下实际中Pycharm的提示：<br><img src="http://whw.pythonav.cn/1.png" alt="tishi1"></p>
+<h4 id="基本类型组合产生的复杂类型"><a href="#基本类型组合产生的复杂类型" class="headerlink" title="基本类型组合产生的复杂类型"></a>基本类型组合产生的复杂类型</h4><p>这里我们需要使用Python的<code>typing</code>模块:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> typing</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_hint</span><span class="params">(x:typing.List[str],y:typing.List[str])</span>-&gt;typing.Dict[str,typing.List[str]]:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'x'</span>:x,</span><br><span class="line">        <span class="string">'y'</span>:y</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">a = [<span class="string">'a1'</span>]</span><br><span class="line">b = [<span class="string">'b1'</span>]</span><br><span class="line"></span><br><span class="line">print(my_hint(a,b))</span><br></pre></td></tr></table></figure>
+
+<p>由上面的代码可知：<code>my_hint</code>函数接收2个参数，分别是列表里面嵌套一个字符串，它的返回值是一个字典，并且这个字典的key是str类型，value是列表嵌套字符串类型的值。<br>上面代码的结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'x'</span>: [<span class="string">'a1'</span>], <span class="string">'y'</span>: [<span class="string">'b1'</span>]&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="用户自定的class作为类型提示"><a href="#用户自定的class作为类型提示" class="headerlink" title="用户自定的class作为类型提示"></a>用户自定的class作为类型提示</h4><p>我们来看一下这个面向对象的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sing</span><span class="params">(name:People)</span>-&gt;<span class="keyword">None</span>:</span></span><br><span class="line">    print(<span class="string">'&#123;&#125; is singing...'</span>.format(name))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bark</span><span class="params">(name:Dog)</span>-&gt;<span class="keyword">None</span>:</span></span><br><span class="line">    print(<span class="string">'&#123;&#125; is barking...'</span>.format(name))</span><br><span class="line"></span><br><span class="line">Tom = People(<span class="string">'Tom'</span>)</span><br><span class="line">Jerry = Dog(<span class="string">'Jerry'</span>)</span><br><span class="line"></span><br><span class="line">sing(Tom)</span><br><span class="line"><span class="comment"># Pycharm也会有提示</span></span><br><span class="line">sing(Jerry)</span><br><span class="line">bark(Jerry)</span><br></pre></td></tr></table></figure>
+
+<p>sing函数需要传入一个People对象，但是实际中传入的是一个Dog类实例化的对象，Pycharm也会提示：<br><img src="http://whw.pythonav.cn/2.png" alt="xsa"></p>
+<h4 id="函数参数-callable"><a href="#函数参数-callable" class="headerlink" title="函数参数 callable"></a>函数参数 callable</h4><p><strong>这种情况是将一个函数作为参数实现参数的回调：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> typing</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dic</span><span class="params">(name:str,age:int)</span>-&gt;dict:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'name'</span>:name,</span><br><span class="line">        <span class="string">'age'</span>:age   </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_callable</span><span class="params">(name:str,age:int,callback:typing.Callable[[str,int],dict])</span>:</span></span><br><span class="line">    ret = callback(name,age)</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将create_dict函数传进去，注意是在my_callable函数中执行</span></span><br><span class="line">print(my_callable(<span class="string">'wanghw'</span>,<span class="number">18</span>,create_dic))</span><br></pre></td></tr></table></figure>
+
+<p>执行结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'wanghw'</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，这种方式在实际中使用的并不多，但是遇到的话我们也应该能够读懂代码。</p>
+<h4 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h4><p><a href="https://juejin.im/post/5a8ed8f9f265da4e6e2bd920" target="_blank" rel="noopener"><a href="https://juejin.im/post/5a8ed8f9f265da4e6e2bd920" target="_blank" rel="noopener">https://juejin.im/post/5a8ed8f9f265da4e6e2bd920</a></a><br><a href="https://www.cnblogs.com/sddai/p/11458757.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/sddai/p/11458757.html" target="_blank" rel="noopener">https://www.cnblogs.com/sddai/p/11458757.html</a></a><br><a href="https://www.cnblogs.com/zhbzz2007/p/6200515.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/zhbzz2007/p/6200515.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhbzz2007/p/6200515.html</a></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/08/30/Pycharm与Python3中的TypeHint/" data-id="ck0t3jpyj000spdccks2scnm4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/21/Django中的信号signal/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Django中的信号signal
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/10/Flask的版本与返回字典数据的问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Flask的版本与返回字典数据的问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

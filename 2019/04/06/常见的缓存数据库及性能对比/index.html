@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>常见的缓存数据库及性能对比 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在Python Web和Django开发过程中我们有必要根据不同的应用场景来选择非关系型的数据库(no-SQL)来提升网站性能。当我们的网站流量变得非常大时，从传统关系型数据库如MYSQL中读写数据会变得很消耗时间和计算资源。例如当MySQL单表数据达到5GB以上时，读写性能会有显著的下降，这时我们就需要考虑使用其它类型数据库来补充了。目前最流行的no-SQL数据库非MongoDB, Memcac">
+<meta name="keywords" content="redis,缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见的缓存数据库及性能对比">
+<meta property="og:url" content="http://yoursite.com/2019/04/06/常见的缓存数据库及性能对比/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在Python Web和Django开发过程中我们有必要根据不同的应用场景来选择非关系型的数据库(no-SQL)来提升网站性能。当我们的网站流量变得非常大时，从传统关系型数据库如MYSQL中读写数据会变得很消耗时间和计算资源。例如当MySQL单表数据达到5GB以上时，读写性能会有显著的下降，这时我们就需要考虑使用其它类型数据库来补充了。目前最流行的no-SQL数据库非MongoDB, Memcac">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-21T04:28:21.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常见的缓存数据库及性能对比">
+<meta name="twitter:description" content="在Python Web和Django开发过程中我们有必要根据不同的应用场景来选择非关系型的数据库(no-SQL)来提升网站性能。当我们的网站流量变得非常大时，从传统关系型数据库如MYSQL中读写数据会变得很消耗时间和计算资源。例如当MySQL单表数据达到5GB以上时，读写性能会有显著的下降，这时我们就需要考虑使用其它类型数据库来补充了。目前最流行的no-SQL数据库非MongoDB, Memcac">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-常见的缓存数据库及性能对比" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/06/常见的缓存数据库及性能对比/" class="article-date">
+  <time datetime="2019-04-06T01:13:23.000Z" itemprop="datePublished">2019-04-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/缓存/">缓存</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      常见的缓存数据库及性能对比
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Python Web和Django开发过程中我们有必要根据不同的应用场景来选择非关系型的数据库(no-SQL)来提升网站性能。当我们的网站流量变得非常大时，从传统关系型数据库如MYSQL中读写数据会变得很消耗时间和计算资源。例如当MySQL单表数据达到5GB以上时，读写性能会有显著的下降，这时我们就需要考虑使用其它类型数据库来补充了。目前最流行的no-SQL数据库非MongoDB, Memcached和Redis莫属了。今天我们就来介绍下它们的区别及应用场景。<a id="more"></a></p>
+<h3 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a><code>MongoDB</code></h3><p>mongodb是文档型的非关系型no-SQL数据库，其优势在于查询功能比较强大，能存储海量数据。对于中小型网站而言，MySQL和其它关系型数据库完全能胜任，不需要使用MongoDB。对于大中型网站而言，MongoDB可以作为关系性数据库很好的补充。MongoDB由于侧重海量数据写入性能, 而非事务安全, 所以很适合存储业务系统中海量“低价值”的数据。对于事务要求很高的应用比如银行交易系统，MongoDB是不适用的。<br>MongoDB常见应用场景包括爬虫爬来数据的存储，存储网站的日志，存储海量用户的评论。<br>值得一提的是，mongodb数据和MySQL的数据都是保存在磁盘中的，而不是内存中，这是它与Memcached和Redis最大的区别。MongoDB本质上来看是用来永久存储数据的数据库，而Memcached和Redis主要用来做缓存，从这个角度讲Memcached和Redis更像。</p>
+<h3 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a><code>Memcached</code></h3><p>Memcached是内存性数据库，数据以Key-Value形式存储，主要用来提供高性能分布式内存缓存服务。在实际Web开发过程中，学会利用缓存是非常重要的。在动态网站中，用户每次请求一个页面，服务器都会执行以下操作：查询数据库，渲染模板，执行业务逻辑，最后生成用户可查看的页面。这会消耗大量的资源，当访问用户量非常大时，就要考虑这个问题了。缓存就是为了防止重复计算，把那些消耗了大量资源的结果保存起来，下次访问时就不用再次计算了，这样可以大大减轻数据库的负载。<br>由于memcached保存的数据都存储在memcached内置的内存存储空间中， 因此重启memcached、重启操作系统会导致全部数据消失。另外，内容容量达到指定值之后，就基于LRU(Least Recently Used)算法自动删除不使用的缓存。<br>Memcached的应用场景只有一个: 缓存。例如缓存一个页面，一个数据集或整个网站。</p>
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><code>Redis</code></h3><p>Redis也是一个开源的key-value存储系统。与Memcached类似，Redis将大部分数据存储在内存中，但支持数据类型更多，包括：字符串、哈希表、链表等。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。<br>Redis一般也用来提供高效的缓存服务，而不是做数据的永久存储。其应用场景有缓存和记录网站日志。<br>Redis和Memcached都可以设置缓存数据过期。在实际Web开发中，数据库缓存Redis和Memcached基本上是二选一。Redis作为后期之秀，越来越多抢了Memcached的风头。</p>
+<h3 id="Django缓存系统选择之Memcached与Redis的区别与性能对比"><a href="#Django缓存系统选择之Memcached与Redis的区别与性能对比" class="headerlink" title="Django缓存系统选择之Memcached与Redis的区别与性能对比"></a>Django缓存系统选择之Memcached与Redis的区别与性能对比</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、Redis和Memcache都是将数据存放在内存中，都是内存数据库。不过memcache还可用于缓存其他东西，例如图片、视频等等；</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，hash等数据结构的存储；</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、虚拟内存--Redis当物理内存用完时，可以将一些很久没用到的value 交换到磁盘；</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、过期策略--memcache在set时就指定，例如set key <span class="number">1008</span>,即永不过期。Redis可以通过例如expire 设定，例如expire name <span class="number">10</span>；</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>、分布式--设定memcache集群，利用magent做一主多从;redis可以做一主多从。都可以一主一从；</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>、存储数据安全--memcache挂掉后，数据没了；redis可以定期保存到磁盘（持久化）；</span><br><span class="line"></span><br><span class="line"><span class="number">7</span>、灾难恢复--memcache挂掉后，数据不可恢复; redis数据丢失后可以通过aof恢复；</span><br><span class="line"></span><br><span class="line"><span class="number">8</span>、Redis支持数据的备份，即master-slave模式的数据备份；</span><br><span class="line"></span><br><span class="line"><span class="number">9</span>、应用场景：redis（数据量较小的更性能操作和运算上）。memcache：用于在动态系统中减少数据库负载，提升性能;做缓存，提高性能（适合读多写少，对于数据量比较大，可以采用sharding）。</span><br></pre></td></tr></table></figure>
+
+<h3 id="转载自下列文章"><a href="#转载自下列文章" class="headerlink" title="转载自下列文章"></a>转载自下列文章</h3><p><a href="https://blog.csdn.net/weixin_42134789/article/details/80568055" target="_blank" rel="noopener"><a href="https://blog.csdn.net/weixin_42134789/article/details/80568055" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42134789/article/details/80568055</a></a><br><a href="https://blog.csdn.net/weixin_42134789/article/details/80534343" target="_blank" rel="noopener"><a href="https://blog.csdn.net/weixin_42134789/article/details/80534343" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42134789/article/details/80534343</a></a></p>
+<h3 id="延伸阅读"><a href="#延伸阅读" class="headerlink" title="延伸阅读"></a>延伸阅读</h3><p><a href="https://www.oschina.net/news/26691/memcached-timeout" target="_blank" rel="noopener">&lt;Memcached 真的过时了吗？&gt;</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/06/常见的缓存数据库及性能对比/" data-id="ck0t3jpyx001fpdccndfz089d" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/07/聊一聊isinstance与type/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          聊一聊isinstance与type
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/05/Python操作redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python操作redis</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flask/">Flask</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Markdown/">Markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/缓存/">缓存</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面向对象/">面向对象</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django原理/">Django原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django基础/">Django基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask基础/">Flask基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORM/">ORM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pycharm/">Pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging模块/">logging模块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号signal/">信号signal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常处理/">异常处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模块与包/">模块与包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟环境/">虚拟环境</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面向对象/">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Django/" style="font-size: 20px;">Django</a> <a href="/tags/Django原理/" style="font-size: 12.5px;">Django原理</a> <a href="/tags/Django基础/" style="font-size: 20px;">Django基础</a> <a href="/tags/Flask基础/" style="font-size: 17.5px;">Flask基础</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/ORM/" style="font-size: 12.5px;">ORM</a> <a href="/tags/Pycharm/" style="font-size: 12.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/logging模块/" style="font-size: 10px;">logging模块</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/信号signal/" style="font-size: 10px;">信号signal</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/异常处理/" style="font-size: 12.5px;">异常处理</a> <a href="/tags/文件上传/" style="font-size: 15px;">文件上传</a> <a href="/tags/模块与包/" style="font-size: 17.5px;">模块与包</a> <a href="/tags/缓存/" style="font-size: 17.5px;">缓存</a> <a href="/tags/虚拟环境/" style="font-size: 10px;">虚拟环境</a> <a href="/tags/面向对象/" style="font-size: 12.5px;">面向对象</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/Pycharm与Python3中的TypeHint/">Pycharm与Python3中的TypeHint</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/浅谈Python中字典的打散传参/">浅谈Python中字典的打散传参</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/08/浅析Django的settings配置原理/">浅析Django的settings配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
