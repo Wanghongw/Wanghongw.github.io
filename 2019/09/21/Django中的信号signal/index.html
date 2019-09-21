@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Django中的信号signal | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
+  <meta name="description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。Django的“信号分发器”允许解">
 <meta name="keywords" content="Django,信号signal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django中的信号signal">
 <meta property="og:url" content="http://yoursite.com/2019/09/21/Django中的信号signal/index.html">
 <meta property="og:site_name" content="火之影">
-<meta property="og:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
+<meta property="og:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。Django的“信号分发器”允许解">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://whw.pythonav.cn/signal1.png">
 <meta property="og:image" content="http://whw.pythonav.cn/signal3.png">
-<meta property="og:updated_time" content="2019-09-21T05:40:18.991Z">
+<meta property="og:updated_time" content="2019-09-21T05:49:10.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django中的信号signal">
-<meta name="twitter:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。　　Django的“信号分发器”允">
+<meta name="twitter:description" content="在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。Django的“信号分发器”允许解">
 <meta name="twitter:image" content="http://whw.pythonav.cn/signal1.png">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。<br>　　Django的“信号分发器”允许解耦的应用在框架的其它地方发生操作时会被通知到。 简单来说，信号允许特定的sender通知一组receiver某些操作已经发生。 这在多处代码和同一事件有关联的情况下很有用。<a id="more"></a></p>
+        <p>在真实的企业生产环境中，我们会遇到各种各样的需求，比如在全局对客户端请求进行过滤，将不满足某些条件的客户端请求过滤掉，这时我们可以利用Django的中间件来实现该需求；或者，我们希望每次model的save()方法被调用后，都要写一条日志到日志文件中，而此时我们可以通过Django提供的内置信号post_save来实现，本文介绍一下Django的高级功能——信号。<br>Django的“信号分发器”允许解耦的应用在框架的其它地方发生操作时会被通知到。 简单来说，信号允许特定的sender通知一组receiver某些操作已经发生。 这在多处代码和同一事件有关联的情况下很有用。<a id="more"></a></p>
 <h3 id="信号的概念"><a href="#信号的概念" class="headerlink" title="信号的概念"></a><code>信号的概念</code></h3><p>Django2.1官文对signal的解释如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Django includes a <span class="string">"signal dispatcher"</span> which helps allow decoupled applications get notified when actions occur elsewhere <span class="keyword">in</span> the framework.</span><br><span class="line">In a nutshell, signals allow certain senders to notify a set of receivers that some action has taken place. </span><br><span class="line">They are especially useful when many pieces of code may be interested <span class="keyword">in</span> the same events.</span><br></pre></td></tr></table></figure>
 
@@ -420,18 +420,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Django基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ORM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
@@ -441,6 +429,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Django基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ORM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -460,19 +460,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Pycharm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异常处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Pycharm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
               </li>
              
               <li class="article-tag-list-item">
