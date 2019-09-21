@@ -6,22 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>在Centos7系统中部署Django项目 | 火之影</title>
+  <title>在CentOS7系统中部署Django项目 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
 <meta name="keywords" content="Django,Linux,项目部署">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在Centos7系统中部署Django项目">
-<meta property="og:url" content="http://yoursite.com/2019/09/21/在Centos7系统中部署Django项目/index.html">
+<meta property="og:title" content="在CentOS7系统中部署Django项目">
+<meta property="og:url" content="http://yoursite.com/2019/09/21/在CentOS7系统中部署Django项目/index.html">
 <meta property="og:site_name" content="火之影">
 <meta property="og:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B21.png">
 <meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B22.png">
 <meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B23.png">
-<meta property="og:updated_time" content="2019-09-21T08:15:40.887Z">
+<meta property="og:updated_time" content="2019-09-21T08:31:25.322Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Centos7系统中部署Django项目">
+<meta name="twitter:title" content="在CentOS7系统中部署Django项目">
 <meta name="twitter:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
 <meta name="twitter:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B21.png">
   
@@ -159,19 +159,19 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-在Centos7系统中部署Django项目" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-在CentOS7系统中部署Django项目" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      在Centos7系统中部署Django项目
+      在CentOS7系统中部署Django项目
     </h1>
   
 
         
-        <a href="/2019/09/21/在Centos7系统中部署Django项目/" class="archive-article-date">
+        <a href="/2019/09/21/在CentOS7系统中部署Django项目/" class="archive-article-date">
   	<time datetime="2019-09-21T04:23:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
 </a>
         
@@ -528,18 +528,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Django基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ORM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
@@ -549,6 +537,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Django基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ORM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -576,11 +576,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">虚拟环境</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模块与包</a>
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -588,7 +584,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
+                <a href="javascript:void(0)" class="js-tag color5">虚拟环境</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">模块与包</a>
               </li>
              
               <li class="article-tag-list-item">
