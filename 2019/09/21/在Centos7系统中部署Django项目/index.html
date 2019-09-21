@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | 火之影</title>
+  <title>在Centos7系统中部署Django项目 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="火之影">
-<meta property="og:url" content="http://yoursite.com/archives/2019/page/3/index.html">
+  <meta name="description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
+<meta name="keywords" content="Django,Linux,项目部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Centos7系统中部署Django项目">
+<meta property="og:url" content="http://yoursite.com/2019/09/21/在Centos7系统中部署Django项目/index.html">
 <meta property="og:site_name" content="火之影">
+<meta property="og:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B21.png">
+<meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B22.png">
+<meta property="og:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B23.png">
+<meta property="og:updated_time" content="2019-09-21T08:15:40.887Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="火之影">
+<meta name="twitter:title" content="在Centos7系统中部署Django项目">
+<meta name="twitter:description" content="作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。">
+<meta name="twitter:image" content="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B21.png">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -150,36 +159,173 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-在Centos7系统中部署Django项目" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/02/Django中的缓存详述/" class="archive-article-date">
-  	<time datetime="2019-04-02T07:22:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-02</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/02/Django中的缓存详述/">Django中的缓存详述</a>
+    <h1 class="article-title" itemprop="name">
+      在Centos7系统中部署Django项目
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/09/21/在Centos7系统中部署Django项目/" class="archive-article-date">
+  	<time datetime="2019-09-21T04:23:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为一名后端开发的程序员不仅要会写业务代码、解决各种BUG、优化项目性能，也应该知道如何将自己写好的项目部署到服务器中让别人去访问。<br>本文详细讲解了用一台安装了centos7.5系统的裸奔Linux机器（虚拟机）从零开始部署django项目的过程。<a id="more"></a></p>
+<h2 id="安装必要的工具"><a href="#安装必要的工具" class="headerlink" title="安装必要的工具"></a>安装必要的工具</h2><h3 id="配置yum源"><a href="#配置yum源" class="headerlink" title="配置yum源"></a>配置yum源</h3><p>至于什么是yum源大家请自行百度，本人用的是<a href="https://yq.aliyun.com/zt/59505" target="_blank" rel="noopener">阿里云的yum源</a>，因此需要在裸机上配置一下：</p>
+<h4 id="进入yum源的目录"><a href="#进入yum源的目录" class="headerlink" title="进入yum源的目录"></a>进入yum源的目录</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/yum.repos.d/</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看yum源文件"><a href="#查看yum源文件" class="headerlink" title="查看yum源文件"></a>查看yum源文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B21.png" alt="img11"> </p>
+<h4 id="配置阿里云yum源"><a href="#配置阿里云yum源" class="headerlink" title="配置阿里云yum源"></a>配置阿里云yum源</h4><p><strong>1.好习惯，备份yum源</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir repo_bak</span><br><span class="line">mv *.repo repo_bak/</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.下载阿里云repo文件</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.aliyun.com/repo/Centos<span class="number">-7.</span>repo</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.清空yum缓存并且生成新的yum缓存</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.安装软件扩展源</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装pthon3"><a href="#安装pthon3" class="headerlink" title="安装pthon3"></a>安装pthon3</h3><p>推荐利用编译的方式安装Python3。</p>
+<h4 id="安装依赖环境——非常重要"><a href="#安装依赖环境——非常重要" class="headerlink" title="安装依赖环境——非常重要"></a>安装依赖环境——非常重要</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc patch libffi-devel python-devel  zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel -y</span><br></pre></td></tr></table></figure>
+
+<h4 id="下载解压源码包"><a href="#下载解压源码包" class="headerlink" title="下载解压源码包"></a>下载解压源码包</h4><p>需要注意的是，Linux系统的第三方软件都约定俗成的安装在/opt目录下~因此我们需要把这个包下载到/opt目录下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget https://www.python.org/ftp/python/<span class="number">3.6</span><span class="number">.5</span>/Python<span class="number">-3.6</span><span class="number">.5</span>.tgz</span><br></pre></td></tr></table></figure>
+
+<p>解压</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf Python<span class="number">-3.6</span><span class="number">.5</span>.tgz</span><br></pre></td></tr></table></figure>
+
+<h4 id="开始编译安装"><a href="#开始编译安装" class="headerlink" title="开始编译安装"></a>开始编译安装</h4><p><strong>configure</strong><br>进入解压出出来的Python-3.6.5目录，里面有一个绿色的可执行文件configure~<br>这一步一般用来生成 Makefile，为下一步的编译做准备，你可以通过在 configure 后加上参数来对安装进行控制，比如代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/opt/py365</span><br></pre></td></tr></table></figure>
+
+<p>上面的意思是将该软件安装在 /opt/py365 下面，执行文件就会安装在 /opt/py365/bin （而不是默认的 /usr/local/bin)，资源文件就会安装在 /usr/share（而不是默认的/usr/local/share）。<br>同时一些软件的配置文件你可以通过指定 –sys-config= 参数进行设定。有一些软件还可以加上 –with、–enable、–without、–disable 等等参数对编译加以控制，你可以通过允许 ./configure –help 察看详细的说明帮助。<br><strong>——我这里没有加后面的参数，直接执行 ./configure，默认安装在了/usr/local/bin中~</strong><br><strong>make</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">这一步就是编译，大多数的源代码包都经过这一步进行编译（当然有些perl或python编写的软件需要调用perl或python来进行编译）。</span><br><span class="line">如果 在 make 过程中出现 error ，你就要记下错误代码（注意不仅仅是最后一行），然后你可以向开发者提交 bugreport（一般在 INSTALL 里有提交地址），或者你的系统少了一些依赖库等，这些需要自己仔细研究错误代码。</span><br><span class="line">make 的作用是开始进行源代码编译，以及一些功能的提供，这些功能由他的 Makefile 设置文件提供相关的功能，比如 make install 一般表示进行安装，make uninstall 是卸载，不加参数就是默认的进行源代码编译。</span><br><span class="line">make 是 [Linux](http://www.icultivator.com/tag/linux) 开发套件里面自动化编译的一个控制程序，他通过借助 Makefile 里面编写的编译规范进行自动化的调用 [gcc](http://www.icultivator.com/tag/gcc) 、ld 以及运行某些需要的程序进行编译的程序。一般情况下，他所使用的 Makefile 控制代码，由 configure 这个设置脚本根据给定的参数和系统环境生成。</span><br></pre></td></tr></table></figure>
+
+<p><strong>make install</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这条命令来进行安装（当然有些软件需要先运行 make check 或 make test来进行一些测试），这一步一般需要你有 root 权限（因为要向系统写入文件）</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装虚拟环境包virtualenv及管理工具virtualenvwrapper"><a href="#安装虚拟环境包virtualenv及管理工具virtualenvwrapper" class="headerlink" title="安装虚拟环境包virtualenv及管理工具virtualenvwrapper"></a>安装虚拟环境包virtualenv及管理工具virtualenvwrapper</h3><p>我自己之前总结过两篇相关的博客（原创哦）：<br><a href="https://www.cnblogs.com/paulwhw/articles/11103162.html" target="_blank" rel="noopener">linux下虚拟环境模块virtualenv及管理工具virtualenvwrapper的使用</a><br><a href="https://www.cnblogs.com/paulwhw/articles/11105376.html" target="_blank" rel="noopener">windows与mac下virtualenv与Pycharm的结合使用</a></p>
+<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><h4 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h4><p>nginx的安装也推荐编译安装！<br>由于本文用的是一个裸机，如果大家之前用yum安装了nginx，请卸载yum安装的nginx！！！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove nginx -y</span><br></pre></td></tr></table></figure>
+
+<h4 id="解决软件包依赖——特别重要"><a href="#解决软件包依赖——特别重要" class="headerlink" title="解决软件包依赖——特别重要"></a>解决软件包依赖——特别重要</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc patch libffi-devel python-devel  zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel openssl openssl-devel -y</span><br></pre></td></tr></table></figure>
+
+<h4 id="下载nginx的源码包并解压"><a href="#下载nginx的源码包并解压" class="headerlink" title="下载nginx的源码包并解压"></a>下载nginx的源码包并解压</h4><p>我这里用的是淘宝的<a href="http://tengine.taobao.org/" target="_blank" rel="noopener">Tengine</a>——在原始nginx上扩展了许多功能<del>很强大</del><br>需要注意的是，Linux系统的第三方软件都约定俗成的安装在/opt目录下~因此我们需要把这个包下载到/opt目录下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget http://tengine.taobao.org/download/tengine<span class="number">-2.3</span><span class="number">.1</span>.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>解压tengine包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf tengine<span class="number">-2.3</span><span class="number">.1</span>.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装tengine"><a href="#安装tengine" class="headerlink" title="安装tengine"></a>安装tengine</h4><p>进入源码目录：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd tengine<span class="number">-2.3</span><span class="number">.1</span>/</span><br></pre></td></tr></table></figure>
+
+<p>里面有一个绿色的可执行文件configure<br>这里我们指定将tengine安装在/opt/tngx231这个目录下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/opt/tngx231/</span><br></pre></td></tr></table></figure>
+
+<p>然后进行编译安装：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<p>结束后我们可以看到新生成了一个/opt/tngx321目录<br>安装好的nginx放在了 /opt/tngx231/sbin/ 这个目录下了~</p>
+<h4 id="修改环境变量让nginx命令生效"><a href="#修改环境变量让nginx命令生效" class="headerlink" title="修改环境变量让nginx命令生效"></a>修改环境变量让nginx命令生效</h4><p>安装完成后需要每次用/opt/tngx231/sbin/ 这个目录加上nginx才能操作，很烦躁，我们可以通过修改环境变量，以后只需要执行nginx就可以启用nginx的操作了~<br><strong>&lt;1&gt;首先确认下当前的环境变量有哪些目录：</strong>         </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo $PATH   </span><br><span class="line"><span class="comment">#/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>&lt;2&gt; 编辑/etc/profile文件</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p><strong>&lt;3&gt;在文件的最后一行输入 ：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH=<span class="string">"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/opt/tngx231/sbin"</span></span><br></pre></td></tr></table></figure>
+
+<p>并 :wq 保存退出~~<br><strong>&lt;4&gt;最后一定要记得source一下 /etc/profile 文件！</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<h4 id="nginx的启停命令"><a href="#nginx的启停命令" class="headerlink" title="nginx的启停命令"></a>nginx的启停命令</h4><p>在没有修改环境变量之前，我们需要进入nginx的安装目录（本文是在 /opt/tngx231/sbin/ ）这样执行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./nginx <span class="comment">#启动</span></span><br><span class="line">./nginx -s stop <span class="comment">#关闭</span></span><br><span class="line">./nginx -s reload <span class="comment">#重新加载</span></span><br></pre></td></tr></table></figure>
+
+<p>修改了环境变量后可以直接这样执行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nginx <span class="comment">#启动</span></span><br><span class="line">nginx -t <span class="comment">#查看nginx状态</span></span><br><span class="line">nginx -s stop <span class="comment">#关闭</span></span><br><span class="line">nginx -s reload <span class="comment">#重新加载</span></span><br></pre></td></tr></table></figure>
+
+<p>测试nginx的服务<br>安装完成后别忘了检测一下nginx的服务</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -tunlp |grep <span class="number">80</span></span><br><span class="line">curl -I <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
+
+<p>结果如下：<br><img src="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B22.png" alt="img"><br><strong>如果访问不了，检查selinux，iptables</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#关防火墙</span></span><br><span class="line">systemctl disable firewalled</span><br><span class="line">setenforce <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="项目部署过程"><a href="#项目部署过程" class="headerlink" title="项目部署过程"></a>项目部署过程</h2><h3 id="创建虚拟环境并在虚拟环境中安装必要的包"><a href="#创建虚拟环境并在虚拟环境中安装必要的包" class="headerlink" title="创建虚拟环境并在虚拟环境中安装必要的包"></a>创建虚拟环境并在虚拟环境中安装必要的包</h3><p>利用virtualenvwrapper工具创建虚拟环境</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkvirtualenv whw_dj1</span><br></pre></td></tr></table></figure>
+
+<p>创建完虚拟环境后直接会进入这个虚拟环境。<br>在这个环境中安装项目需要的包，安装过程略（直接用pip安装即可），结果如下：<br><img src="http://whw.pythonav.cn/%E9%83%A8%E7%BD%B23.png" alt="img"><br>这里需要记录一下uwsgi的执行路径以及虚拟环境的目录，后面要用：<br><strong>uwsgi的执行路径</strong><br><strong>特别注意：如果在虚拟环境中运行的话，后面执行uwsgi命令需要用绝对路径的时候一定是虚拟环境中的这个绝对路径！</strong><br><strong>(补充说明一点：如果虚拟环境中没有安装uwsgi模块的话会显示外部环境中的位置，因此一定要记得在虚拟环境中安装uwsgi模块!)</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(whw_di1) [root@bogon opt]<span class="comment"># which uwsgi</span></span><br><span class="line">/root/Envs/whw_di1/bin/uwsgi</span><br></pre></td></tr></table></figure>
+
+<p><strong>虚拟环境的目录</strong><br><strong>特别注意：如果在虚拟环境中运行的话，后面uwsgi的配置文件一定要写当前虚拟环境下的uwsgi的绝对路径！</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(whw_di1) [root@bogon opt]<span class="comment"># cdvirtualenv </span></span><br><span class="line">(whw_di1) [root@bogon whw_di1]<span class="comment"># pwd</span></span><br><span class="line">/root/Envs/whw_di1</span><br></pre></td></tr></table></figure>
+
+<h3 id="项目文件settings与静态文件相关的配置"><a href="#项目文件settings与静态文件相关的配置" class="headerlink" title="项目文件settings与静态文件相关的配置"></a>项目文件settings与静态文件相关的配置</h3><p>将项目传到服务器的/opt目录~进入项目的二级目录，配置一下里面的settings文件，这里只写与部署相关的配置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 线上部署一定要记得把DEBUG改成False</span></span><br><span class="line">DEBUG = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 94这个ip是我的云服务器的Ip，一般情况下是这样配置</span></span><br><span class="line"><span class="comment"># ALLOWED_HOSTS = ['localhost','94.191.41.167','0.0.0.0:8000','127.0.0.1' ]</span></span><br><span class="line"><span class="comment"># 自己测试的话直接allow所有的ip就好了</span></span><br><span class="line">ALLOWED_HOSTS = [<span class="string">'*'</span> ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># sqllit数据库的配置</span></span><br><span class="line">DATABASES = &#123;</span><br><span class="line">     <span class="string">'default'</span>: &#123;</span><br><span class="line">         <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.sqlite3'</span>,</span><br><span class="line">         <span class="string">'NAME'</span>: os.path.join(BASE_DIR, <span class="string">'db.sqlite3'</span>),</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 静态文件配置</span></span><br><span class="line"><span class="comment"># 第一个参数是将静态文件copy到服务器的目录的位置</span></span><br><span class="line">STATIC_ROOT=<span class="string">'/opt/whw_static/'</span></span><br><span class="line">STATIC_URL = <span class="string">'/static/'</span></span><br><span class="line">STATICFILES_DIRS = [</span><br><span class="line">    os.path.join(BASE_DIR,<span class="string">'staticfiles'</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## mysql的配置——本文用的是sqllit，因此这个配置注释掉</span></span><br><span class="line"><span class="comment">#DATABASES = &#123;</span></span><br><span class="line"><span class="comment">#    'default': &#123;</span></span><br><span class="line"><span class="comment">#        'ENGINE': 'django.db.backends.mysql',#引擎，选mysql</span></span><br><span class="line"><span class="comment">#        'NAME':'whw1',#要连接的数据库，连接前需要创建好</span></span><br><span class="line"><span class="comment">#        'USER':'root',#连接数据库的用户名</span></span><br><span class="line"><span class="comment">#        'PASSWORD':'123',#连接数据库的密码</span></span><br><span class="line"><span class="comment">#        'HOST':'127.0.0.1',#连接主机，默认本本机</span></span><br><span class="line"><span class="comment">#        'PORT':3306,#端口 默认3306</span></span><br><span class="line"><span class="comment">#        #Django中设置数据库的严格模式</span></span><br><span class="line"><span class="comment">#       'OPTIONS':&#123;</span></span><br><span class="line"><span class="comment">#           'init_command':"set sql_mode='STRICT_TRANS_TABLES' ",</span></span><br><span class="line"><span class="comment">#           &#125;</span></span><br><span class="line"><span class="comment">#       &#125;</span></span><br><span class="line"><span class="comment">#   &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>由于uwsgi不能处理项目的静态文件，我们需要用nginx来处理，因此需要<strong>将项目的静态文件copy到STATIC_ROOT参数对应的位置：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3  /opt/whw/manage.py  collectstatic</span><br></pre></td></tr></table></figure>
+
+<p>whw是我的项目的第一层目录，就是我的项目的名字。</p>
+<h3 id="uwsgi的配置"><a href="#uwsgi的配置" class="headerlink" title="uwsgi的配置"></a>uwsgi的配置</h3><p>提醒一点：需要提前在虚拟环境中安装好uwsgi包~~</p>
+<h4 id="uwsgi-ini文件的配置"><a href="#uwsgi-ini文件的配置" class="headerlink" title="uwsgi.ini文件的配置"></a>uwsgi.ini文件的配置</h4><p>配置uwsgi之前需要新建一个uwsgi.ini文件。<br>由于每个项目对应一个uwsgi.ini文件，这里建议大家将这个文件创建在自己项目的第一层目录中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/whw/</span><br><span class="line">touch uwsgi.ini</span><br></pre></td></tr></table></figure>
+
+<p>然后编辑这个文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim uwsgi.ini</span><br></pre></td></tr></table></figure>
+
+<p>文件中的配置如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line"><span class="comment"># Django-related settings</span></span><br><span class="line"><span class="comment"># the base directory (full path)</span></span><br><span class="line"><span class="comment">#项目的绝对路径,定位到项目的第一层</span></span><br><span class="line">chdir = /opt/whw</span><br><span class="line"><span class="comment"># Django's wsgi file</span></span><br><span class="line"><span class="comment"># 找到项目第二层的wsgi文件</span></span><br><span class="line">module = whw.wsgi</span><br><span class="line"><span class="comment"># the virtualenv (full path)</span></span><br><span class="line"><span class="comment"># 找到虚拟环境的绝对路径~注意最后不要加/!!!</span></span><br><span class="line">home = /root/Envs/whw_di1</span><br><span class="line"><span class="comment"># process-related settings</span></span><br><span class="line"><span class="comment"># master</span></span><br><span class="line"><span class="comment"># 主进程</span></span><br><span class="line">master = true</span><br><span class="line"><span class="comment"># maximum number of worker processes</span></span><br><span class="line"><span class="comment"># 开启uwsgi的多进程数,根据cpu核数来定义</span></span><br><span class="line">processes = <span class="number">16</span></span><br><span class="line"><span class="comment"># the socket (use the full path to be safe</span></span><br><span class="line"><span class="comment"># 基于socket链接运行项目,只有与nginx结合的时候,才使用socket形式</span></span><br><span class="line">socket = <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8000</span></span><br><span class="line"><span class="comment"># 当你没用nginx,调试项目的时候,使用http形式 </span></span><br><span class="line"><span class="comment">#http =  0.0.0.0:8000</span></span><br><span class="line"><span class="comment"># ... with appropriate permissions - may be needed</span></span><br><span class="line"><span class="comment"># chmod-socket    = 664</span></span><br><span class="line"><span class="comment"># clear environment on exit</span></span><br><span class="line">vacuum = true</span><br><span class="line"><span class="comment"># 记录pid与日志的文件</span></span><br><span class="line">pidfile=uwsgi.pid</span><br><span class="line">daemonize=uwsgi.log</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动uwsgi"><a href="#启动uwsgi" class="headerlink" title="启动uwsgi"></a>启动uwsgi</h4><p>进入项目的第一层目录，这里有写好的uwsgi.ini文件，执行这个文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini  uwsgi.ini</span><br></pre></td></tr></table></figure>
+
+<p>特别注意，这里用的都是相对路径~真正的执行命令其实是这样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/root/Envs/whw_di1/bin/uwsgi --ini /opt/whw/uwsgi.ini</span><br></pre></td></tr></table></figure>
+
+<p>——这样的执行结果是在前台运行的，我们的终端会夯住，如果关掉这个终端uwsgi的进行也会关掉，需要我们再打开一个终端进行下一步的操作~<br><strong>——让uwsgi后台执行的话~只需要在命令里面加上-d参数就好了：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi -d --ini uwsgi.ini</span><br></pre></td></tr></table></figure>
+
+<h3 id="nginx的配置"><a href="#nginx的配置" class="headerlink" title="nginx的配置"></a>nginx的配置</h3><p>nginx的配置文件是 /opt/tngx231/conf/nginx.conf 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里需要说明一下：</span></span><br><span class="line">如果安装的是nginx不是tengine，且没有指定安装目录，那么它的配置文件默认是 </span><br><span class="line">/etc/nginx目录中的nginx.conf文件</span><br></pre></td></tr></table></figure>
+
+<p>编辑这个文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /opt/tngx231/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>我们只配置第一个server里面的参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       <span class="number">80</span>;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        location / &#123;</span><br><span class="line">            <span class="comment"># 支持uwsgi的配置</span></span><br><span class="line">            include uwsgi_params;</span><br><span class="line">            <span class="comment"># ip与端口是uwsgi服务器的ip与端口~本例二者在一个机器里因此用环回地址</span></span><br><span class="line">            uwsgi_pass <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8000</span>;</span><br><span class="line">            <span class="comment">#root   html;</span></span><br><span class="line">            <span class="comment">#index  index.html index.htm;</span></span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="comment"># 存放静态文件的配置</span></span><br><span class="line">        location /static&#123;</span><br><span class="line">            alias /opt/whw_static;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">　　　　<span class="comment"># xxxxxxxxxxxxxxx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>nginx配置完后启动nginx服务：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx</span><br></pre></td></tr></table></figure>
+
+<p>如果中途修改了nginx.conf的参数的话，保存完后需要重启nginx服务，记得在重启前-t一下查看nginx的状态：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(whw_di1) [root@bogon whw]<span class="comment"># nginx -t</span></span><br><span class="line">nginx: the configuration file /opt/tngx231//conf/nginx.conf syntax <span class="keyword">is</span> ok</span><br><span class="line">nginx: configuration file /opt/tngx231//conf/nginx.conf test <span class="keyword">is</span> successful</span><br><span class="line">(whw_di1) [root@bogon whw]<span class="comment"># </span></span><br><span class="line">(whw_di1) [root@bogon whw]<span class="comment"># nginx -s reload</span></span><br></pre></td></tr></table></figure>
+
+<p>至此，项目部署的配置就这么多了。</p>
+<h2 id="请求流程简介"><a href="#请求流程简介" class="headerlink" title="请求流程简介"></a>请求流程简介</h2><p>（1）用户发起请求<br>（2）访问IP(或者访问域名) 请求走到nginx这一层代理<br>（3）nginx直接转发(uwsgi_pass)给后端django的地址<br>（4）django处理完毕<br>（5）响应给nginx<br>（6）nginx返回结果给浏览器界面</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -189,504 +335,112 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/缓存//" class="article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/01/Mac中redis的安装配置及图形化工具的下载与使用/" class="archive-article-date">
-  	<time datetime="2019-04-01T11:11:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/01/Mac中redis的安装配置及图形化工具的下载与使用/">Mac中redis的安装配置及图形化工具的下载与使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Mac</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">项目部署</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/redis//" class="article-tag-list-link color1">redis</a>
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/21/自定义类实现原生SQL的GROUP-CONCAT的功能/" class="archive-article-date">
-  	<time datetime="2019-03-21T01:21:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/21/Django中的信号signal/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Django中的信号signal</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/21/自定义类实现原生SQL的GROUP-CONCAT的功能/">自定义类实现原生SQL的GROUP_CONCAT的功能</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ORM</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">面向对象</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装必要的工具"><span class="toc-number">1.</span> <span class="toc-text">安装必要的工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置yum源"><span class="toc-number">1.1.</span> <span class="toc-text">配置yum源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#进入yum源的目录"><span class="toc-number">1.1.1.</span> <span class="toc-text">进入yum源的目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看yum源文件"><span class="toc-number">1.1.2.</span> <span class="toc-text">查看yum源文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置阿里云yum源"><span class="toc-number">1.1.3.</span> <span class="toc-text">配置阿里云yum源</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装pthon3"><span class="toc-number">1.2.</span> <span class="toc-text">安装pthon3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装依赖环境——非常重要"><span class="toc-number">1.2.1.</span> <span class="toc-text">安装依赖环境——非常重要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下载解压源码包"><span class="toc-number">1.2.2.</span> <span class="toc-text">下载解压源码包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开始编译安装"><span class="toc-number">1.2.3.</span> <span class="toc-text">开始编译安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装虚拟环境包virtualenv及管理工具virtualenvwrapper"><span class="toc-number">1.3.</span> <span class="toc-text">安装虚拟环境包virtualenv及管理工具virtualenvwrapper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装nginx"><span class="toc-number">1.4.</span> <span class="toc-text">安装nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#提示"><span class="toc-number">1.4.1.</span> <span class="toc-text">提示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决软件包依赖——特别重要"><span class="toc-number">1.4.2.</span> <span class="toc-text">解决软件包依赖——特别重要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下载nginx的源码包并解压"><span class="toc-number">1.4.3.</span> <span class="toc-text">下载nginx的源码包并解压</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装tengine"><span class="toc-number">1.4.4.</span> <span class="toc-text">安装tengine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改环境变量让nginx命令生效"><span class="toc-number">1.4.5.</span> <span class="toc-text">修改环境变量让nginx命令生效</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx的启停命令"><span class="toc-number">1.4.6.</span> <span class="toc-text">nginx的启停命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目部署过程"><span class="toc-number">2.</span> <span class="toc-text">项目部署过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建虚拟环境并在虚拟环境中安装必要的包"><span class="toc-number">2.1.</span> <span class="toc-text">创建虚拟环境并在虚拟环境中安装必要的包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目文件settings与静态文件相关的配置"><span class="toc-number">2.2.</span> <span class="toc-text">项目文件settings与静态文件相关的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uwsgi的配置"><span class="toc-number">2.3.</span> <span class="toc-text">uwsgi的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#uwsgi-ini文件的配置"><span class="toc-number">2.3.1.</span> <span class="toc-text">uwsgi.ini文件的配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动uwsgi"><span class="toc-number">2.3.2.</span> <span class="toc-text">启动uwsgi</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx的配置"><span class="toc-number">2.4.</span> <span class="toc-text">nginx的配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求流程简介"><span class="toc-number">3.</span> <span class="toc-text">请求流程简介</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/19/Flask中的session操作/" class="archive-article-date">
-  	<time datetime="2019-03-19T13:56:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/19/Flask中的session操作/">Flask中的session操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/string模块Template方法的简单介绍/" class="archive-article-date">
-  	<time datetime="2019-03-17T14:05:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/string模块Template方法的简单介绍/">string模块Template方法的简单介绍</a>
-    </h1>
+
+
+ 
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/11/解决logging模块日志信息重复问题/" class="archive-article-date">
-  	<time datetime="2019-03-11T13:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/11/解决logging模块日志信息重复问题/">解决logging模块日志信息重复问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">logging模块</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/" class="archive-article-date">
-  	<time datetime="2019-03-05T11:21:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/">windows与mac下virtualenv与Pycharm的结合使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Pycharm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">虚拟环境</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/" class="archive-article-date">
-  	<time datetime="2019-03-01T04:21:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/">Flask给视图增加多个装饰器的问题及解决方案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/03/Flask的文件上传操作/" class="archive-article-date">
-  	<time datetime="2019-02-03T14:16:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/03/Flask的文件上传操作/">Flask的文件上传操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">文件上传</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/03/Django文件上传之多文件的上传/" class="archive-article-date">
-  	<time datetime="2019-02-03T12:18:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/03/Django文件上传之多文件的上传/">Django文件上传之多文件的上传</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Django基础</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">文件上传</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><a class="page-number" href="/archives/2019/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/2019/page/4/">4</a><a class="extend next" rel="next" href="/archives/2019/page/4/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -712,8 +466,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
