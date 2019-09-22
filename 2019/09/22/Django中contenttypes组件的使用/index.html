@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Django | 火之影</title>
+  <title>Django中contenttypes组件的使用 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="火之影">
-<meta property="og:url" content="http://yoursite.com/tags/Django/index.html">
+  <meta name="description" content="contenttypes是Django内置的一个非常有用的组件，它对当前项目中所有基于Django驱动的model提供了更高层次的接口，简单点说，它可以追踪项目中所有的应用与model的对应关系并将这些关系记录在ContentType表中，每当我们创建了新的model并执行数据库迁移指令后，ContentType表中就会自动新增一条不同应用和这个应用中的model之间对应关系的记录；更重要的是，我">
+<meta name="keywords" content="Django,contenttypes组件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django中contenttypes组件的使用">
+<meta property="og:url" content="http://yoursite.com/2019/09/22/Django中contenttypes组件的使用/index.html">
 <meta property="og:site_name" content="火之影">
+<meta property="og:description" content="contenttypes是Django内置的一个非常有用的组件，它对当前项目中所有基于Django驱动的model提供了更高层次的接口，简单点说，它可以追踪项目中所有的应用与model的对应关系并将这些关系记录在ContentType表中，每当我们创建了新的model并执行数据库迁移指令后，ContentType表中就会自动新增一条不同应用和这个应用中的model之间对应关系的记录；更重要的是，我">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://whw.pythonav.cn/contenttypes1.png">
+<meta property="og:image" content="http://whw.pythonav.cn/contenttypes2.png">
+<meta property="og:image" content="http://whw.pythonav.cn/contenttypes3.png">
+<meta property="og:updated_time" content="2019-09-22T13:53:04.184Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="火之影">
+<meta name="twitter:title" content="Django中contenttypes组件的使用">
+<meta name="twitter:description" content="contenttypes是Django内置的一个非常有用的组件，它对当前项目中所有基于Django驱动的model提供了更高层次的接口，简单点说，它可以追踪项目中所有的应用与model的对应关系并将这些关系记录在ContentType表中，每当我们创建了新的model并执行数据库迁移指令后，ContentType表中就会自动新增一条不同应用和这个应用中的model之间对应关系的记录；更重要的是，我">
+<meta name="twitter:image" content="http://whw.pythonav.cn/contenttypes1.png">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -160,36 +169,72 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Django中contenttypes组件的使用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/22/Django中contenttypes组件的使用/" class="archive-article-date">
-  	<time datetime="2019-09-22T09:21:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-22</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/22/Django中contenttypes组件的使用/">Django中contenttypes组件的使用</a>
+    <h1 class="article-title" itemprop="name">
+      Django中contenttypes组件的使用
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/09/22/Django中contenttypes组件的使用/" class="archive-article-date">
+  	<time datetime="2019-09-22T09:21:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>contenttypes是Django内置的一个非常有用的组件，它对当前项目中所有基于Django驱动的model提供了更高层次的接口，简单点说，它可以追踪项目中所有的应用与model的对应关系并将这些关系记录在ContentType表中，每当我们创建了新的model并执行数据库迁移指令后，ContentType表中就会自动新增一条不同应用和这个应用中的model之间对应关系的记录；更重要的是，我们不仅可以使用contenttypes提供的<code>GenericForeignKey类</code>与<code>GenericReleation类</code>去避免因大量复杂的ORM查询导致的程序效率降低，而且在实际项目中使用contenttypes还会优化项目数据库表结构的设计，避免数据库中产生许多无用的数据。<br>本文用一个简单的业务为例详细为大家介绍一下使用contenttypes组件有何优点、组件的具体用法及其使用场景等等。<a id="more"></a></p>
+<h3 id="Django中的contenttypes组件"><a href="#Django中的contenttypes组件" class="headerlink" title="Django中的contenttypes组件"></a><code>Django中的contenttypes组件</code></h3><p>假如说，公司A的主要业务是培训青少年人工智能与机器人技术，主要分类是<code>基础课程</code>与<code>高级课程</code>，而这两个大的分类中又有其他具体的课程。每个课程根据培训周期的不同培训费用的计算方式也不一样。也许没有做过相关业务的同学还没有get到相关的点，这里我先粗略的画一下表结构，后面再详细阐述。</p>
+<h4 id="初版表结构设计"><a href="#初版表结构设计" class="headerlink" title="初版表结构设计"></a><code>初版表结构设计</code></h4><p>如果不用contenttypes，大致的表结构会这么设计：<br><img src="http://whw.pythonav.cn/contenttypes1.png" alt="image-20190922200038809"><br>由上图我们可以看到基础课程与高级课程下有多个不同的子课程。<br>接下来看一下<code>价格策略</code>这张表，每个小课程（比如Python初级与Python高级）由于培训周期的不同价格是不一样的<code>（这里只是模拟，请勿对号入座）</code>，并且PricePolicy表中<code>journeycourse_id</code>与<code>seniorcourse_id</code>是与两个课程表建立外键的字段——此时聪明的你立刻就发现问题了：初级课程的周期最多周期只有21天，而高级课程的培训周期是按月来计算的！如果这样会导致数据库中产生许多无用的空数据！<br>上面这个问题这是一个很典型的<code>一张表与多张表动态的创建ForeignKey关系</code>的问题，而要解决上面产生无用数据的问题<code>可以选择使用Django中的contenttypes</code>。</p>
+<h4 id="使用contenttypes的表结构"><a href="#使用contenttypes的表结构" class="headerlink" title="使用contenttypes的表结构"></a><code>使用contenttypes的表结构</code></h4><p><img src="http://whw.pythonav.cn/contenttypes2.png" alt="image-20190922202135890"><br><strong>详细说明如下：</strong></p>
+<ol>
+<li>新增了一个ContentType表（settings中默认注册了contenttypes组件，Django启动时会自动生成），这个表中存放了model的名称；</li>
+<li>价格策略表中的content_type_id字段是<code>PricePolicy</code>表与<code>ContentType</code>表之间外键关联的字段；</li>
+<li>价格策略表中的object_id字段对应的是<code>基础课程</code>或者<code>高级课程</code>中具体的子类课程的id；</li>
+<li>在价格策略表中，我们可以根据大课程的分类<code>content_type_id</code>、子课程的id<code>object_id</code>以及培训的周期<code>period</code>确定一条唯一的记录！</li>
+<li>特别注意<code>object_id</code>只是一个普通的字段，它并没有与任何表建立外键关联！<br>这样设计的话就不会出现上面那种空的无效数据了！<h4 id="contenttypes的具体实现"><a href="#contenttypes的具体实现" class="headerlink" title="contenttypes的具体实现"></a><code>contenttypes的具体实现</code></h4>老规矩，先上代码，后面给出具体的说明！<br>项目应用中的models.py文件如下：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> django.contrib.contenttypes.models <span class="keyword">import</span> ContentType</span><br><span class="line"><span class="keyword">from</span> django.contrib.contenttypes.fields <span class="keyword">import</span> GenericForeignKey,GenericRelation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JuniorCourse</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"""初级课程"""</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">64</span>,verbose_name=<span class="string">'初级课程名称'</span>)</span><br><span class="line">    course_img = models.CharField(max_length=<span class="number">255</span>, verbose_name=<span class="string">"课程缩略图"</span>)</span><br><span class="line">    brief = models.TextField(verbose_name=<span class="string">"初级课程简介"</span>, )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 不会在数据库中生成列，只是帮我们添加与查询数据用的</span></span><br><span class="line">    <span class="comment"># 建立GenericRelation的字段如果被删除的话，PricePolicy中对应的记录也会被删掉！</span></span><br><span class="line">    policy_lst = GenericRelation(<span class="string">'PricePolicy'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SeniorCourse</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"""高级课程"""</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">64</span>, verbose_name=<span class="string">'进阶级课程名称'</span>)</span><br><span class="line">    course_img = models.CharField(max_length=<span class="number">255</span>, verbose_name=<span class="string">"课程缩略图"</span>)</span><br><span class="line">    brief = models.TextField(verbose_name=<span class="string">"进阶级课程简介"</span>, )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 不会在数据库中生成列，只是帮我们添加与查询数据用的</span></span><br><span class="line">    <span class="comment"># 建立GenericRelation的字段如果被删除的话，PricePolicy中对应的记录也会被删掉！</span></span><br><span class="line">    policy_lst = GenericRelation(<span class="string">'PricePolicy'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PricePolicy</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"""价格策略——课程有效期与价格表"""</span></span><br><span class="line">    <span class="comment"># 与ContentType表做关联 —— 找到大的分类</span></span><br><span class="line">    content_type = models.ForeignKey(to=ContentType,on_delete=models.CASCADE)</span><br><span class="line">    <span class="comment"># 对应"大分类中的课程的id"，用正整数表示 —— 名字必须叫object_id</span></span><br><span class="line">    object_id = models.PositiveIntegerField()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 不会在数据库中生成列，只是帮我们添加与查询查询数据用的</span></span><br><span class="line">    content_object = GenericForeignKey(<span class="string">'content_type'</span>,<span class="string">'object_id'</span>)</span><br><span class="line"></span><br><span class="line">    valid_period_choices = (</span><br><span class="line">        (<span class="number">1</span>,<span class="string">'1天'</span>),</span><br><span class="line">        (<span class="number">3</span>,<span class="string">'3天'</span>),</span><br><span class="line">        (<span class="number">7</span>,<span class="string">'1周'</span>),</span><br><span class="line">        (<span class="number">14</span>,<span class="string">'2周'</span>),</span><br><span class="line">        (<span class="number">21</span>,<span class="string">'3周'</span>),</span><br><span class="line">        (<span class="number">30</span>,<span class="string">'1个月'</span>),</span><br><span class="line">        (<span class="number">60</span>,<span class="string">'2个月'</span>),</span><br><span class="line">        (<span class="number">90</span>,<span class="string">'3个月'</span>),</span><br><span class="line">    )</span><br><span class="line">    valid_period = models.SmallIntegerField(choices=valid_period_choices,verbose_name=<span class="string">'课程周期'</span>)</span><br><span class="line">    price = models.DecimalField(max_digits=<span class="number">8</span>,decimal_places=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p><strong>详细说明如下：</strong><br><strong>1、</strong>大家首先要注意一点：由于项目的settings.py文件中默认注册了<code>django.contrib.contenttypes</code>这个组件，所以我们在<code>执行数据库迁移指令</code>的时候，Django会自动为我们创建一张铭文<code>django_content_type</code>的表，存放项目应用与应用里面model对应关系：<br><img src="http://whw.pythonav.cn/contenttypes3.png" alt="image-20190922203753923"><br>可以看到，最下面那三条记录就是我上面的代码执行<code>数据库迁移指令</code>后生成的——我的应用名叫testapp。<br><strong>2、</strong>引用这张<code>django_content_type</code>表的方式是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.contenttypes.models <span class="keyword">import</span> ContentType</span><br></pre></td></tr></table></figure>
+
+<p>注意不要改这张表！我们从里面查数据就好了——基本上都是查model。<br><strong>3、</strong>我们来看一下<code>PricePolicy</code>这个类：首先它与ContentType表建立了外键关联，<code>content_object</code>这个属性是<code>GenericForeignKey</code>类实例化的对象，参数是上面的<code>content_type</code>与<code>object_id</code>属性——这步操作不会在数据库中创建新的列，是为了方便我们后续添加与查询数据用的。我们在知道了价格策略的条件下可以根据<code>GenericForeignKey</code>对应的属性查到具体的课程。<br><strong>4、</strong><code>GenericRelation</code>写在了具体课程的类下面，我们可以它实例化的属性，拿课程对象去查询这个课程对应的价格策略都有哪些——但是要注意一点：GenericRelation对应字段的对象如果被删除的话，PricePolicy中对应的记录也会被删掉！也就是说，根据上面建立的model关系，如果我删除了一条seniorcourse中的记录，那与这条记录对应的pricepolicy中的记录也会被删除！</p>
+<h4 id="视图函数中的增删改查"><a href="#视图函数中的增删改查" class="headerlink" title="视图函数中的增删改查"></a><code>视图函数中的增删改查</code></h4><p>上面介绍了在<code>models.py</code>中如何用contenttypes，接下来我们来看看如何在视图函数中使用它。</p>
+<h5 id="向价格策略表中添加数据"><a href="#向价格策略表中添加数据" class="headerlink" title="向价格策略表中添加数据"></a><code>向价格策略表中添加数据</code></h5><p>由于上面的<code>models.py</code>文件中我们在<code>PricePolicy</code>类中定义了<code>content_object</code>这个<code>GenericForeignkey</code>类的实例化对象，在创建数据的时候直接指定<code>content_object</code>就可以了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 与seniorcourse表的关系</span></span><br><span class="line">models.PricePolicy.objects.create(</span><br><span class="line">    valid_period=<span class="number">7</span>,</span><br><span class="line">    price=<span class="number">123.45</span>,</span><br><span class="line">    <span class="comment"># 直接根据SeniorCourse对象添加</span></span><br><span class="line">    content_object = models.SeniorCourse.objects.get(pk=<span class="number">2</span>),</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 与juniorcourse表的关系</span></span><br><span class="line">models.PricePolicy.objects.create(</span><br><span class="line">    valid_period=<span class="number">3</span>,</span><br><span class="line">    price=<span class="number">35.66</span>,</span><br><span class="line">    <span class="comment"># # 直接根据JuniorCourse对象添加</span></span><br><span class="line">    content_object = models.JuniorCourse.objects.get(pk=<span class="number">1</span>),</span><br></pre></td></tr></table></figure>
+
+<p>其他两张课程表直接添加数据就好了，没有任何的约束。</p>
+<h5 id="根据某个价格策略对象去找与它对应的表的数据"><a href="#根据某个价格策略对象去找与它对应的表的数据" class="headerlink" title="根据某个价格策略对象去找与它对应的表的数据"></a><code>根据某个价格策略对象去找与它对应的表的数据</code></h5><p>这里其实还是利用了<code>GenericForeignKey</code>，自动<code>跨表查询</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.contenttypes.models <span class="keyword">import</span> ContentType</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在ContentType表中找到具体的表</span></span><br><span class="line">contenttype_obj = ContentType.objects.get(model=<span class="string">'seniorcourse'</span>)</span><br><span class="line"><span class="comment"># 找到价格策略对象</span></span><br><span class="line"><span class="comment"># 注意get是查询唯一对象的方法，所以给出的条件必须保证只查到一个对象！</span></span><br><span class="line">obj=models.PricePolicy.objects.get(content_type=contenttype_obj,object_id=<span class="number">1</span>,valid_period=)</span><br><span class="line">    <span class="comment">### 直接“跨表查询”就好了</span></span><br><span class="line">    print(obj.content_object.name)</span><br></pre></td></tr></table></figure>
+
+<h5 id="找到某个课程相关的所有价格策略"><a href="#找到某个课程相关的所有价格策略" class="headerlink" title="找到某个课程相关的所有价格策略***"></a><code>找到某个课程相关的所有价格策略***</code></h5><p>这个在实际中用的还是很多的！这里用到了<code>GenericRelation</code>，也就是上面<code>models.py</code>文件中定义在高级课程与初级课程类中的那两个属性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">obj = models.SeniorCourse.objects.get(pk=<span class="number">1</span>)</span><br><span class="line">	<span class="comment"># 注意这里必须用all()方法</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> obj.policy_lst.all():</span><br><span class="line">        print(i.pk,i.valid_period,i.price)</span><br></pre></td></tr></table></figure>
+
+<h5 id="课程中如果用了GenericRelation类实例化出来的对象作为属性的话，删除课程中的数据时，价格策略中与之相关的数据也会一起被删除！"><a href="#课程中如果用了GenericRelation类实例化出来的对象作为属性的话，删除课程中的数据时，价格策略中与之相关的数据也会一起被删除！" class="headerlink" title="课程中如果用了GenericRelation类实例化出来的对象作为属性的话，删除课程中的数据时，价格策略中与之相关的数据也会一起被删除！"></a><code>课程中如果用了GenericRelation类实例化出来的对象作为属性的话，删除课程中的数据时，价格策略中与之相关的数据也会一起被删除！</code></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除了SeniorCourse中的一个课程后，PricePublic中与之相关的数据都删除了！！！</span></span><br><span class="line">models.SeniorCourse.objects.get(pk=<span class="number">1</span>).delete()</span><br></pre></td></tr></table></figure>
+
+<h3 id="contenttypes使用小结"><a href="#contenttypes使用小结" class="headerlink" title="contenttypes使用小结"></a><code>contenttypes使用小结</code></h3><p>根据上面的介绍，其实contenttypes的使用大致分为这几步：</p>
+<ol>
+<li>创建ContentType表（Django的settings中默认注册了contenttypes应用，启动时会自动生成）；</li>
+<li>价格策略表与ContentType表建立外键关联关系；</li>
+<li>定义<code>GenericForeignKey</code>属性，根据价格策略表中的记录去查询具体课程的信息或者根据课程对象创建价格策略的记录；</li>
+<li>定义<code>GenericRelation</code>的属性，根据具体的课程对象在价格策略表中查找与这个课程相关的所有的价格策略；</li>
+<li>定义了<code>GenericRelation</code>的属性的话需要注意：删除课程中的一条记录价格策略表中与这个课程相关的所有记录也都会被删除掉！<h3 id="contenttypes的使用场景"><a href="#contenttypes的使用场景" class="headerlink" title="contenttypes的使用场景"></a><code>contenttypes的使用场景</code></h3>在实际中，contenttypes绝大多数都用在<code>一张表与N张表动态的创建ForeignKey关系</code>的场景下。<br>其实实际中contenttypes的使用场景还是很多的，比如<code>评论功能</code>：如果一个网站的文章、视频、图片等都需要加评论的话，我们可以把评论这张表与文章、图片、视频都建立向上面那样的<code>外键关联</code>；再拿上面的例子来说，我们可以为不同分类下的没门课程加入<code>优惠券</code>，优惠券这张表跟<code>价格策略表</code>性质一样，也需要与那两张课程表建立外键关系，此时使用contenttypes会十分高效！<h3 id="更多参考文章"><a href="#更多参考文章" class="headerlink" title="更多参考文章"></a><code>更多参考文章</code></h3><a href="https://docs.djangoproject.com/en/2.1/ref/contrib/contenttypes/" target="_blank" rel="noopener">官方文档</a><br><a href="https://blog.csdn.net/laughing2333/article/details/53014267" target="_blank" rel="noopener">https://blog.csdn.net/laughing2333/article/details/53014267</a><br><a href="https://blog.csdn.net/weixin_42134789/article/details/80690182" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42134789/article/details/80690182</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -205,7 +250,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -218,339 +263,90 @@
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/21/在CentOS7系统中部署Django项目/" class="archive-article-date">
-  	<time datetime="2019-09-21T04:23:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/21/在CentOS7系统中部署Django项目/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在CentOS7系统中部署Django项目</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/21/在CentOS7系统中部署Django项目/">在CentOS7系统中部署Django项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">项目部署</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Django中的contenttypes组件"><span class="toc-number">1.</span> <span class="toc-text">Django中的contenttypes组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#初版表结构设计"><span class="toc-number">1.1.</span> <span class="toc-text">初版表结构设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用contenttypes的表结构"><span class="toc-number">1.2.</span> <span class="toc-text">使用contenttypes的表结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#contenttypes的具体实现"><span class="toc-number">1.3.</span> <span class="toc-text">contenttypes的具体实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#视图函数中的增删改查"><span class="toc-number">1.4.</span> <span class="toc-text">视图函数中的增删改查</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#向价格策略表中添加数据"><span class="toc-number">1.4.1.</span> <span class="toc-text">向价格策略表中添加数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#根据某个价格策略对象去找与它对应的表的数据"><span class="toc-number">1.4.2.</span> <span class="toc-text">根据某个价格策略对象去找与它对应的表的数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#找到某个课程相关的所有价格策略"><span class="toc-number">1.4.3.</span> <span class="toc-text">找到某个课程相关的所有价格策略***</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#课程中如果用了GenericRelation类实例化出来的对象作为属性的话，删除课程中的数据时，价格策略中与之相关的数据也会一起被删除！"><span class="toc-number">1.4.4.</span> <span class="toc-text">课程中如果用了GenericRelation类实例化出来的对象作为属性的话，删除课程中的数据时，价格策略中与之相关的数据也会一起被删除！</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contenttypes使用小结"><span class="toc-number">2.</span> <span class="toc-text">contenttypes使用小结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contenttypes的使用场景"><span class="toc-number">3.</span> <span class="toc-text">contenttypes的使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更多参考文章"><span class="toc-number">4.</span> <span class="toc-text">更多参考文章</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/21/Django中的信号signal/" class="archive-article-date">
-  	<time datetime="2019-09-21T03:11:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/21/Django中的信号signal/">Django中的信号signal</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">信号signal</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/05/Django中使用redis做缓存的配置方法/" class="archive-article-date">
-  	<time datetime="2019-04-05T11:23:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/05/Django中使用redis做缓存的配置方法/">Django中使用redis做缓存的配置方法</a>
-    </h1>
+
+
+ 
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/05/Django视图在CBV模式下使用装饰器的方法/" class="archive-article-date">
-  	<time datetime="2019-04-05T10:22:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/05/Django视图在CBV模式下使用装饰器的方法/">Django视图在CBV模式下使用装饰器的方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/03/数据库严格模式/" class="archive-article-date">
-  	<time datetime="2019-04-03T13:21:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/03/数据库严格模式/">MySQL数据库的模式说明及严格模式的设置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/MySQL//" class="article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/02/Django中的缓存详述/" class="archive-article-date">
-  	<time datetime="2019-04-02T07:22:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/02/Django中的缓存详述/">Django中的缓存详述</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/缓存//" class="article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -575,9 +371,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
