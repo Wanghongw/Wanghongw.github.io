@@ -6,20 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>解决logging模块日志信息重复问题 | 火之影</title>
+  <title>Archives: 2019/10 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="python的logging模块记录日志信息的步骤如下：">
-<meta name="keywords" content="模块与包,logging模块">
-<meta property="og:type" content="article">
-<meta property="og:title" content="解决logging模块日志信息重复问题">
-<meta property="og:url" content="http://yoursite.com/2019/03/11/解决logging模块日志信息重复问题/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="火之影">
+<meta property="og:url" content="http://yoursite.com/archives/2019/10/index.html">
 <meta property="og:site_name" content="火之影">
-<meta property="og:description" content="python的logging模块记录日志信息的步骤如下：">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-21T04:28:21.226Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决logging模块日志信息重复问题">
-<meta name="twitter:description" content="python的logging模块记录日志信息的步骤如下：">
+<meta name="twitter:title" content="火之影">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -165,91 +160,52 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-解决logging模块日志信息重复问题" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      解决logging模块日志信息重复问题
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/10/30/从用户认证到jwt的说明与使用/" class="archive-article-date">
+  	<time datetime="2019-10-30T13:22:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-30</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/10/30/从用户认证到jwt的说明与使用/">从用户认证到jwt的说明与使用</a>
     </h1>
   
 
-        
-        <a href="/2019/03/11/解决logging模块日志信息重复问题/" class="archive-article-date">
-  	<time datetime="2019-03-11T13:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>python的logging模块记录日志信息的步骤如下：<a id="more"></a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建logger对象</span></span><br><span class="line">logger = logging.getLogger()</span><br><span class="line"><span class="comment"># 设置下最低级别</span></span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line"><span class="comment"># 创建文件操作符</span></span><br><span class="line">fh = logging.FileHandler(<span class="string">'test'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line"><span class="comment"># 创建屏幕操作符</span></span><br><span class="line">sh = logging.StreamHandler()</span><br><span class="line"><span class="comment"># 创建一个格式对象</span></span><br><span class="line">formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>)</span><br><span class="line"><span class="comment"># logger绑定文件操作符</span></span><br><span class="line">logger.addHandler(fh)</span><br><span class="line"><span class="comment"># logger绑定屏幕操作符</span></span><br><span class="line">logger.addHandler(sh)</span><br><span class="line"><span class="comment"># 文件操作符绑定格式</span></span><br><span class="line">fh.setFormatter(formatter)</span><br><span class="line"><span class="comment"># 屏幕操作符绑定格式</span></span><br><span class="line">sh.setFormatter(formatter)</span><br><span class="line"><span class="comment"># 用logger对象输出信息</span></span><br><span class="line">logger.warning(<span class="string">'logger1'</span>)</span><br><span class="line">logger.info(<span class="string">'logger2'</span>)</span><br><span class="line">logger.error(<span class="string">'logger3'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>然后，如果我们用上面的思路来写一个函数实现日志功能(我们写日志的py文件为logger.py，在同目录下创建一个文件log.log来记录日志信息，而且这里只将日志信息输出到文件来显示)：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">logger</span><span class="params">(msg)</span>:</span></span><br><span class="line">    <span class="comment"># 生成logger对象</span></span><br><span class="line">    whw_logger = logging.getLogger(<span class="string">'log.log'</span>)</span><br><span class="line">    whw_logger.setLevel(logging.INFO)</span><br><span class="line">    <span class="comment"># 生成handler对象</span></span><br><span class="line">    whw_fh = logging.FileHandler(<span class="string">'log.log'</span>)</span><br><span class="line">    whw_fh.setLevel(logging.INFO)</span><br><span class="line">    <span class="comment"># 生成Formatter对象</span></span><br><span class="line">    file_formatter = logging.Formatter(<span class="string">' %(asctime)s - %(name)s - %(levelname)s - %(message)s '</span>)</span><br><span class="line">    <span class="comment"># 把formatter对象绑定到handler对象中</span></span><br><span class="line">    whw_fh.setFormatter(file_formatter)</span><br><span class="line">    <span class="comment"># 把handler对象绑定到logger对象中</span></span><br><span class="line">    whw_logger.addHandler(whw_fh)</span><br><span class="line">    whw_logger.info(msg)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   logger(<span class="string">'hello world1'</span>)</span><br><span class="line">   logger(<span class="string">'hello world2'</span>)</span><br><span class="line">   logger(<span class="string">'hello world3'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>但是，当程序运行后，你会发现，你的<code>log.log</code>文件中的记录竟然是酱紫的（程序运行2次）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">12</span>,<span class="number">318</span> - log.log - INFO - hello world1 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">12</span>,<span class="number">319</span> - log.log - INFO - hello world2 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">12</span>,<span class="number">319</span> - log.log - INFO - hello world2 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">12</span>,<span class="number">319</span> - log.log - INFO - hello world3 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">12</span>,<span class="number">319</span> - log.log - INFO - hello world3 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">12</span>,<span class="number">319</span> - log.log - INFO - hello world3 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">15</span>,<span class="number">388</span> - log.log - INFO - hello world1 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">15</span>,<span class="number">388</span> - log.log - INFO - hello world2 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">15</span>,<span class="number">388</span> - log.log - INFO - hello world2 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">15</span>,<span class="number">388</span> - log.log - INFO - hello world3 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">15</span>,<span class="number">388</span> - log.log - INFO - hello world3 </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">14</span>:<span class="number">47</span>:<span class="number">15</span>,<span class="number">388</span> - log.log - INFO - hello world3</span><br></pre></td></tr></table></figure>
-
-<p>也就是说，我们每一次进行日志信息打印的次数是成倍增长的！</p>
-<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>其实，我们每次在创建一个logger对象的时候，里面会有一个<code>handlers属性</code>，初始值为一个空列表：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Logger</span><span class="params">(Filterer)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    logger 对象的介绍 详情大家可以看源码</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, level=NOTSET)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Initialize the logger with a name and an optional level.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        Filterer.__init__(self)</span><br><span class="line">        self.name = name</span><br><span class="line">        self.level = _checkLevel(level)</span><br><span class="line">        self.parent = <span class="literal">None</span></span><br><span class="line">        self.propagate = <span class="literal">True</span></span><br><span class="line">		<span class="comment"># 初始化为空列表的handlers属性</span></span><br><span class="line">        self.handlers = []</span><br><span class="line">        self.disabled = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-
-<p>那么问题来了：这个<code>handlers属性</code>是做什么用的呢？让我们再来看一下源码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addHandler</span><span class="params">(self, hdlr)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Add the specified handler to this logger.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    _acquireLock()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (hdlr <span class="keyword">in</span> self.handlers):</span><br><span class="line">            self.handlers.append(hdlr)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        _releaseLock()</span><br></pre></td></tr></table></figure>
-
-<p>当我们为一个logger对象绑定一个文件或者屏幕操作符的时候，其实就是讲它们加在了这个<code>handlers列表</code>里面。然后我们再接着往下看（这里只截取代码片段，帮助大家分析问题，具体的还是建议大家自己看源码）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> h <span class="keyword">in</span> handlers:</span><br><span class="line">    <span class="keyword">if</span> h.formatter <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        h.setFormatter(fmt)</span><br><span class="line">    root.addHandler(h)</span><br></pre></td></tr></table></figure>
-
-<p>这段代码下面其实就是从我们这个<code>handlers列表</code>中获取操作符，然后进行文件或屏幕的格式化操作。<br>问题就出现在了这里：由于我们上面的代码每次都打印三个信息——在第一次执行打印 hello world1 的时候会创建一个logger对象，而此时handlers列表是空的，因此程序会为这个空列表加上一个文件操作符；在第二次打印 hello world2 时，程序会根据getLogger函数的name属性获取之前的同一个logger对象，并没有创建新的logger对象，而接着程序又会‘像之前一样’误将文件操作符又一次append到了handlers列表里，此时这个列表中有两个相同的文件操作符，因此第二次会打印两次相同的信息；第三次原理一样…文件中输出三次相同的信息<br>我们可以在logger函数的结尾加上下面这段代码，每次都打印一下handlers列表，验证一下我们的猜想：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(whw_logger.handlers)</span><br><span class="line">print(len(whw_logger.handlers))</span><br></pre></td></tr></table></figure>
-
-<p>输出结果如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[&lt;FileHandler E:\practice\log.log (INFO)&gt;]</span><br><span class="line"><span class="number">1</span></span><br><span class="line">[&lt;FileHandler E:\practice\log.log (INFO)&gt;, &lt;FileHandler E:\practice\log.log (INFO)&gt;]</span><br><span class="line"><span class="number">2</span></span><br><span class="line">[&lt;FileHandler E:\practice\log.log (INFO)&gt;, &lt;FileHandler E:\practice\log.log (INFO)&gt;, &lt;FileHandler E:\practice\log.log (INFO)&gt;]</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>结果果真如我们所想的那样：列表中每一次都添加了新的文件操作符。</p>
-<h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><p>关于一次性重复打印的问题的原因我们找到了，那么如何解决呢？下面给出两种推荐的解决方案：</p>
-<h4 id="每一次输出完后及时移除操作符"><a href="#每一次输出完后及时移除操作符" class="headerlink" title="每一次输出完后及时移除操作符"></a>每一次输出完后及时移除操作符</h4><p>就是说，在每一次输出结束后，我们将handlers这个列表中的logger对象及时移除。</p>
-<p>移除的方法有两种，一种是利用logger对象中自带的<code>removeHandler方法</code>，另外也可以直接利用列表的pop方法直接将handlers对象中的文件操作符删除（不过这种方法得考虑每一次添加了多少个文件操作符），针对本例给出的解决方案的代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">logger</span><span class="params">(msg)</span>:</span></span><br><span class="line">    <span class="comment"># 生成logger对象</span></span><br><span class="line">    whw_logger = logging.getLogger(<span class="string">'log.log'</span>)</span><br><span class="line">    whw_logger.setLevel(logging.INFO)</span><br><span class="line">    <span class="comment"># 生成handler对象</span></span><br><span class="line">    whw_fh = logging.FileHandler(<span class="string">'log.log'</span>)</span><br><span class="line">    whw_fh.setLevel(logging.INFO)</span><br><span class="line">    <span class="comment"># 生成Formatter对象</span></span><br><span class="line">    file_formatter = logging.Formatter(<span class="string">' %(asctime)s - %(name)s - %(levelname)s - %(message)s '</span>)</span><br><span class="line">    <span class="comment"># 把formatter对象绑定到handler对象中</span></span><br><span class="line">    whw_fh.setFormatter(file_formatter)</span><br><span class="line">    <span class="comment"># 把handler对象绑定到logger对象中</span></span><br><span class="line">    whw_logger.addHandler(whw_fh)</span><br><span class="line">    whw_logger.info(msg)</span><br><span class="line">    whw_logger.removeHandler(whw_fh)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   logger(<span class="string">'hello world1'</span>)</span><br><span class="line">   logger(<span class="string">'hello world2'</span>)</span><br><span class="line">   logger(<span class="string">'hello world3'</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="在logger函数中判断handlers属性是否为空"><a href="#在logger函数中判断handlers属性是否为空" class="headerlink" title="在logger函数中判断handlers属性是否为空"></a>在logger函数中判断handlers属性是否为空</h4><p>使用前判断logger对象的handlers列表是否为空，空则添加一个handler，不空则直接调用：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">logger</span><span class="params">(msg)</span>:</span></span><br><span class="line">    <span class="comment"># 生成logger对象</span></span><br><span class="line">    whw_logger = logging.getLogger(<span class="string">'log.log'</span>)</span><br><span class="line">    whw_logger.setLevel(logging.INFO)</span><br><span class="line">    <span class="comment"># 如果handlers属性为空则添加文件操作符，不为空直接写日志</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> whw_logger.handlers:</span><br><span class="line">        <span class="comment"># 生成handler对象</span></span><br><span class="line">        whw_fh = logging.FileHandler(<span class="string">'log.log'</span>)</span><br><span class="line">        whw_fh.setLevel(logging.INFO)</span><br><span class="line">        <span class="comment"># 生成Formatter对象</span></span><br><span class="line">        file_formatter = logging.Formatter(<span class="string">' %(asctime)s - %(name)s - %(levelname)s - %(message)s '</span>)</span><br><span class="line">        <span class="comment"># 把formatter对象绑定到handler对象中</span></span><br><span class="line">        whw_fh.setFormatter(file_formatter)</span><br><span class="line">        <span class="comment"># 把handler对象绑定到logger对象中</span></span><br><span class="line">        whw_logger.addHandler(whw_fh)</span><br><span class="line">    whw_logger.info(msg)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   logger(<span class="string">'hello world1'</span>)</span><br><span class="line">   logger(<span class="string">'hello world2'</span>)</span><br><span class="line">   logger(<span class="string">'hello world3'</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="利用单例模式解决"><a href="#利用单例模式解决" class="headerlink" title="利用单例模式解决"></a>利用单例模式解决</h4><p>如果利用面向对象的方法写一个Log类去实现的话，基本思路是：<code>首先利用重写__new__的方法创建每个logger对象的单例，然后在每次实例化的时候判断是否已经存在这个logger对象，如果不存在的话就创建，若之前已经创建了一个相同的logger对象，就直接用之前的，酱紫大大提高了程序的效率</code><br>话不多说，直接上代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Log</span><span class="params">(object)</span>:</span></span><br><span class="line">    __instance = <span class="literal">None</span></span><br><span class="line">    <span class="comment"># 重写new方法实现单例模式</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> cls.__instance:</span><br><span class="line">            obj = object.__new__(cls)</span><br><span class="line">            cls.__instance = obj</span><br><span class="line">        <span class="keyword">return</span> cls.__instance</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 日志名默认是与当前文件同级目录下的log.log，级别默认是DEBUG</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, log_path=<span class="string">'log.log'</span>, level=logging.DEBUG)</span>:</span></span><br><span class="line">        <span class="comment"># 如果之前没创建过 就新建一个logger对象，后面相同的实例共用一个logger对象</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'logger'</span> <span class="keyword">not</span> <span class="keyword">in</span> self.__dict__:</span><br><span class="line">            logger = logging.getLogger()</span><br><span class="line">            <span class="comment"># 设置日志级别</span></span><br><span class="line">            logger.setLevel(level)</span><br><span class="line">            <span class="comment"># 格式化日志信息</span></span><br><span class="line">            formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>)</span><br><span class="line">            <span class="comment"># 创建文本输入对象与屏幕打印对象</span></span><br><span class="line">            fh = logging.FileHandler(log_path, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">            ch = logging.StreamHandler()</span><br><span class="line">            fh.setFormatter(formatter)</span><br><span class="line">            ch.setFormatter(formatter)</span><br><span class="line">            logger.addHandler(fh)</span><br><span class="line">            logger.addHandler(ch)</span><br><span class="line">            <span class="comment"># 初始化logger属性</span></span><br><span class="line">            self.logger = logger</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 为不同的日志级别设置输出方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">debug</span><span class="params">(self,msg)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.logger.debug(msg)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">info</span><span class="params">(self,msg)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.logger.info(msg)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">warring</span><span class="params">(self,msg)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.logger.warning(msg)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">error</span><span class="params">(self,msg)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.logger.error(msg)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">critical</span><span class="params">(self,msg)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.logger.critical(msg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 注意下面的配置应该在settings文件中配置,这里为了说明问题与业务代码写在一起了</span></span><br><span class="line">    BASE_DIR = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">    LOG_NAME = <span class="string">'whw'</span></span><br><span class="line">    LOG_FILE_PATH = os.path.join(BASE_DIR, <span class="string">'log'</span>, LOG_NAME)</span><br><span class="line">    <span class="comment"># 实例化Log对象</span></span><br><span class="line">    log_obj = Log(LOG_FILE_PATH,logging.INFO)</span><br><span class="line">    <span class="comment"># 输出日志信息</span></span><br><span class="line">    log_obj.info(<span class="string">'info级别的日志信息'</span>)</span><br><span class="line">    log_obj.warring(<span class="string">'warring级别的日志信息'</span>)</span><br><span class="line">    log_obj.critical(<span class="string">'critical级别的日志信息'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">08</span>,<span class="number">081</span> - root - INFO - info级别的日志信息</span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">08</span>,<span class="number">081</span> - root - WARNING - warring级别的日志信息</span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-11</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">08</span>,<span class="number">081</span> - root - CRITICAL - critical级别的日志信息</span><br></pre></td></tr></table></figure>
-
-<p>当然，如果考虑到效率的问题，<code>在logger函数中判断handlers属性是否为空</code>与<code>利用单例模式解决</code>的方法要比<code>每次从handlers属性列表中删除掉之前的操作符</code>的方法高效，因为这样可以避免Python解释器做重复繁琐的工作。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">logging模块</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jwt</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -262,99 +218,17 @@
 	</div>
 
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/03/17/string模块Template方法的简单介绍/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          string模块Template方法的简单介绍
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">windows与mac下virtualenv与Pycharm的结合使用</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题分析"><span class="toc-number">1.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题解决"><span class="toc-number">2.</span> <span class="toc-text">问题解决</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#每一次输出完后及时移除操作符"><span class="toc-number">2.1.</span> <span class="toc-text">每一次输出完后及时移除操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在logger函数中判断handlers属性是否为空"><span class="toc-number">2.2.</span> <span class="toc-text">在logger函数中判断handlers属性是否为空</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用单例模式解决"><span class="toc-number">2.3.</span> <span class="toc-text">利用单例模式解决</span></a></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-
- 
-  <!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
-	<script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-	</script>
-<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-</div>
-<!-- City版安装代码已完成 -->
-
+    </div></section>
   
 
-
-  
-  
-  
-
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -379,8 +253,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
