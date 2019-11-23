@@ -6,28 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>windows与mac下virtualenv与Pycharm的结合使用 | 火之影</title>
+  <title>Category: Python | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文介绍了windows与mac下Pycharm利用virtualenv模块进行虚拟环境的创建与使用。">
-<meta name="keywords" content="Pycharm,虚拟环境">
-<meta property="og:type" content="article">
-<meta property="og:title" content="windows与mac下virtualenv与Pycharm的结合使用">
-<meta property="og:url" content="http://yoursite.com/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="火之影">
+<meta property="og:url" content="http://yoursite.com/categories/Python/page/2/index.html">
 <meta property="og:site_name" content="火之影">
-<meta property="og:description" content="本文介绍了windows与mac下Pycharm利用virtualenv模块进行虚拟环境的创建与使用。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%881.jpg">
-<meta property="og:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%882.jpg">
-<meta property="og:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%883.jpg">
-<meta property="og:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%884.jpg">
-<meta property="og:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%885.jpg">
-<meta property="og:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%886.jpg">
-<meta property="og:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%887.jpg">
-<meta property="og:updated_time" content="2019-09-21T04:28:21.224Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="windows与mac下virtualenv与Pycharm的结合使用">
-<meta name="twitter:description" content="本文介绍了windows与mac下Pycharm利用virtualenv模块进行虚拟环境的创建与使用。">
-<meta name="twitter:image" content="http://whw.pythonav.cn/%E7%BB%93%E5%90%881.jpg">
+<meta name="twitter:title" content="火之影">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -173,83 +160,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-windows与mac下virtualenv与Pycharm的结合使用" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      windows与mac下virtualenv与Pycharm的结合使用
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/" class="archive-article-date">
+  	<time datetime="2019-03-05T11:21:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-05</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/">windows与mac下virtualenv与Pycharm的结合使用</a>
     </h1>
   
 
-        
-        <a href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/" class="archive-article-date">
-  	<time datetime="2019-03-05T11:21:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文介绍了windows与mac下Pycharm利用virtualenv模块进行虚拟环境的创建与使用。<a id="more"></a></p>
-<h1 id="前提要安装virtualenv模块"><a href="#前提要安装virtualenv模块" class="headerlink" title="前提要安装virtualenv模块"></a>前提要安装virtualenv模块</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install virtualenv</span><br></pre></td></tr></table></figure>
-
-<h1 id="windows中的使用"><a href="#windows中的使用" class="headerlink" title="windows中的使用"></a>windows中的使用</h1><h2 id="新建一个Pycharm项目"><a href="#新建一个Pycharm项目" class="headerlink" title="新建一个Pycharm项目"></a>新建一个Pycharm项目</h2><p><img src="http://whw.pythonav.cn/%E7%BB%93%E5%90%881.jpg" alt="img"></p>
-<p><strong>注意！虚拟环境最好放在统一的目录下，方便管理。</strong></p>
-<p><strong>另外，虚拟环境与项目的安装位置不要放在一起！</strong></p>
-<p>新建项目界面勾选项及参数说明如下：</p>
-<p>（1）在<strong>Location</strong>中填写项目路径、项目名;</p>
-<p>（2）在<strong>Base interpreter</strong>下拉框中选择Python解释器；</p>
-<p>（3）勾选<strong>Inherit global site-packages</strong>可以使用base interpreter中的第三方库，不选将和外界完全隔离；</p>
-<p>（4）勾选<strong>Make available to all projects</strong>可将此虚拟环境提供给其他项目使用。</p>
-<p><strong>这里把Make available to all projects勾选上后面的项目跟这个虚拟环境的包一样的话可以直接使用！</strong></p>
-<h3 id="查看项目解释器"><a href="#查看项目解释器" class="headerlink" title="查看项目解释器"></a>查看项目解释器</h3><p>我们可以看到<del>项目的解释器中已经有新建的这个环境了</del>只不过初始情况下这个解释器什么都没有~</p>
-<p><img src="http://whw.pythonav.cn/%E7%BB%93%E5%90%882.jpg" alt="img2"></p>
-<h4 id="在虚拟环境安装模块与包"><a href="#在虚拟环境安装模块与包" class="headerlink" title="在虚拟环境安装模块与包"></a>在虚拟环境安装模块与包</h4><p> windows下virtualenv的命令如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入虚拟环境文件</span></span><br><span class="line">cd envname</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入相关的启动文件夹</span></span><br><span class="line">cd Scripts</span><br><span class="line"></span><br><span class="line">activate  <span class="comment"># 启动虚拟环境</span></span><br><span class="line">deactivate <span class="comment"># 退出虚拟环境</span></span><br></pre></td></tr></table></figure>
-
-<p>在上面的项目中，我们通过命令进入：D:\venvs\dj1env\Scripts</p>
-<p>然后执行命令：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activate</span><br></pre></td></tr></table></figure>
-
-<p>进入虚拟环境就可以安装模块与包了~</p>
-<p><img src="http://whw.pythonav.cn/%E7%BB%93%E5%90%883.jpg" alt="img3"></p>
-<p>当然，一个一个安装太烦躁~我们可以在其他地方生成requirements.txt文件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 freeze &gt; requirements.txt</span><br></pre></td></tr></table></figure>
-
-<p>然后在我们的虚拟环境中根据这个requirements文件安装对应的包即可：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure>
-
-<p>这样以后我们就可以在这个虚拟环境的解释器下进行项目的独立开发了。</p>
-<h2 id="mac中virtualenv的使用"><a href="#mac中virtualenv的使用" class="headerlink" title="mac中virtualenv的使用"></a>mac中virtualenv的使用</h2><h3 id="mac中的命令"><a href="#mac中的命令" class="headerlink" title="mac中的命令"></a>mac中的命令</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装</span></span><br><span class="line">sudo pip install virtualenv </span><br><span class="line"></span><br><span class="line"><span class="comment">#创建虚拟环境</span></span><br><span class="line">virtualenv test_env1</span><br><span class="line">virtualenv test_env2</span><br><span class="line"></span><br><span class="line">virtualenv test_env2  --system-site-packages <span class="comment"># 使用全局的python包</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入到虚拟环境</span></span><br><span class="line">source  test_env1/bin/active</span><br><span class="line"></span><br><span class="line"><span class="comment">#退出虚拟环境</span></span><br><span class="line">deactive</span><br></pre></td></tr></table></figure>
-
-<h3 id="创建django项目的选项"><a href="#创建django项目的选项" class="headerlink" title="创建django项目的选项"></a>创建django项目的选项</h3><p><img src="http://whw.pythonav.cn/%E7%BB%93%E5%90%884.jpg" alt="img11"></p>
-<p>注意，这里的<strong>Make available to all projects</strong>我勾选上了～</p>
-<p>创建完项目后，解释器中会多一个我们创建好的虚拟环境的解释器～</p>
-<p><img src="http://whw.pythonav.cn/%E7%BB%93%E5%90%885.jpg" alt="img12"></p>
-<h3 id="在虚拟环境中安装python包"><a href="#在虚拟环境中安装python包" class="headerlink" title="在虚拟环境中安装python包"></a>在虚拟环境中安装python包</h3><p>安装完新的虚拟环境，里面几乎也是一无所有的，我们需要在虚拟环境中安装模块与包～</p>
-<p>进入虚拟环境后～我直接用requirements安装的：</p>
-<p><img src="http://whw.pythonav.cn/%E7%BB%93%E5%90%886.jpg" alt="img13"></p>
-<p>这样我们就可以在虚拟环境中愉快的做开发了～</p>
-<h3 id="mac中使用virtualenvwrapper工具的配置步骤"><a href="#mac中使用virtualenvwrapper工具的配置步骤" class="headerlink" title="mac中使用virtualenvwrapper工具的配置步骤"></a>mac中使用virtualenvwrapper工具的配置步骤</h3><p><strong>（1）首先得安装virtualenvwrapper这个模块</strong></p>
-<p><strong>（2）然后编辑文件：~/.bash_profile</strong></p>
-<p>在里面加上下面这些：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将虚拟环境目录指定在用户家目录的venvs目录下</span></span><br><span class="line">export WORKON_HOME=~/venvs</span><br><span class="line"><span class="comment"># 为新建的虚拟环境创建纯净的环境</span></span><br><span class="line">export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=<span class="string">'--no-site-packages'</span></span><br><span class="line"><span class="comment"># 这里是python3的安装目录</span></span><br><span class="line"><span class="comment"># 也就是说用这个工具生成的是python3的虚拟环境</span></span><br><span class="line">export VIRTUALENVWRAPPER_PYTHON=/Library/Frameworks/Python.framework/Versions/<span class="number">3.6</span>/bin/python3</span><br><span class="line"><span class="comment"># 这是virtualenvwrapper.sh工具的位置</span></span><br><span class="line">source /Library/Frameworks/Python.framework/Versions/<span class="number">3.6</span>/bin/virtualenvwrapper.sh</span><br></pre></td></tr></table></figure>
-
-<p><strong>（3）最后一定要记得source一下！！！</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
-
-<h2 id="以后创建项目的时候就可以指定创建好的虚拟环境了"><a href="#以后创建项目的时候就可以指定创建好的虚拟环境了" class="headerlink" title="以后创建项目的时候就可以指定创建好的虚拟环境了"></a>以后创建项目的时候就可以指定创建好的虚拟环境了</h2><p><img src="http://whw.pythonav.cn/%E7%BB%93%E5%90%887.jpg" alt="img15"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -265,7 +205,7 @@
 		</ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -278,98 +218,20 @@
 	</div>
 
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/03/11/解决logging模块日志信息重复问题/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          解决logging模块日志信息重复问题
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Flask给视图增加多个装饰器的问题及解决方案</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提要安装virtualenv模块"><span class="toc-number">1.</span> <span class="toc-text">前提要安装virtualenv模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#windows中的使用"><span class="toc-number">2.</span> <span class="toc-text">windows中的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#新建一个Pycharm项目"><span class="toc-number">2.1.</span> <span class="toc-text">新建一个Pycharm项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看项目解释器"><span class="toc-number">2.1.1.</span> <span class="toc-text">查看项目解释器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在虚拟环境安装模块与包"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">在虚拟环境安装模块与包</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mac中virtualenv的使用"><span class="toc-number">2.2.</span> <span class="toc-text">mac中virtualenv的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mac中的命令"><span class="toc-number">2.2.1.</span> <span class="toc-text">mac中的命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建django项目的选项"><span class="toc-number">2.2.2.</span> <span class="toc-text">创建django项目的选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在虚拟环境中安装python包"><span class="toc-number">2.2.3.</span> <span class="toc-text">在虚拟环境中安装python包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mac中使用virtualenvwrapper工具的配置步骤"><span class="toc-number">2.2.4.</span> <span class="toc-text">mac中使用virtualenvwrapper工具的配置步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以后创建项目的时候就可以指定创建好的虚拟环境了"><span class="toc-number">2.3.</span> <span class="toc-text">以后创建项目的时候就可以指定创建好的虚拟环境了</span></a></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-
- 
-  <!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
-	<script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-	</script>
-<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-</div>
-<!-- City版安装代码已完成 -->
-
+    </div></section>
   
 
-
-  
-  
-  
-
-  
-
-  
-
+    
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/categories/Python/">&laquo; Prev</a><a class="page-number" href="/categories/Python/">1</a><span class="page-number current">2</span>
+    </nav>
   
 
 
@@ -395,10 +257,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
-		isCategory: false,
+		isCategory: true,
 		open_in_new: true,
 		toc_hide_index: true,
 		root: "/",
