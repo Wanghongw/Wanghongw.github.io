@@ -6,15 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 单例模式 | 火之影</title>
+  <title>optparse模块解析命令行参数的说明及优化 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="火之影">
-<meta property="og:url" content="http://yoursite.com/tags/单例模式/index.html">
+  <meta name="description" content="关于“解析命令行参数”的方法我们一般都会用到sys.argv跟optparse模块。">
+<meta name="keywords" content="optparse模块,模块与包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="optparse模块解析命令行参数的说明及优化">
+<meta property="og:url" content="http://yoursite.com/2019/12/22/optparse模块解析命令行参数的说明及优化/index.html">
 <meta property="og:site_name" content="火之影">
+<meta property="og:description" content="关于“解析命令行参数”的方法我们一般都会用到sys.argv跟optparse模块。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://whw.pythonav.cn/1.gif">
+<meta property="og:image" content="http://whw.pythonav.cn/2.gif">
+<meta property="og:image" content="http://whw.pythonav.cn/3.gif">
+<meta property="og:image" content="http://whw.pythonav.cn/4.png">
+<meta property="og:image" content="http://whw.pythonav.cn/5.png">
+<meta property="og:image" content="http://whw.pythonav.cn/6.gif">
+<meta property="og:updated_time" content="2019-12-22T14:41:07.426Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="火之影">
+<meta name="twitter:title" content="optparse模块解析命令行参数的说明及优化">
+<meta name="twitter:description" content="关于“解析命令行参数”的方法我们一般都会用到sys.argv跟optparse模块。">
+<meta name="twitter:image" content="http://whw.pythonav.cn/1.gif">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -164,52 +176,66 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-optparse模块解析命令行参数的说明及优化" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/13/基于模块导入的单例模式/" class="archive-article-date">
-  	<time datetime="2019-04-13T11:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-13</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/13/基于模块导入的单例模式/">基于模块导入的单例模式</a>
+    <h1 class="article-title" itemprop="name">
+      optparse模块解析命令行参数的说明及优化
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/12/22/optparse模块解析命令行参数的说明及优化/" class="archive-article-date">
+  	<time datetime="2019-12-22T14:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于“解析命令行参数”的方法我们一般都会用到sys.argv跟optparse模块。<a id="more"></a>关于sys.argv，网上有一篇非常优秀的博客已经介绍的很详细了，大家可以去这里参考：<a href="https://www.cnblogs.com/aland-1415/p/6613449.html" target="_blank" rel="noopener">https://www.cnblogs.com/aland-1415/p/6613449.html</a>。这里为大家介绍一个比sys.argv更强大的optparse模块。<br>这里说一句题外话，点开optparse的源码，第一行注释是这样的：<code>A powerful, extensible, and easy-to-use option parser</code>，是否感受到了作者强有力的……<br>说回正题，当我们要利用server与client进行FTP文件传输的时候，在client端往往需要输入诸如 <code>-s 10.10.10.1 -p 9001</code> 这样的信息，当然我们不能控制用户的输入，如果用户随意的输入错误的命令，比如不写IP地址，只是写<code>-s -p 9001</code>，或者只写<code>-s -p</code>。我们如果还用sys.argv获取参数的话需要做很多麻烦的逻辑判断，这给我们开发程序带来了很大的不便。<br>但是如果我们利用optparse会十分便捷的解决这样的问题。</p>
+<h4 id="optparse介绍"><a href="#optparse介绍" class="headerlink" title="optparse介绍"></a>optparse介绍</h4><h5 id="optparse的用法如下"><a href="#optparse的用法如下" class="headerlink" title="optparse的用法如下"></a>optparse的用法如下</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> optparse</span><br><span class="line">parser = optparse.OptionParser()</span><br><span class="line">parser.add_option(<span class="string">"-s"</span>, <span class="string">"--server"</span>, dest=<span class="string">"server"</span>, help=<span class="string">"ftp server ip_address"</span>)</span><br><span class="line">parser.add_option(<span class="string">"-P"</span>, <span class="string">"--port"</span>, type=<span class="string">"int"</span>, dest=<span class="string">"port"</span>, help=<span class="string">"ftp server port"</span>)</span><br><span class="line">parser.add_option(<span class="string">"-u"</span>, <span class="string">"--username"</span>, dest=<span class="string">"username"</span>, help=<span class="string">"username info"</span>)</span><br><span class="line">parser.add_option(<span class="string">"-p"</span>, <span class="string">"--password"</span>, dest=<span class="string">"password"</span>, help=<span class="string">"password info"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>首先import optparse类，然后创建optparse对象parser，再使用add_option()来定义命令行参数，最后使用parse_args()来解析命令行。</p>
+<h5 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h5><p>我们先新建一个test.py文件，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> optparse</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Wang_opt</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment">#初始化</span></span><br><span class="line">        parser = optparse.OptionParser()</span><br><span class="line">        parser.add_option(<span class="string">"-s"</span>, <span class="string">"--server"</span>, dest=<span class="string">"server"</span>, help=<span class="string">"ftp server ip_address"</span>)</span><br><span class="line">        parser.add_option(<span class="string">"-P"</span>, <span class="string">"--port"</span>, type=<span class="string">"int"</span>, dest=<span class="string">"port"</span>, help=<span class="string">"ftp server port"</span>)</span><br><span class="line">        parser.add_option(<span class="string">"-u"</span>, <span class="string">"--username"</span>, dest=<span class="string">"username"</span>, help=<span class="string">"username info"</span>)</span><br><span class="line">        parser.add_option(<span class="string">"-p"</span>, <span class="string">"--password"</span>, dest=<span class="string">"password"</span>, help=<span class="string">"password info"</span>)</span><br><span class="line">        <span class="comment">#解析参数</span></span><br><span class="line">        self.options, self.args = parser.parse_args()</span><br><span class="line">        print(self.options,self.args)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    whw_opt = Wang_opt()</span><br></pre></td></tr></table></figure>
+
+<p>然后在test.py文件的目录下运行python test.py，后面不跟任何参数，看看效果：<br><img src="http://whw.pythonav.cn/1.gif" alt="1"><br>运行的结果一个是”字典”，里面存放的是我们需要的信息，后面有一个“空列表”，我们再试试加上符合条件的参数以及不符合条件的参数：<br><img src="http://whw.pythonav.cn/2.gif" alt="2"><br>这就说明，”字典”中存放的是我们需要的信息，如果用户没有输入默认设置为None；而“列表”’中存放的是“错误”信息。再返回头看看源代码，其实这个”字典”就是上面的self.options变量，“列表”就是self.args。optparse模块解析的结果就是“我们想得到的信息”以及“用户误操作的输入信息”——的确很强大！<br>当然，如果用户不知道他需要输入什么命令，我们可以在后面输入 -h，寻求帮助：<br><img src="http://whw.pythonav.cn/3.gif" alt="3"><br>其实大家可以对照着源代码，这些信息的关键字都是我们在add_option()方法中设置的——嗯，确实是<code>A powerful, extensible, and easy-to-use option parser</code></p>
+<h4 id="重点说明"><a href="#重点说明" class="headerlink" title="重点说明"></a>重点说明</h4><h5 id="关于得到的“字典”与“列表”的说明"><a href="#关于得到的“字典”与“列表”的说明" class="headerlink" title="关于得到的“字典”与“列表”的说明"></a>关于得到的“字典”与“列表”的说明</h5><p>其实我们解析得到的参数<code>self.options</code>与<code>self.args</code>并不是真正意义上的字典与列表，只是“字典与列表的形象”而已！实际上，这两个参数是<code>对象</code>，我们可以进行如下验证，在程序最后打印：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(whw_opt.options.server)</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://whw.pythonav.cn/4.png" alt="4"><br>我们可以看到：用操作符‘.’可以取得server的值 0.0.0.0。<br>但是，我们如果利用字典的key-value的取值方式会报错：<br><img src="http://whw.pythonav.cn/5.png" alt="5"></p>
+<h5 id="一个小优化："><a href="#一个小优化：" class="headerlink" title="一个小优化："></a>一个小优化：</h5><p>当然，再厉害的工具也必然会有缺点。<code>如果要求用户必须有输入的话</code>，我们可以这样来优化一下程序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> optparse</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Wang_opt</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment">#初始化</span></span><br><span class="line">        parser = optparse.OptionParser()</span><br><span class="line">        parser.add_option(<span class="string">"-s"</span>, <span class="string">"--server"</span>, dest=<span class="string">"server"</span>, help=<span class="string">"ftp server ip_address"</span>)</span><br><span class="line">        parser.add_option(<span class="string">"-P"</span>, <span class="string">"--port"</span>, type=<span class="string">"int"</span>, dest=<span class="string">"port"</span>, help=<span class="string">"ftp server port"</span>)</span><br><span class="line">        parser.add_option(<span class="string">"-u"</span>, <span class="string">"--username"</span>, dest=<span class="string">"username"</span>, help=<span class="string">"username info"</span>)</span><br><span class="line">        parser.add_option(<span class="string">"-p"</span>, <span class="string">"--password"</span>, dest=<span class="string">"password"</span>, help=<span class="string">"password info"</span>)</span><br><span class="line">        <span class="comment">#解析参数</span></span><br><span class="line">        self.options, self.args = parser.parse_args()</span><br><span class="line">        print(self.options,self.args)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">verification</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.options.server <span class="keyword">or</span> <span class="keyword">not</span> self.options.port:</span><br><span class="line">            exit(<span class="string">'ERROR!must support server and port parameters!'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    whw_opt = Wang_opt()</span><br><span class="line">    whw_opt.verification()</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：<br><img src="http://whw.pythonav.cn/6.gif" alt="6"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">optparse模块</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单例模式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -222,17 +248,90 @@
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/12/08/基于tornado实现jwt认证md/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">基于tornado实现jwt认证</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#optparse介绍"><span class="toc-number">1.</span> <span class="toc-text">optparse介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#optparse的用法如下"><span class="toc-number">1.1.</span> <span class="toc-text">optparse的用法如下</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#举例说明"><span class="toc-number">1.2.</span> <span class="toc-text">举例说明</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重点说明"><span class="toc-number">2.</span> <span class="toc-text">重点说明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#关于得到的“字典”与“列表”的说明"><span class="toc-number">2.1.</span> <span class="toc-text">关于得到的“字典”与“列表”的说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#一个小优化："><span class="toc-number">2.2.</span> <span class="toc-text">一个小优化：</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+
+ 
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
   
 
-    
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -257,9 +356,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
