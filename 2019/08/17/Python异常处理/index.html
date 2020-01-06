@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/3 | 火之影</title>
+  <title>Python异常处理 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="火之影">
-<meta property="og:url" content="http://yoursite.com/archives/2019/03/index.html">
+  <meta name="description" content="本文将详细介绍Python中常见的错误与异常以及处理异常的具体方法。">
+<meta name="keywords" content="异常处理,模块与包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python异常处理">
+<meta property="og:url" content="http://yoursite.com/2019/08/17/Python异常处理/index.html">
 <meta property="og:site_name" content="火之影">
+<meta property="og:description" content="本文将详细介绍Python中常见的错误与异常以及处理异常的具体方法。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://whw.pythonav.cn/%E5%BC%82%E5%B8%B8%E5%8D%9A%E5%AE%A2.png">
+<meta property="og:image" content="http://whw.pythonav.cn/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%862.gif">
+<meta property="og:updated_time" content="2020-01-06T14:54:40.441Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="火之影">
+<meta name="twitter:title" content="Python异常处理">
+<meta name="twitter:description" content="本文将详细介绍Python中常见的错误与异常以及处理异常的具体方法。">
+<meta name="twitter:image" content="http://whw.pythonav.cn/%E5%BC%82%E5%B8%B8%E5%8D%9A%E5%AE%A2.png">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -164,203 +172,218 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Python异常处理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/21/自定义类实现原生SQL的GROUP-CONCAT的功能/" class="archive-article-date">
-  	<time datetime="2019-03-21T01:21:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/21/自定义类实现原生SQL的GROUP-CONCAT的功能/">自定义类实现原生SQL的GROUP_CONCAT的功能</a>
+    <h1 class="article-title" itemprop="name">
+      Python异常处理
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/08/17/Python异常处理/" class="archive-article-date">
+  	<time datetime="2019-08-17T13:34:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文将详细介绍Python中常见的错误与异常以及处理异常的具体方法。<a id="more"></a></p>
+<h4 id="Python异常的分类"><a href="#Python异常的分类" class="headerlink" title="Python异常的分类"></a>Python异常的分类</h4><p>Python中的错误主要分为2种：一种是<code>语法错误</code>，另外一种是<code>逻辑错误</code>。<br>语法错误在Python解释器进行语法检测的时候就会被“捕获”到，也就是说，如果代码中存在语法错误，那这段代码所在的整个程序都不会执行！<br>常见的语法错误示范如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 函数后没加引号</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    <span class="title">pass</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 只有一个关键字</span></span><br><span class="line"><span class="function"><span class="title">for</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># 调用方法没写完整</span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">test(</span><br><span class="line">    </span><br><span class="line"><span class="comment"># and so on</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>第二种<code>逻辑错误</code>是在我们执行Python代码期间产生的异常，它虽然可以通过Python的“语法检测”，但是因为逻辑问题会抛出异常：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># int强转一个非数字的字符串</span></span><br><span class="line">s = <span class="string">"wanghw"</span></span><br><span class="line">d = int(s)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分母为0</span></span><br><span class="line">a = <span class="number">1</span>/<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># and so on</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码中捕获的异常"><a href="#代码中捕获的异常" class="headerlink" title="代码中捕获的异常"></a>代码中捕获的异常</h4><p>在Python的IDE下捕获的异常一般是这样的：<br><img src="http://whw.pythonav.cn/%E5%BC%82%E5%B8%B8%E5%8D%9A%E5%AE%A2.png" alt="123"></p>
+<h4 id="常见的异常"><a href="#常见的异常" class="headerlink" title="常见的异常"></a>常见的异常</h4><p>Python中常见的异常如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"AttributeError"</span> 试图访问一个对象没有的属性，比如foo.x，但是foo没有属性x</span><br><span class="line"><span class="string">"IOError"</span> 输入/输出异常；基本上是无法打开文件</span><br><span class="line"><span class="string">"ImportError"</span> 无法引入模块或包；基本上是路径问题或名称错误</span><br><span class="line"><span class="string">"IndentationError"</span> 语法错误（的子类） ；代码没有正确对齐</span><br><span class="line"><span class="string">"IndexError"</span> 下标索引超出序列边界，比如当x只有三个元素，却试图访问x[<span class="number">5</span>]</span><br><span class="line"><span class="string">"KeyError"</span> 试图访问字典里不存在的键</span><br><span class="line"><span class="string">"KeyboardInterrupt"</span> Ctrl+C被按下</span><br><span class="line"><span class="string">"NameError"</span> 使用一个还未被赋予对象的变量</span><br><span class="line"><span class="string">"SyntaxError"</span> Python代码非法，代码不能编译(个人认为这是语法错误，写错了）</span><br><span class="line"><span class="string">"TypeError"</span> 传入对象类型与要求的不符合</span><br><span class="line"><span class="string">"UnboundLocalError"</span> 试图访问一个还未被设置的局部变量，基本上是由于另有一个同名的全局变量，导致你以为正在访问它</span><br><span class="line"><span class="string">"ValueError"</span> 传入一个调用者不期望的值，即使值的类型是正确的</span><br></pre></td></tr></table></figure>
+
+<p>其他的异常信息如下：</p>
+<details><summary>其他更多异常</summary><pre><code>ArithmeticError
+AssertionError
+AttributeError
+BaseException
+BufferError
+BytesWarning
+DeprecationWarning
+EnvironmentError
+EOFError
+Exception
+FloatingPointError
+FutureWarning
+GeneratorExit
+ImportError
+ImportWarning
+IndentationError
+IndexError
+IOError
+KeyboardInterrupt
+KeyError
+LookupError
+MemoryError
+NameError
+NotImplementedError
+OSError
+OverflowError
+PendingDeprecationWarning
+ReferenceError
+RuntimeError
+RuntimeWarning
+StandardError
+StopIteration
+SyntaxError
+SyntaxWarning
+SystemError
+SystemExit
+TabError
+TypeError
+UnboundLocalError
+UnicodeDecodeError
+UnicodeEncodeError
+UnicodeError
+UnicodeTranslateError
+UnicodeWarning
+UserWarning
+ValueError
+Warning
+ZeroDivisionError
+</code></pre></details>
+
+<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><p>上面介绍了什么是异常，接下来详细说明一下Python中如何进行异常处理。</p>
+<h5 id="异常处理的概念"><a href="#异常处理的概念" class="headerlink" title="异常处理的概念"></a>异常处理的概念</h5><p>python解释器检测到错误，触发异常（也允许程序员自己触发异常）。<br>程序员编写特定的代码，专门用来捕捉这个异常（这段代码与程序逻辑无关，与异常处理有关）。<br>如果捕捉成功则进入另外一个处理分支，执行你为其定制的逻辑，使程序不会崩溃，这就是异常处理。</p>
+<h5 id="为什么要进行异常处理"><a href="#为什么要进行异常处理" class="headerlink" title="为什么要进行异常处理"></a>为什么要进行异常处理</h5><p>python解析器去执行程序，检测到了一个错误时，触发异常，异常触发后且没被处理的情况下，程序就在当前异常处终止，后面的代码不会运行，谁会去用一个运行着突然就崩溃的软件。<br>所以你必须提供一种异常处理机制来增强你程序的健壮性与容错性。</p>
+<h4 id="如何进行异常处理"><a href="#如何进行异常处理" class="headerlink" title="如何进行异常处理"></a>如何进行异常处理</h4><p><strong>首先须知，异常是由程序的错误引起的，语法上的错误跟异常处理无关，必须在程序运行前就修正！</strong> </p>
+<h5 id="Python中的异常处理"><a href="#Python中的异常处理" class="headerlink" title="Python中的异常处理"></a>Python中的异常处理</h5><p>Python中使用<code>try...except</code>代码块来处理异常。<br>基本语法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">     被检测的代码块</span><br><span class="line"><span class="keyword">except</span> 异常类型：</span><br><span class="line">     <span class="keyword">try</span>中一旦检测到异常，就执行这个位置的逻辑</span><br></pre></td></tr></table></figure>
+
+<p>如果在执行 try 块里的业务逻辑代码时出现异常，系统自动生成一个异常对象，该异常对象被提交给 Python 解释器，这个过程被称为引发异常。<br>当 Python 解释器收到异常对象时，会寻找能处理该异常对象的 except 块，如果找到合适的 except 块，则把该异常对象交给该 except 块处理，这个过程被称为捕获异常。如果 Python 解释器找不到捕获异常的 except 块，则运行时环境终止，Python 解释器也将退出。<br>不管程序代码块是否处于 try 块中，甚至包括 except 块中的代码，只要执行该代码块时出现了异常，系统总会自动生成一个 Error 对象。如果程序没有为这段代码定义任何的 except 块，则 Python 解释器无法找到处理该异常的 except 块，程序就在此退出。<br>拿一个具体的实例来说：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = open(<span class="string">'a.txt'</span>)</span><br><span class="line">    g = (line.strip() <span class="keyword">for</span> line <span class="keyword">in</span> f)</span><br><span class="line">    print(next(g))</span><br><span class="line">    print(next(g))</span><br><span class="line">    print(next(g))</span><br><span class="line">    print(next(g))</span><br><span class="line">    print(next(g))</span><br><span class="line"><span class="keyword">except</span> StopIteration:</span><br><span class="line">    f.close()</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">next(g)会触发迭代f，依次next(g)就可以读取文件的一行行内容，无论文件a.txt有多大，同一时刻内存中只有一行内容。</span></span><br><span class="line"><span class="string">提示：g是基于文件句柄f而存在的，因而只能在next(g)抛出异常StopIteration后才可以执行f.close()</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="单个except块只能处理指定的异常"><a href="#单个except块只能处理指定的异常" class="headerlink" title="单个except块只能处理指定的异常"></a>单个except块只能处理指定的异常</h5><p><strong>异常类只能用来处理指定的异常情况，如果非指定异常则无法处理</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 未捕获到异常，程序直接报错</span></span><br><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br></pre></td></tr></table></figure>
+
+<h5 id="多分支捕获多种异常"><a href="#多分支捕获多种异常" class="headerlink" title="多分支捕获多种异常"></a>多分支捕获多种异常</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+
+<h5 id="万能异常"><a href="#万能异常" class="headerlink" title="万能异常"></a>万能异常</h5><p>使用万能异常<code>Exception</code>可以捕获所有的异常：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+
+<h5 id="多分支-VS-万能异常"><a href="#多分支-VS-万能异常" class="headerlink" title="多分支 VS 万能异常"></a>多分支 VS 万能异常</h5><p>1、如果你想要的效果是，无论出现什么异常，我们统一丢弃，或者使用同一段代码逻辑去处理他们，那么骚年，大胆的去做吧，只有一个Exception就足够了。 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> Exception,e:</span><br><span class="line">    <span class="string">'丢弃或者执行其他逻辑'</span></span><br><span class="line">    print(e)</span><br><span class="line"></span><br><span class="line"><span class="comment">#如果你统一用Exception，没错，是可以捕捉所有异常，但意味着你在处理所有异常时都使用同一个逻辑去处理（这里说的逻辑即当前expect下面跟的代码块）</span></span><br></pre></td></tr></table></figure>
+
+<p>2、如果你想要的效果是，对于不同的异常我们需要定制不同的处理逻辑，那就需要用到多分支了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+
+<h5 id="主动触发异常"><a href="#主动触发异常" class="headerlink" title="主动触发异常"></a>主动触发异常</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">raise</span> TypeError(<span class="string">'类型错误'</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+
+<h5 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定义异常</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HuoException</span><span class="params">(Exception)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,msg)</span>:</span></span><br><span class="line">        self.msg = msg</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.msg</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	<span class="keyword">raise</span> HuoException(<span class="string">"huoyingwhw aaa"</span>)</span><br><span class="line"><span class="keyword">except</span> HuoException <span class="keyword">as</span> e:</span><br><span class="line">	print(e)</span><br></pre></td></tr></table></figure>
+
+<h5 id="Python异常类的继承顺序"><a href="#Python异常类的继承顺序" class="headerlink" title="Python异常类的继承顺序"></a>Python异常类的继承顺序</h5><p><img src="http://whw.pythonav.cn/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%862.gif" alt="12322"><br>从上图 中可以看出，Python 的所有异常类的基类是 BaseException，但如果用户要实现自定义异常，则不应该继承这个基类，而是应该继承 Exception 类。<br>BaseException 的主要子类就是 Exception，不管是系统的异常类，还是用户自定义的异常类，都应该从 Exception 派生。 </p>
+<details><summary>异常的继承关系</summary><pre><code>BaseException
+ +-- SystemExit
+ +-- KeyboardInterrupt
+ +-- GeneratorExit
+ +-- Exception
+      +-- StopIteration
+      +-- StandardError
+      |    +-- BufferError
+      |    +-- ArithmeticError
+      |    |    +-- FloatingPointError
+      |    |    +-- OverflowError
+      |    |    +-- ZeroDivisionError
+      |    +-- AssertionError
+      |    +-- AttributeError
+      |    +-- EnvironmentError
+      |    |    +-- IOError
+      |    |    +-- OSError
+      |    |         +-- WindowsError (Windows)
+      |    |         +-- VMSError (VMS)
+      |    +-- EOFError
+      |    +-- ImportError
+      |    +-- LookupError
+      |    |    +-- IndexError
+      |    |    +-- KeyError
+      |    +-- MemoryError
+      |    +-- NameError
+      |    |    +-- UnboundLocalError
+      |    +-- ReferenceError
+      |    +-- RuntimeError
+      |    |    +-- NotImplementedError
+      |    +-- SyntaxError
+      |    |    +-- IndentationError
+      |    |         +-- TabError
+      |    +-- SystemError
+      |    +-- TypeError
+      |    +-- ValueError
+      |         +-- UnicodeError
+      |              +-- UnicodeDecodeError
+      |              +-- UnicodeEncodeError
+      |              +-- UnicodeTranslateError
+      +-- Warning
+           +-- DeprecationWarning
+           +-- PendingDeprecationWarning
+           +-- RuntimeWarning
+           +-- SyntaxWarning
+           +-- UserWarning
+           +-- FutureWarning
+       +-- ImportWarning
+       +-- UnicodeWarning
+       +-- BytesWarning</code></pre></details>
+
+<h4 id="Python异常处理的else块"><a href="#Python异常处理的else块" class="headerlink" title="Python异常处理的else块"></a>Python异常处理的else块</h4><p>在 Python 的异常处理流程中还可添加一个 else 块，当 try 块没有出现异常时，程序会执行 else 块。例如如下程序： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">s = input(<span class="string">'请输入除数:'</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    result = <span class="number">20</span> / int(s)</span><br><span class="line">    print(<span class="string">'20除以%s的结果是: %g'</span> % (s , result))</span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    print(<span class="string">'值错误，您必须输入数值'</span>)</span><br><span class="line"><span class="keyword">except</span> ArithmeticError:</span><br><span class="line">    print(<span class="string">'算术错误，您不能输入0'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'没有出现异常'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上面程序为异常处理流程添加了 else 块，当程序中的 try 块没有出现异常时，程序就会执行 else 块。运行上面程序，如果用户输入导致程序中的 try 块出现了异常，则运行结果如下： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请输入除数：a</span><br><span class="line">值错误，您必须输入数值</span><br></pre></td></tr></table></figure>
+
+<p>如果用户输入让程序中的 try 块顺利完成，则运行结果如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">请输入除数：3</span><br><span class="line">20 除以3 的结果是：6.66667</span><br><span class="line">没有出现异常</span><br></pre></td></tr></table></figure>
+
+<p>看到这里，可能有读者觉得奇怪：既然只有当 try 块没有异常时才会执行 else 块，那么直接把 else 块的代码放在 try 块的代码的后面不就行了？<br>实际上大部分语言的异常处理都没有 else 块，它们确实是将 else 块的代码直接放在 try 块的代码的后面的，因为对于大部分场景而言，直接将 else 块的代码放在 try 块的代码的后面即可。<br>但 Python 的异常处理使用 else 块绝不是多余的语法，当 try 块没有异常，而 else 块有异常时，就能体现出 else 块的作用了。例如如下程序： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">else_test</span><span class="params">()</span>:</span></span><br><span class="line">    s = input(<span class="string">'请输入除数:'</span>)</span><br><span class="line">    result = <span class="number">20</span> / int(s)</span><br><span class="line">    print(<span class="string">'20除以%s的结果是: %g'</span> % (s , result))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">right_main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(<span class="string">'try块的代码，没有异常'</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'程序出现异常'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 将else_test放在else块中</span></span><br><span class="line">        else_test()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrong_main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(<span class="string">'try块的代码，没有异常'</span>)</span><br><span class="line">        <span class="comment"># 将else_test放在try块代码的后面</span></span><br><span class="line">        else_test()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'程序出现异常'</span>)</span><br><span class="line">wrong_main()</span><br><span class="line">right_main()</span><br></pre></td></tr></table></figure>
+
+<p>上面程序中定义了一个 else_test() 函数，该函数在运行时需要接收用户输入的参数，随着用户输入数据的不同可能导致异常。接下来程序定义了 right_main() 和 wrong_main() 两个函数，其中 right_main() 将 else_test() 函数放在 else 块内；而 wrong_main() 将 else_test() 函数放在 try 块的代码的后面。<br>正如上面所介绍的，当 try 块和 else 块都没有异常时，将 else_test() 函数放在 try 块的代码的后面和放在 else 块中没有任何区别。例如，如果用户输入的数据没有导致程序出现异常，则将看到程序产生如下输出结果： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>块的代码，没有异常</span><br><span class="line">请输入除数:<span class="number">4</span></span><br><span class="line"><span class="number">20</span>除以<span class="number">4</span>的结果是: <span class="number">5</span></span><br><span class="line"><span class="keyword">try</span>块的代码，没有异常</span><br><span class="line">请输入除数:<span class="number">4</span></span><br><span class="line"><span class="number">20</span>除以<span class="number">4</span>的结果是: <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p>但如果用户输入的数据让 else_test() 函数出现异常（try 块依然没有任何异常），此时程序就会产生如下输出结果： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>块的代码，没有异常</span><br><span class="line">请输入除数:<span class="number">0</span></span><br><span class="line">程序出现异常</span><br><span class="line"><span class="keyword">try</span>块的代码，没有异常</span><br><span class="line">请输入除数:<span class="number">0</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"C:\Users\mengma\Desktop\1.py"</span>, line <span class="number">21</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    right_main()</span><br><span class="line">  File <span class="string">"C:\Users\mengma\Desktop\1.py"</span>, line <span class="number">12</span>, <span class="keyword">in</span> right_main</span><br><span class="line">    else_test()</span><br><span class="line">  File <span class="string">"C:\Users\mengma\Desktop\1.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> else_test</span><br><span class="line">    result = <span class="number">20</span> / int(s)</span><br><span class="line">ZeroDivisionError: division by zero</span><br></pre></td></tr></table></figure>
+
+<p>对比上面两个输出结果，用户输入的都是 0，这样都会导致 else_test() 函数出现异常。如果将 else_test() 函数放在 try 块的代码的后面，此时 else_test() 函数运行产生的异常将会被 try 块对应的 except 捕获，这正是 Python 异常处理机制的执行流程：但如果将 else_test() 函数放在 else 块中，当 else_test() 函数出现异常时，程序没有 except 块来处理该异常，该异常将会传播给 Python 解释器，导致程序中止。<br><code>对比上面两个输出结果，不难发现，放在 else 块中的代码所引发的异常不会被 except 块捕获。</code><br>所以，<strong>如果希望某段代码的异常能被后面的 except 块捕获，那么就应该将这段代码放在 try 块的代码之后；如果希望某段代码的异常能向外传播（不被 except 块捕获），那么就应该将这段代码放在 else 块中</strong>。 </p>
+<h4 id="Python异常处理的finally块"><a href="#Python异常处理的finally块" class="headerlink" title="Python异常处理的finally块"></a>Python异常处理的finally块</h4><p><code>finally</code>块中的代码无论是否发生了异常都会执行，通常进行操作系统资源的清理工作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># finally块</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = open(<span class="string">"lru1.py"</span>)</span><br><span class="line">    contents = f.read()</span><br><span class="line">    print(contents)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何合理的使用异常处理"><a href="#如何合理的使用异常处理" class="headerlink" title="如何合理的使用异常处理"></a>如何合理的使用异常处理</h4><p>有的同学会这么想，学完了异常处理后，好强大，我要为我的每一段程序都加上try…except，干毛线去思考它会不会有逻辑错误啊，这样就很好啊，多省脑细胞 - -!<br>try…except应该尽量少用，因为它本身就是你附加给你的程序的一种异常处理的逻辑，与你的主要的工作是没有关系的<br>这种东西加的多了，会导致你的代码可读性变差，只有在有些异常无法预知的情况下，才应该加上try…except，其他的逻辑错误应该尽量修正</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://c.biancheng.net/view/2315.html" target="_blank" rel="noopener">http://c.biancheng.net/view/2315.html</a><br><a href="https://www.cnblogs.com/Eva-J/articles/7281240.html" target="_blank" rel="noopener">https://www.cnblogs.com/Eva-J/articles/7281240.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ORM</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">异常处理</a>
         		</li>
       		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">面向对象</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/19/Flask中的session操作/" class="archive-article-date">
-  	<time datetime="2019-03-19T13:56:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/19/Flask中的session操作/">Flask中的session操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/string模块Template方法的简单介绍/" class="archive-article-date">
-  	<time datetime="2019-03-17T14:05:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/string模块Template方法的简单介绍/">string模块Template方法的简单介绍</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/11/解决logging模块日志信息重复问题/" class="archive-article-date">
-  	<time datetime="2019-03-11T13:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/11/解决logging模块日志信息重复问题/">解决logging模块日志信息重复问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">logging模块</a>
-        		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -373,119 +396,99 @@
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/" class="archive-article-date">
-  	<time datetime="2019-03-05T11:21:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-05</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/08/30/Pycharm与Python3中的TypeHint/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Pycharm与Python3中的TypeHint
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/10/Flask的版本与返回字典数据的问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Flask的版本与返回字典数据的问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/05/windows与mac下virtualenv与Pycharm的结合使用/">windows与mac下virtualenv与Pycharm的结合使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Pycharm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">虚拟环境</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Python异常的分类"><span class="toc-number">1.</span> <span class="toc-text">Python异常的分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码中捕获的异常"><span class="toc-number">2.</span> <span class="toc-text">代码中捕获的异常</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常见的异常"><span class="toc-number">3.</span> <span class="toc-text">常见的异常</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异常处理"><span class="toc-number">4.</span> <span class="toc-text">异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#异常处理的概念"><span class="toc-number">4.1.</span> <span class="toc-text">异常处理的概念</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么要进行异常处理"><span class="toc-number">4.2.</span> <span class="toc-text">为什么要进行异常处理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何进行异常处理"><span class="toc-number">5.</span> <span class="toc-text">如何进行异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Python中的异常处理"><span class="toc-number">5.1.</span> <span class="toc-text">Python中的异常处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#单个except块只能处理指定的异常"><span class="toc-number">5.2.</span> <span class="toc-text">单个except块只能处理指定的异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#多分支捕获多种异常"><span class="toc-number">5.3.</span> <span class="toc-text">多分支捕获多种异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#万能异常"><span class="toc-number">5.4.</span> <span class="toc-text">万能异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#多分支-VS-万能异常"><span class="toc-number">5.5.</span> <span class="toc-text">多分支 VS 万能异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#主动触发异常"><span class="toc-number">5.6.</span> <span class="toc-text">主动触发异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自定义异常"><span class="toc-number">5.7.</span> <span class="toc-text">自定义异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Python异常类的继承顺序"><span class="toc-number">5.8.</span> <span class="toc-text">Python异常类的继承顺序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python异常处理的else块"><span class="toc-number">6.</span> <span class="toc-text">Python异常处理的else块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python异常处理的finally块"><span class="toc-number">7.</span> <span class="toc-text">Python异常处理的finally块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何合理的使用异常处理"><span class="toc-number">8.</span> <span class="toc-text">如何合理的使用异常处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文章"><span class="toc-number"></span> <span class="toc-text">参考文章</span></a>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/" class="archive-article-date">
-  	<time datetime="2019-03-01T04:21:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/">Flask给视图增加多个装饰器的问题及解决方案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
+
+
+ 
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
   
 
-    
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -510,8 +513,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
