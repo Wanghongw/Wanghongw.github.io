@@ -140,6 +140,31 @@
   </entry>
   
   <entry>
+    <title>Celery介绍及在Django中的使用</title>
+    <link href="http://yoursite.com/2019/10/07/Celery%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%9C%A8Django%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/10/07/Celery介绍及在Django中的使用/</id>
+    <published>2019-10-07T11:30:22.000Z</published>
+    <updated>2020-01-07T14:52:39.852Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文详细介绍了Celery的原理、简单使用以及在Django中的应用实例。<a id="more"></a><br>Celery博客我写在了<code>博客园</code>中，因为博客园的文本编辑器相对来说格式更加丰富，Celery这篇博客个人认为还是有很多需要重点注意的细节的，所以重要的地方都用特殊的格式标注了下来，希望对大家学习Celery以及在Django中使用Celery有所帮助！<br><strong>博客链接：<a href="https://www.cnblogs.com/paulwhw/p/11631735.html" target="_blank" rel="noopener">异步任务分发模块Celery</a></strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文详细介绍了Celery的原理、简单使用以及在Django中的应用实例。
+    
+    </summary>
+    
+    
+      <category term="Django" scheme="http://yoursite.com/categories/Django/"/>
+    
+    
+      <category term="Celery" scheme="http://yoursite.com/tags/Celery/"/>
+    
+      <category term="Django基础" scheme="http://yoursite.com/tags/Django%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Django中contenttypes组件的使用</title>
     <link href="http://yoursite.com/2019/09/22/Django%E4%B8%ADcontenttypes%E7%BB%84%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <id>http://yoursite.com/2019/09/22/Django中contenttypes组件的使用/</id>
@@ -493,31 +518,6 @@
       <category term="ORM" scheme="http://yoursite.com/tags/ORM/"/>
     
       <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>基于模块导入的单例模式</title>
-    <link href="http://yoursite.com/2019/04/13/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E7%9A%84%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/04/13/基于模块导入的单例模式/</id>
-    <published>2019-04-13T11:13:01.000Z</published>
-    <updated>2019-09-21T04:28:21.224Z</updated>
-    
-    <content type="html"><![CDATA[<p>在Python中，如果已经导入过的文件再次被重新导入时候，python不会再重新解释一遍，而是选择从内存中直接将原来导入的值拿来用，这就是Python模块导入的特性。<br>依据这个特性，我们可以实现简单的<code>单例模式</code>。<br>让我们来新创建一个项目进行具体的说明。<a id="more"></a><br>项目的文件目录如下：<br><img src="http://whw.pythonav.cn/module_single_tone.png" alt="img"><br><code>singleton</code>中定义一个类并实例化一个对象，用来做单例：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># singleton.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleTon</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">s = SingleTon()</span><br></pre></td></tr></table></figure><p><code>test1</code>与<code>test2</code>中分别导入这个类的对象并打印这个对象的内存地址：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># test1.py</span></span><br><span class="line"><span class="keyword">from</span> singleton <span class="keyword">import</span> s</span><br><span class="line"></span><br><span class="line">print(<span class="string">'test1:'</span>,s)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># test2.py</span></span><br><span class="line"><span class="keyword">from</span> singleton <span class="keyword">import</span> s</span><br><span class="line"></span><br><span class="line">print(<span class="string">'test2:'</span>,s)</span><br></pre></td></tr></table></figure><p><code>run</code>文件导入test1与test2，执行里面的print方法：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># run.py</span></span><br><span class="line"><span class="keyword">import</span> test1</span><br><span class="line"><span class="keyword">import</span> test2</span><br></pre></td></tr></table></figure><p>执行的结果如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test1: &lt;singleton.SingleTon object at <span class="number">0x110204400</span>&gt;</span><br><span class="line">test2: &lt;singleton.SingleTon object at <span class="number">0x110204400</span>&gt;</span><br></pre></td></tr></table></figure><p>我们可以看到：test1与test2中的<code>对象s</code>确实是一个<code>单例</code>！</p><h4 id="基于模块导入的单例模式进行传值"><a href="#基于模块导入的单例模式进行传值" class="headerlink" title="基于模块导入的单例模式进行传值"></a>基于模块导入的单例模式进行传值</h4><p>在上面的项目的基础上，既然<code>对象s</code>是一个<code>单例模式</code>，那么我们就可以利用它进行文件之前的传值了。<br>修改一下test1中的代码，在里面为s对象加一个name属性：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># test1.py</span></span><br><span class="line"><span class="keyword">from</span> singleton <span class="keyword">import</span> s</span><br><span class="line"></span><br><span class="line">s.name = <span class="string">"wanghw"</span></span><br></pre></td></tr></table></figure><p>然后在test2中，我们可以打印出s的那么属性：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># test2.py</span></span><br><span class="line"><span class="keyword">from</span> singleton <span class="keyword">import</span> s</span><br><span class="line"></span><br><span class="line">print(<span class="string">'name:'</span>,s.name)</span><br></pre></td></tr></table></figure><p>结果如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name: wanghw</span><br></pre></td></tr></table></figure><p>这样，我们就利用模块导入的原理实现了对象的传值。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在Python中，如果已经导入过的文件再次被重新导入时候，python不会再重新解释一遍，而是选择从内存中直接将原来导入的值拿来用，这就是Python模块导入的特性。&lt;br&gt;依据这个特性，我们可以实现简单的&lt;code&gt;单例模式&lt;/code&gt;。&lt;br&gt;让我们来新创建一个项目进行具体的说明。
-    
-    </summary>
-    
-    
-      <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
-    
-    
-      <category term="模块与包" scheme="http://yoursite.com/tags/%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/"/>
-    
-      <category term="单例模式" scheme="http://yoursite.com/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
