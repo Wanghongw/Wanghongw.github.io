@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Flask基础 | 火之影</title>
+  <title>手写web框架之框架概览 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="火之影">
-<meta property="og:url" content="http://yoursite.com/tags/Flask基础/index.html">
+  <meta name="description" content="本文介绍的是一个基于WSGI自定制的MVC模式的web框架，拥有路由与模板系统，数据使用pymysql模块进行添加与查询校验，实现的核心是Python内置的wsgiref模块。">
+<meta name="keywords" content="web框架,web服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手写web框架之框架概览">
+<meta property="og:url" content="http://yoursite.com/2020/02/05/手写web框架之框架概览/index.html">
 <meta property="og:site_name" content="火之影">
+<meta property="og:description" content="本文介绍的是一个基于WSGI自定制的MVC模式的web框架，拥有路由与模板系统，数据使用pymysql模块进行添加与查询校验，实现的核心是Python内置的wsgiref模块。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://whw.pythonav.cn/123.png">
+<meta property="og:updated_time" content="2020-02-05T15:57:52.774Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="火之影">
+<meta name="twitter:title" content="手写web框架之框架概览">
+<meta name="twitter:description" content="本文介绍的是一个基于WSGI自定制的MVC模式的web框架，拥有路由与模板系统，数据使用pymysql模块进行添加与查询校验，实现的核心是Python内置的wsgiref模块。">
+<meta name="twitter:image" content="http://whw.pythonav.cn/123.png">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -164,222 +171,158 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-手写web框架之框架概览" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      手写web框架之框架概览
+    </h1>
+  
+
+        
+        <a href="/2020/02/05/手写web框架之框架概览/" class="archive-article-date">
+  	<time datetime="2020-02-05T14:05:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-05</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文介绍的是一个基于WSGI自定制的MVC模式的web框架，拥有<code>路由</code>与<code>模板</code>系统，数据使用<code>pymysql</code>模块进行添加与查询校验，实现的核心是Python内置的<code>wsgiref</code>模块。<a id="more"></a></p>
+<h4 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h4><p>本项目上传到了github中，大家有兴趣可以自己pull下来玩玩：<a href="https://github.com/Wanghongw/whwFrame" target="_blank" rel="noopener"><a href="https://github.com/Wanghongw/whwFrame" target="_blank" rel="noopener">https://github.com/Wanghongw/whwFrame</a></a><br>关于web框架（或者说web服务）的基础知识点可以参考我之前写过的一篇文章：<a href="https://huoyingwhw.com/2020/01/12/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%B8%A6%E4%BD%A0%E6%89%8B%E6%92%B8web%E6%9C%8D%E5%8A%A1/" target="_blank" rel="noopener">从零开始带你手撸web服务</a></p>
+<h4 id="项目的目录结构如下"><a href="#项目的目录结构如下" class="headerlink" title="项目的目录结构如下"></a>项目的目录结构如下</h4><p><img src="http://whw.pythonav.cn/123.png" alt="123"><br>如果你使用过Django/Falsk/Tornado或者其他Python框架的话，这样的结构相信你已经非常熟悉了。一个MVC模式的web框架一定会包含<code>数据模型Model</code>、<code>模板</code>、<code>逻辑处理接口</code>、<code>路由控制器</code>这几个要素。<br>本项目使用<code>pymysql</code>模块进行数据的插入与查询操作，utils包中的脚本是其具体的实现；<br><code>templates</code>包中包含该项目用到的模板；<br><code>views.py模块</code>中包含多个逻辑处理的接口；<br><code>urls.py</code>是路由控制的模块。<br><code>manage.py</code>模块是整个框架运行起来的核心，在这里我们使用<code>wsgiref</code>模块中的<code>application</code>方法跑起来一个web服务：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> urls <span class="keyword">import</span> urlpatterns</span><br><span class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#这个文件里面是框架的主体内容</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(environ, start_response)</span>:</span></span><br><span class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>)])</span><br><span class="line">    path = environ[<span class="string">'PATH_INFO'</span>]</span><br><span class="line">    <span class="keyword">for</span> url_tuple <span class="keyword">in</span> urlpatterns:</span><br><span class="line">        <span class="keyword">if</span> url_tuple[<span class="number">0</span>] == path:</span><br><span class="line">            data = url_tuple[<span class="number">1</span>](environ) <span class="comment">#environ要传进去，因为处理逻辑里面可能要用</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            data = <span class="string">b'sorry 404!,not found the page'</span></span><br><span class="line">    <span class="keyword">return</span> [data]</span><br><span class="line">        <span class="comment"># 注意，我们如果直接返回中文，没有给浏览器指定编码格式，所以我们需要gbk来编码一下，浏览器才能识别</span></span><br><span class="line">        <span class="comment"># data='登陆成功！'.encode('gbk')</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">httpd = make_server(<span class="string">'127.0.0.1'</span>, <span class="number">8080</span>, application)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Serving HTTP on port 8080...'</span>)</span><br><span class="line"><span class="comment"># 开始监听HTTP请求:</span></span><br><span class="line">httpd.serve_forever()</span><br></pre></td></tr></table></figure>
+
+<h4 id="项目运行方式"><a href="#项目运行方式" class="headerlink" title="项目运行方式"></a>项目运行方式</h4><p>1、需要先安装MySQL5.6及以上版本，并在您的MySQl中创建一个名为<code>auth</code>的数据库<br>2、进入<code>utils</code>包中，运行<code>webData.py</code>文件，在之前创建好的auth数据库中写入数据<br>3、运行外面的<code>manage.py</code>文件<br>4、在浏览器中输入<code>127.0.0.1:8080</code>开始您的体验（设置好的用户名为whw，密码为123）</p>
+<h4 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h4><p>其实使用web框架的一个好处就是可以提高开发效率，比如说，这个个框架写好了之后，如果我们将来想添加一些新的功能，比如说有人想在网址里面输入<a href="http://127.0.0.1:8080/timer" target="_blank" rel="noopener">http://127.0.0.1:8080/timer</a> 来查看当前的时间。<br>这样一个需求只需要两步就可以完成：<br>首先在<code>urls.py</code>中写一个url映射关系：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> views <span class="keyword">import</span> timer</span><br><span class="line"></span><br><span class="line"><span class="comment"># url与视图函数的对应关系</span></span><br><span class="line">urlpatterns=[</span><br><span class="line">    <span class="comment"># 其他的路由</span></span><br><span class="line">    xxx</span><br><span class="line">    <span class="comment"># timer的路由映射关系	</span></span><br><span class="line">    (<span class="string">'/timer'</span>,timer),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>然后在<code>views.py加上</code>应对的处理接口就OK了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看当前时间的</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">timer</span><span class="params">(environ)</span>:</span></span><br><span class="line">    data = str(datetime.datetime.now()).encode(<span class="string">'utf-8'</span>)</span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/10/Flask的版本与返回字典数据的问题/" class="archive-article-date">
-  	<time datetime="2019-08-10T01:33:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/10/Flask的版本与返回字典数据的问题/">Flask的版本与返回字典数据的问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/19/Flask中的session操作/" class="archive-article-date">
-  	<time datetime="2019-03-19T13:56:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/19/Flask中的session操作/">Flask中的session操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/" class="archive-article-date">
-  	<time datetime="2019-03-01T04:21:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/01/Flask给视图增加多个装饰器的问题及解决方案/">Flask给视图增加多个装饰器的问题及解决方案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/03/Flask的文件上传操作/" class="archive-article-date">
-  	<time datetime="2019-02-03T14:16:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/03/Flask的文件上传操作/">Flask的文件上传操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">文件上传</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web框架</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flask基础</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web服务</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Flask//" class="article-tag-list-link color1">Flask</a>
+        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/01/12/从零开始带你手撸web服务/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从零开始带你手撸web服务</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#项目地址"><span class="toc-number">1.</span> <span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#项目的目录结构如下"><span class="toc-number">2.</span> <span class="toc-text">项目的目录结构如下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#项目运行方式"><span class="toc-number">3.</span> <span class="toc-text">项目运行方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结束语"><span class="toc-number">4.</span> <span class="toc-text">结束语</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+
+ 
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
   
 
-    
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -404,9 +347,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,

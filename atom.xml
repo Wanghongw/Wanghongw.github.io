@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-01-12T09:28:35.317Z</updated>
+  <updated>2020-02-05T15:57:52.774Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>手写web框架之框架概览</title>
+    <link href="http://yoursite.com/2020/02/05/%E6%89%8B%E5%86%99web%E6%A1%86%E6%9E%B6%E4%B9%8B%E6%A1%86%E6%9E%B6%E6%A6%82%E8%A7%88/"/>
+    <id>http://yoursite.com/2020/02/05/手写web框架之框架概览/</id>
+    <published>2020-02-05T14:05:12.000Z</published>
+    <updated>2020-02-05T15:57:52.774Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文介绍的是一个基于WSGI自定制的MVC模式的web框架，拥有<code>路由</code>与<code>模板</code>系统，数据使用<code>pymysql</code>模块进行添加与查询校验，实现的核心是Python内置的<code>wsgiref</code>模块。<a id="more"></a></p><h4 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h4><p>本项目上传到了github中，大家有兴趣可以自己pull下来玩玩：<a href="https://github.com/Wanghongw/whwFrame" target="_blank" rel="noopener"><a href="https://github.com/Wanghongw/whwFrame" target="_blank" rel="noopener">https://github.com/Wanghongw/whwFrame</a></a><br>关于web框架（或者说web服务）的基础知识点可以参考我之前写过的一篇文章：<a href="https://huoyingwhw.com/2020/01/12/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%B8%A6%E4%BD%A0%E6%89%8B%E6%92%B8web%E6%9C%8D%E5%8A%A1/" target="_blank" rel="noopener">从零开始带你手撸web服务</a></p><h4 id="项目的目录结构如下"><a href="#项目的目录结构如下" class="headerlink" title="项目的目录结构如下"></a>项目的目录结构如下</h4><p><img src="http://whw.pythonav.cn/123.png" alt="123"><br>如果你使用过Django/Falsk/Tornado或者其他Python框架的话，这样的结构相信你已经非常熟悉了。一个MVC模式的web框架一定会包含<code>数据模型Model</code>、<code>模板</code>、<code>逻辑处理接口</code>、<code>路由控制器</code>这几个要素。<br>本项目使用<code>pymysql</code>模块进行数据的插入与查询操作，utils包中的脚本是其具体的实现；<br><code>templates</code>包中包含该项目用到的模板；<br><code>views.py模块</code>中包含多个逻辑处理的接口；<br><code>urls.py</code>是路由控制的模块。<br><code>manage.py</code>模块是整个框架运行起来的核心，在这里我们使用<code>wsgiref</code>模块中的<code>application</code>方法跑起来一个web服务：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> urls <span class="keyword">import</span> urlpatterns</span><br><span class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#这个文件里面是框架的主体内容</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(environ, start_response)</span>:</span></span><br><span class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>)])</span><br><span class="line">    path = environ[<span class="string">'PATH_INFO'</span>]</span><br><span class="line">    <span class="keyword">for</span> url_tuple <span class="keyword">in</span> urlpatterns:</span><br><span class="line">        <span class="keyword">if</span> url_tuple[<span class="number">0</span>] == path:</span><br><span class="line">            data = url_tuple[<span class="number">1</span>](environ) <span class="comment">#environ要传进去，因为处理逻辑里面可能要用</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            data = <span class="string">b'sorry 404!,not found the page'</span></span><br><span class="line">    <span class="keyword">return</span> [data]</span><br><span class="line">        <span class="comment"># 注意，我们如果直接返回中文，没有给浏览器指定编码格式，所以我们需要gbk来编码一下，浏览器才能识别</span></span><br><span class="line">        <span class="comment"># data='登陆成功！'.encode('gbk')</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">httpd = make_server(<span class="string">'127.0.0.1'</span>, <span class="number">8080</span>, application)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Serving HTTP on port 8080...'</span>)</span><br><span class="line"><span class="comment"># 开始监听HTTP请求:</span></span><br><span class="line">httpd.serve_forever()</span><br></pre></td></tr></table></figure><h4 id="项目运行方式"><a href="#项目运行方式" class="headerlink" title="项目运行方式"></a>项目运行方式</h4><p>1、需要先安装MySQL5.6及以上版本，并在您的MySQl中创建一个名为<code>auth</code>的数据库<br>2、进入<code>utils</code>包中，运行<code>webData.py</code>文件，在之前创建好的auth数据库中写入数据<br>3、运行外面的<code>manage.py</code>文件<br>4、在浏览器中输入<code>127.0.0.1:8080</code>开始您的体验（设置好的用户名为whw，密码为123）</p><h4 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h4><p>其实使用web框架的一个好处就是可以提高开发效率，比如说，这个个框架写好了之后，如果我们将来想添加一些新的功能，比如说有人想在网址里面输入<a href="http://127.0.0.1:8080/timer" target="_blank" rel="noopener">http://127.0.0.1:8080/timer</a> 来查看当前的时间。<br>这样一个需求只需要两步就可以完成：<br>首先在<code>urls.py</code>中写一个url映射关系：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> views <span class="keyword">import</span> timer</span><br><span class="line"></span><br><span class="line"><span class="comment"># url与视图函数的对应关系</span></span><br><span class="line">urlpatterns=[</span><br><span class="line">    <span class="comment"># 其他的路由</span></span><br><span class="line">    xxx</span><br><span class="line">    <span class="comment"># timer的路由映射关系</span></span><br><span class="line">    (<span class="string">'/timer'</span>,timer),</span><br><span class="line">]</span><br></pre></td></tr></table></figure><p>然后在<code>views.py加上</code>应对的处理接口就OK了：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看当前时间的</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">timer</span><span class="params">(environ)</span>:</span></span><br><span class="line">    data = str(datetime.datetime.now()).encode(<span class="string">'utf-8'</span>)</span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文介绍的是一个基于WSGI自定制的MVC模式的web框架，拥有&lt;code&gt;路由&lt;/code&gt;与&lt;code&gt;模板&lt;/code&gt;系统，数据使用&lt;code&gt;pymysql&lt;/code&gt;模块进行添加与查询校验，实现的核心是Python内置的&lt;code&gt;wsgiref&lt;/code&gt;模块。
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
+    
+    
+      <category term="web框架" scheme="http://yoursite.com/tags/web%E6%A1%86%E6%9E%B6/"/>
+    
+      <category term="web服务" scheme="http://yoursite.com/tags/web%E6%9C%8D%E5%8A%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>从零开始带你手撸web服务</title>
@@ -491,31 +516,6 @@
     
     
       <category term="模块与包" scheme="http://yoursite.com/tags/%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>外部脚本调用Django环境</title>
-    <link href="http://yoursite.com/2019/05/01/%E5%A4%96%E9%83%A8%E8%84%9A%E6%9C%AC%E8%B0%83%E7%94%A8Django%E7%8E%AF%E5%A2%83/"/>
-    <id>http://yoursite.com/2019/05/01/外部脚本调用Django环境/</id>
-    <published>2019-05-01T02:32:12.000Z</published>
-    <updated>2019-09-21T04:28:21.224Z</updated>
-    
-    <content type="html"><![CDATA[<p>如果在项目中我们使用的外部脚本需要调用Django模型层的类，此时必须要先在自己的脚本中为<code>os.environ</code>设置一个键值对，这个键值对要跟你的项目的根目录中<code>manage.py</code>文件里面的内容相同!<br>外部脚本的代码如下：<a id="more"></a></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    os.environ.setdefault(<span class="string">"DJANGO_SETTINGS_MODULE"</span>, <span class="string">"MultiTables.settings"</span>)</span><br><span class="line">    <span class="keyword">import</span> django</span><br><span class="line">    django.setup()</span><br><span class="line">    <span class="comment"># 注意引入要在上面三句之后</span></span><br><span class="line">    <span class="keyword">from</span> book <span class="keyword">import</span> models</span><br><span class="line">    ret = models.Book.objects.all()</span><br><span class="line">    print(ret)</span><br></pre></td></tr></table></figure><p>然后，我们看看目录结构：<br><img src="http://whw.pythonav.cn/%E5%A4%96%E9%83%A8%E7%8E%AF%E5%A2%83111.png" alt="img"><br>其实，Django项目在启动之初会加载用户自定义的配置文件，在<code>os.environ</code>这个字典中去设置一个key为<code>DJANGO_SETTINGS_MODULE</code>，value为<code>MultiTables.settings</code>（MultiTables是项目的名字）的键值对。<br>然后利用<code>importlib模块</code>与<code>反射</code>的方法找到用户配置文件中的配置再进行接下来的操作。<br>上面代码中的前三行表示<code>我们在外部脚本中调用了Django环境</code>，接下来就可以操作项目中的Model了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;如果在项目中我们使用的外部脚本需要调用Django模型层的类，此时必须要先在自己的脚本中为&lt;code&gt;os.environ&lt;/code&gt;设置一个键值对，这个键值对要跟你的项目的根目录中&lt;code&gt;manage.py&lt;/code&gt;文件里面的内容相同!&lt;br&gt;外部脚本的代码如下：
-    
-    </summary>
-    
-    
-      <category term="Django" scheme="http://yoursite.com/categories/Django/"/>
-    
-    
-      <category term="Django基础" scheme="http://yoursite.com/tags/Django%E5%9F%BA%E7%A1%80/"/>
-    
-      <category term="Django原理" scheme="http://yoursite.com/tags/Django%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
