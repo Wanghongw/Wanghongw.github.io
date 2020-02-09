@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-02-05T15:57:52.774Z</updated>
+  <updated>2020-02-09T10:41:10.601Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>个人Django学习资源</title>
+    <link href="http://yoursite.com/2020/02/09/%E4%B8%AA%E4%BA%BADjango%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/"/>
+    <id>http://yoursite.com/2020/02/09/个人Django学习资源/</id>
+    <published>2020-02-09T09:23:34.000Z</published>
+    <updated>2020-02-09T10:41:10.601Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近笔者将自己工作与学习过程中总结的Django的知识点整理了一下，以一篇整合好的博客的方式呈现给大家，希望能帮到正在使用或者学习Django的你，如有好的建议请在对应的文章下面留言。<a id="more"></a><br><a href="https://www.cnblogs.com/paulwhw/p/12287804.html" target="_blank" rel="noopener">个人Django资源</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近笔者将自己工作与学习过程中总结的Django的知识点整理了一下，以一篇整合好的博客的方式呈现给大家，希望能帮到正在使用或者学习Django的你，如有好的建议请在对应的文章下面留言。
+    
+    </summary>
+    
+    
+      <category term="Django" scheme="http://yoursite.com/categories/Django/"/>
+    
+    
+      <category term="Django学习" scheme="http://yoursite.com/tags/Django%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>手写web框架之框架概览</title>
@@ -96,13 +119,13 @@
     <link href="http://yoursite.com/2019/12/17/tornado%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97/"/>
     <id>http://yoursite.com/2019/12/17/tornado入门系列/</id>
     <published>2019-12-17T14:23:03.000Z</published>
-    <updated>2020-01-06T15:14:56.987Z</updated>
+    <updated>2020-02-09T10:36:55.195Z</updated>
     
-    <content type="html"><![CDATA[<p>本文的是自己初学tornado框架的时候做的学习笔记，里面的代码与实践都是亲测有效的，希望能帮到tornado入门的同学。<a id="more"></a><br>所有笔记在我的博客园：<a href="https://www.cnblogs.com/paulwhw/category/1576953.html" target="_blank" rel="noopener">tornado入门系列</a></p>]]></content>
+    <content type="html"><![CDATA[<p>本文是自己初学tornado框架的时候做的学习笔记，里面的代码与实践都是亲测有效的，希望能帮到tornado入门的同学。<a id="more"></a><br>所有笔记在我的博客园：<a href="https://www.cnblogs.com/paulwhw/category/1576953.html" target="_blank" rel="noopener">tornado入门系列</a></p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;本文的是自己初学tornado框架的时候做的学习笔记，里面的代码与实践都是亲测有效的，希望能帮到tornado入门的同学。
+      &lt;p&gt;本文是自己初学tornado框架的时候做的学习笔记，里面的代码与实践都是亲测有效的，希望能帮到tornado入门的同学。
     
     </summary>
     
@@ -484,36 +507,6 @@
     
     
       <category term="异常处理" scheme="http://yoursite.com/tags/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"/>
-    
-      <category term="模块与包" scheme="http://yoursite.com/tags/%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>聊一聊sys的argv模块</title>
-    <link href="http://yoursite.com/2019/05/01/%E8%81%8A%E4%B8%80%E8%81%8Asys%E7%9A%84argv%E6%A8%A1%E5%9D%97/"/>
-    <id>http://yoursite.com/2019/05/01/聊一聊sys的argv模块/</id>
-    <published>2019-05-01T12:15:33.000Z</published>
-    <updated>2019-09-21T04:28:21.226Z</updated>
-    
-    <content type="html"><![CDATA[<p>在以脚本的方式执行Python脚本的时候后面可以带多个参数，这些参数可以用<code>sys的argv模块</code>接收到。<br>新建一个<code>login.py</code>文件，文件中的内容如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">print(sys.argv)</span><br></pre></td></tr></table></figure><p>在终端以Python脚本的方式运行：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 login.py <span class="number">123</span> <span class="number">456</span></span><br></pre></td></tr></table></figure><p>执行的结果如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'/Users/wanghongwei/login.py'</span>,<span class="string">'123'</span>,<span class="string">'456'</span>]</span><br></pre></td></tr></table></figure><a id="more"></a>我们可以看到：执行的结果是一个列表：列表的第一个元素是`当前执行的脚本的路径`，后面的元素是`执行脚本命令后面跟着的参数`，并且这些参数以空格隔开。<p>利用上面的结论我们可以做一个简单的<code>登陆脚本</code>：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        print(<span class="string">"请输入正确的参数"</span>)</span><br><span class="line">    <span class="keyword">elif</span> sys.argv[<span class="number">1</span>] == <span class="string">"whw"</span> <span class="keyword">and</span> sys.argv[<span class="number">2</span>] == <span class="string">'123'</span>:</span><br><span class="line">        print(<span class="string">"登陆成功"</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"登陆失败"</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure><p>在实际中，这样的登陆脚本要比下面用户输入的方式更高效：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">username = input(<span class="string">'用户名：'</span>).strip()</span><br><span class="line">password = input(<span class="string">'密码：'</span>).strip()</span><br><span class="line"><span class="keyword">if</span> username == <span class="string">'whw'</span> <span class="keyword">and</span> password == <span class="string">'123'</span>:</span><br><span class="line">    print(<span class="string">'登陆成功！'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'登陆失败！'</span>)</span><br></pre></td></tr></table></figure><p>因为这种实现方式会让整个程序<code>阻塞</code>住，直到用户输入结束为止。<br>当然，实际中用哪一种模式还是要看具体的需求，本文只简单介绍一下sys的argv模块在调用Python脚本的时候接收参数的用法，而且这个用法在执行Python脚本的时候十分常见。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在以脚本的方式执行Python脚本的时候后面可以带多个参数，这些参数可以用&lt;code&gt;sys的argv模块&lt;/code&gt;接收到。&lt;br&gt;新建一个&lt;code&gt;login.py&lt;/code&gt;文件，文件中的内容如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; sys&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;print(sys.argv)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;p&gt;在终端以Python脚本的方式运行：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;python3 login.py &lt;span class=&quot;number&quot;&gt;123&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;456&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;p&gt;执行的结果如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[&lt;span class=&quot;string&quot;&gt;&#39;/Users/wanghongwei/login.py&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;123&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;456&#39;&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
-    
     
       <category term="模块与包" scheme="http://yoursite.com/tags/%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%8C%85/"/>
     
