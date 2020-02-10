@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 火之影</title>
+  <title>Python中defaultdict的使用 | 火之影</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="火之影">
-<meta property="og:url" content="http://yoursite.com/archives/page/3/index.html">
+  <meta name="description" content="在实际中使用defaultdict会十分效率地为我们构建不同格式的数据，通常需要好几层循环构建的数据如果巧用defaultdict的话使用一层循环便可实现，这一点笔者深有体会！本文就为大家总结一下使用defaultdict构建数据的一些实例。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python中defaultdict的使用">
+<meta property="og:url" content="http://yoursite.com/2020/02/10/Python中defaultdict的使用/index.html">
 <meta property="og:site_name" content="火之影">
+<meta property="og:description" content="在实际中使用defaultdict会十分效率地为我们构建不同格式的数据，通常需要好几层循环构建的数据如果巧用defaultdict的话使用一层循环便可实现，这一点笔者深有体会！本文就为大家总结一下使用defaultdict构建数据的一些实例。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-02-10T14:31:17.679Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="火之影">
+<meta name="twitter:title" content="Python中defaultdict的使用">
+<meta name="twitter:description" content="在实际中使用defaultdict会十分效率地为我们构建不同格式的数据，通常需要好几层循环构建的数据如果巧用defaultdict的话使用一层循环便可实现，这一点笔者深有体会！本文就为大家总结一下使用defaultdict构建数据的一些实例。">
   
     <link rel="alternative" href="/atom.xml" title="火之影" type="application/atom+xml">
   
@@ -164,301 +169,75 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Python中defaultdict的使用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python中defaultdict的使用
+    </h1>
+  
+
+        
+        <a href="/2020/02/10/Python中defaultdict的使用/" class="archive-article-date">
+  	<time datetime="2020-02-10T14:23:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-10</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在实际中使用<code>defaultdict</code>会十分效率地为我们构建不同格式的数据，通常需要好几层循环构建的数据如果巧用<code>defaultdict</code>的话使用一层循环便可实现，这一点笔者深有体会！本文就为大家总结一下使用<code>defaultdict</code>构建数据的一些实例。<a id="more"></a></p>
+<h3 id="整合相同类型的数据"><a href="#整合相同类型的数据" class="headerlink" title="整合相同类型的数据"></a>整合相同类型的数据</h3><p>现有如下的数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">res = [</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">111</span>,<span class="string">"HOUSE"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">222</span>,<span class="string">"HOUSE"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">333</span>,<span class="string">"HOUSE"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">444</span>,<span class="string">"HOUSE"</span>:<span class="number">2</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">555</span>,<span class="string">"HOUSE"</span>:<span class="number">2</span>&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>我们需要将相同<code>HOUSE</code>的<code>ID</code>整合到一起，然后以每个<code>ID</code>为key，找到每个ID对应的详情，想要的结果如下<code>（每个ID对应的detail信息是从其他接口获取的）</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="number">111</span>: &#123;<span class="number">111</span>:<span class="string">"detail111"</span>&#125;,</span><br><span class="line">        <span class="number">222</span>: &#123;<span class="number">222</span>:<span class="string">"detail222"</span>&#125;, </span><br><span class="line">        <span class="number">333</span>: &#123;<span class="number">333</span>:<span class="string">"detail333"</span>&#125;</span><br><span class="line">       &#125;,</span><br><span class="line">    <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="number">444</span>: &#123;<span class="number">444</span>:<span class="string">"detail444"</span>&#125;, </span><br><span class="line">        <span class="number">555</span>: &#123;<span class="number">555</span>:<span class="string">"detail555"</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里就不介绍其他的方法了，有兴趣的同学可以自己试试，这里直接给出defaultdict的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里defaultdict默认的元素是dict</span></span><br><span class="line">ret = defaultdict(dict)</span><br><span class="line"></span><br><span class="line">res = [</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">111</span>,<span class="string">"HOUSE"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">222</span>,<span class="string">"HOUSE"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">333</span>,<span class="string">"HOUSE"</span>:<span class="number">1</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">444</span>,<span class="string">"HOUSE"</span>:<span class="number">2</span>&#125;,</span><br><span class="line">&#123;<span class="string">"ID"</span>:<span class="number">555</span>,<span class="string">"HOUSE"</span>:<span class="number">2</span>&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    <span class="comment"># 可以从其他接口中获取ID对应的detail，这里就省略了，直接用固定的字符串代替</span></span><br><span class="line">    detail = <span class="string">f"detail<span class="subst">&#123;i[<span class="string">'ID'</span>]&#125;</span>"</span></span><br><span class="line">    ret[i[<span class="string">"HOUSE"</span>]].update(&#123;i[<span class="string">"ID"</span>]:&#123;&#125;&#125;)</span><br><span class="line">    ret[i[<span class="string">"HOUSE"</span>]][i[<span class="string">"ID"</span>]].update(&#123;i[<span class="string">"ID"</span>]:detail&#125;)</span><br><span class="line"></span><br><span class="line">print(ret) </span><br><span class="line"><span class="comment"># defaultdict(&lt;class 'dict'&gt;, &#123;1: &#123;111: &#123;111: 'detail111'&#125;, 222: &#123;222: 'detail222'&#125;, 333: &#123;333: 'detail333'&#125;&#125;, 2: &#123;444: &#123;444: 'detail444'&#125;, 555: &#123;555: 'detail555'&#125;&#125;&#125;)</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到最终得到一个<code>defaultdict对象</code>，是一个<code>自定义的字典</code>，其实它可以被强转为一个dict对象，但是强转没有意义，将得到的结果可以直接当做是一个字典对象就可以。<br>我们看一下默认字典的声明：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">ret = defaultdict(dict)</span><br></pre></td></tr></table></figure>
+
+<p>这样的声明之后，我们可以将ret看成一个字典对象，这个字典对象中<code>默认的元素</code>是<code>dict</code>（就是上面defaultdict中的参数），声明之后我们可以将ret当做是一个字典来进行操作，对ret中的元素可以进行字典的操作（defaultdict中用什么元素就可以使用对应的方法，比如上面例子用到了dict的update方法）。</p>
+<h3 id="其他的例子"><a href="#其他的例子" class="headerlink" title="其他的例子"></a>其他的例子</h3><p>如果上面的说明你还没有看明白的话，笔者这里列举一些常见的例子帮助大家理解。</p>
+<h4 id="合并字符串"><a href="#合并字符串" class="headerlink" title="合并字符串"></a>合并字符串</h4><p>下面这个例子其实是笔者之前遇到的一个面试题，在此分享一下：<br>有如下两个列表：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="string">'a,1'</span>, <span class="string">'b,3,22'</span>, <span class="string">'c,3,4'</span>, <span class="string">'f,5'</span>, ]</span><br><span class="line">b = [<span class="string">'a,2'</span>, <span class="string">'b,4'</span>, <span class="string">'w,12'</span>, <span class="string">'d,2'</span>,<span class="string">'c,123'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>需要将两个列表中有相同字母的字符串合并，合并后的结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c = [<span class="string">'a,1,2'</span>, <span class="string">'b,3,22,4'</span>, <span class="string">'c,3,4,123'</span>, <span class="string">'f,5'</span>, <span class="string">'w,12'</span>, <span class="string">'d,2'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>当初年轻的我是这么做的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line">a = [<span class="string">'a,1'</span>, <span class="string">'b,3,22'</span>, <span class="string">'c,3,4'</span>, <span class="string">'f,5'</span>, ]</span><br><span class="line">b = [<span class="string">'a,2'</span>, <span class="string">'b,4'</span>, <span class="string">'w,12'</span>, <span class="string">'d,2'</span>,<span class="string">'c,123'</span>]</span><br><span class="line"></span><br><span class="line">dic = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    dic[i[<span class="number">0</span>]] = i</span><br><span class="line">print(dic)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> b:</span><br><span class="line">    <span class="keyword">if</span> i[<span class="number">0</span>] <span class="keyword">in</span> dic:</span><br><span class="line">        dic[i[<span class="number">0</span>]] += i[<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        dic[i[<span class="number">0</span>]] = i</span><br><span class="line">print(dic)</span><br><span class="line">print(list(dic.values()))</span><br></pre></td></tr></table></figure>
+
+<p>其实使用defaultdict的话会很方便：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line">a = [<span class="string">'a,1'</span>, <span class="string">'b,3,22'</span>, <span class="string">'c,3,4'</span>, <span class="string">'f,5'</span>, ]</span><br><span class="line">b = [<span class="string">'a,2'</span>, <span class="string">'b,4'</span>, <span class="string">'w,12'</span>, <span class="string">'d,2'</span>,<span class="string">'c,123'</span>]</span><br><span class="line"></span><br><span class="line">dic = defaultdict(str)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    dic[i[<span class="number">0</span>]] = i</span><br><span class="line">dic = dict(dic)</span><br><span class="line">print(dic)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> b:</span><br><span class="line">    <span class="keyword">if</span> i[<span class="number">0</span>] <span class="keyword">in</span> dic:</span><br><span class="line">        dic[i[<span class="number">0</span>]] += i[<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        dic[i[<span class="number">0</span>]] = i</span><br><span class="line">print(dic)</span><br><span class="line">print(list(dic.values()))</span><br></pre></td></tr></table></figure>
+
+<p>这里可以看到：defaultdict中的元素是str，因此我们在构建数据的时候可以使用字符串拼接的方式。</p>
+<h4 id="统计颜色数量"><a href="#统计颜色数量" class="headerlink" title="统计颜色数量"></a>统计颜色数量</h4><p>现有如下的数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lis = [(<span class="string">'红色'</span>,<span class="number">1</span>),(<span class="string">'白色'</span>,<span class="number">2</span>),(<span class="string">'绿色'</span>,<span class="number">3</span>),(<span class="string">'紫色'</span>,<span class="number">1</span>),(<span class="string">'红色'</span>,<span class="number">1</span>),(<span class="string">'白色'</span>,<span class="number">1</span>),(<span class="string">'红色'</span>,<span class="number">1</span>),(<span class="string">'粉色'</span>,<span class="number">1</span>),]</span><br></pre></td></tr></table></figure>
+
+<p>统计一下每个颜色的数量，期望的结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dic = &#123;<span class="string">'红色'</span>: <span class="number">3</span>, <span class="string">'白色'</span>: <span class="number">3</span>, <span class="string">'绿色'</span>: <span class="number">3</span>, <span class="string">'紫色'</span>: <span class="number">1</span>, <span class="string">'粉色'</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认元素选择list，实现方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line"><span class="comment">### 将每种球与其总数量统计出来</span></span><br><span class="line"><span class="comment">###  &#123;'红色':3,'白色':3,...&#125;</span></span><br><span class="line">lis = [(<span class="string">'红色'</span>,<span class="number">1</span>),(<span class="string">'白色'</span>,<span class="number">2</span>),(<span class="string">'绿色'</span>,<span class="number">3</span>),(<span class="string">'紫色'</span>,<span class="number">1</span>),(<span class="string">'红色'</span>,<span class="number">1</span>),(<span class="string">'白色'</span>,<span class="number">1</span>),(<span class="string">'红色'</span>,<span class="number">1</span>),(<span class="string">'粉色'</span>,<span class="number">1</span>),]</span><br><span class="line"></span><br><span class="line">dic = defaultdict(list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lis:</span><br><span class="line">    dic[i[<span class="number">0</span>]].append(i[<span class="number">1</span>])</span><br><span class="line">dic = dict(dic)</span><br><span class="line">print(dic)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">    dic[i] = sum(dic[i])</span><br><span class="line">print(dic)</span><br></pre></td></tr></table></figure>
+
+<h4 id="默认元素为int，三次登陆失败锁定的简单例子"><a href="#默认元素为int，三次登陆失败锁定的简单例子" class="headerlink" title="默认元素为int，三次登陆失败锁定的简单例子"></a>默认元素为int，三次登陆失败锁定的简单例子</h4><p><code>userinfo</code>文件中的内容如下，作为登陆的用户名密码测试文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">whw|<span class="number">123</span></span><br><span class="line">wanghw|<span class="number">123</span></span><br><span class="line">www|<span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<p><code>locked</code>文件中存放的是被锁定的用户名。<br>实现一个简单的三次登陆失败锁定的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认value设置成0</span></span><br><span class="line">dic = defaultdict(int)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里设置一个flag，while循环的额条件是flag；</span></span><br><span class="line"><span class="comment"># 如果循环内还有一层循环，跳出内层循环若需要跳出整个循环可以将flag设置成False！</span></span><br><span class="line">flag = <span class="literal">True</span></span><br><span class="line"><span class="keyword">while</span> flag:</span><br><span class="line">    username = input(<span class="string">'用户名：'</span>).strip()</span><br><span class="line">    password = input(<span class="string">'密码：'</span>).strip()</span><br><span class="line">    <span class="comment"># 先判断账号有没有被锁定</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'locked'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>)<span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            <span class="keyword">if</span> username == line.strip():</span><br><span class="line">                print(<span class="string">'该账号已被锁定！'</span>)</span><br><span class="line">                flag = <span class="literal">False</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    <span class="comment"># 默认字典 —— 确保 “每个用户都有三次机会”</span></span><br><span class="line">    <span class="keyword">if</span> dic[username] &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'userinfo'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>)<span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">                usr,pwd = line.strip().split(<span class="string">'|'</span>)</span><br><span class="line">                <span class="keyword">if</span> usr == username <span class="keyword">and</span> pwd == password:</span><br><span class="line">                    print(<span class="string">'登陆成功！'</span>)</span><br><span class="line">                    <span class="comment"># 如果想登陆成功后退出while大循环，可以将flag设置为False</span></span><br><span class="line">                    flag = <span class="literal">False</span></span><br><span class="line">                    <span class="comment"># 这个break只是退出for循环</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dic[username] += <span class="number">1</span></span><br><span class="line">                print(<span class="string">'登录失败！用户名或密码错误！'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'locked'</span>,<span class="string">'a'</span>,encoding=<span class="string">'utf-8'</span>)<span class="keyword">as</span> f:</span><br><span class="line">            f.write(username+<span class="string">'\n'</span>)</span><br><span class="line">        print(<span class="string">'账号被锁定！'</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/17/利用Python的traceback模块显示与记录异常/" class="archive-article-date">
-  	<time datetime="2019-05-17T13:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/17/利用Python的traceback模块显示与记录异常/">利用Python的traceback模块显示与记录异常</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">异常处理</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/01/聊一聊sys的argv模块/" class="archive-article-date">
-  	<time datetime="2019-05-01T12:15:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/01/聊一聊sys的argv模块/">聊一聊sys的argv模块</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/01/外部脚本调用Django环境/" class="archive-article-date">
-  	<time datetime="2019-05-01T02:32:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/01/外部脚本调用Django环境/">外部脚本调用Django环境</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Django基础</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Django原理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/01/Django中执行原生SQL语句/" class="archive-article-date">
-  	<time datetime="2019-05-01T01:12:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/01/Django中执行原生SQL语句/">Django中执行原生SQL语句</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Django基础</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ORM</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/13/基于模块导入的单例模式/" class="archive-article-date">
-  	<time datetime="2019-04-13T11:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/13/基于模块导入的单例模式/">基于模块导入的单例模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模块与包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单例模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/07/聊一聊isinstance与type/" class="archive-article-date">
-  	<time datetime="2019-04-07T15:15:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/07/聊一聊isinstance与type/">聊一聊isinstance与type</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -470,7 +249,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -478,241 +257,98 @@
         		<li class="article-tag-list-item">
         			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
         		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/06/常见的缓存数据库及性能对比/" class="archive-article-date">
-  	<time datetime="2019-04-06T01:13:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/06/常见的缓存数据库及性能对比/">常见的缓存数据库及性能对比</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/缓存//" class="article-tag-list-link color3">缓存</a>
+        			<a href="/categories/Python/defaultdict//" class="article-tag-list-link color2">defaultdict</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/05/Python操作redis/" class="archive-article-date">
-  	<time datetime="2019-04-05T14:13:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/02/09/个人Django学习资源/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">个人Django学习资源</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/05/Python操作redis/">Python操作redis</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/redis//" class="article-tag-list-link color1">redis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#整合相同类型的数据"><span class="toc-number">1.</span> <span class="toc-text">整合相同类型的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他的例子"><span class="toc-number">2.</span> <span class="toc-text">其他的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#合并字符串"><span class="toc-number">2.1.</span> <span class="toc-text">合并字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#统计颜色数量"><span class="toc-number">2.2.</span> <span class="toc-text">统计颜色数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认元素为int，三次登陆失败锁定的简单例子"><span class="toc-number">2.3.</span> <span class="toc-text">默认元素为int，三次登陆失败锁定的简单例子</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/05/Django中使用redis做缓存的配置方法/" class="archive-article-date">
-  	<time datetime="2019-04-05T11:23:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/05/Django中使用redis做缓存的配置方法/">Django中使用redis做缓存的配置方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/05/Django视图在CBV模式下使用装饰器的方法/" class="archive-article-date">
-  	<time datetime="2019-04-05T10:22:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/05/Django视图在CBV模式下使用装饰器的方法/">Django视图在CBV模式下使用装饰器的方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
+ 
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80NTc4NC8yMjI5NQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
+
+  
+  
+  
+
+  
+
+  
+
   
 
 
@@ -738,8 +374,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
